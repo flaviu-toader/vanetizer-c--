@@ -1,0 +1,4 @@
+[Project]
+Name=vanetizer
+Manager=KDevCMakeManager
+VersionControl=kdevgit
