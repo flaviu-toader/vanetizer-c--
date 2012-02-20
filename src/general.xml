@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+    <message id='application.title'>
+        VANET Analysis tool
+    </message>
+    <message id='navigationmenu.home'>
+        Home page
+    </message>
+    <message id='navigationmenu.mapmaker'>
+        Map Creation Tool
+    </message>
+    <message id='button.clear'>
+        Clear
+    </message>
+    <message id='button.undo'>
+        Undo
+    </message>
+    <message id='button.save'>
+        Save
+    </message>
+</messages>
