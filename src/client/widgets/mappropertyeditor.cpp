@@ -79,6 +79,7 @@ std::vector<WStandardItem *> MapPropertyEditor::propertyItem(const std::string& 
     item = new WStandardItem;
     item->setData(data, role);
     item->setFlags(WFlags<ItemFlag>(ItemIsEditable));
+    item->set
     result.push_back(item);
 
     return result;

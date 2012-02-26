@@ -23,11 +23,12 @@
 #include <Wt/WBorder>
 #include <Wt/WColor>
 #include <Wt/WTable>
-
 #include <Wt/WMessageBox>
+#include <Wt/WStandardItemModel>
 
 #include "mapmakerpage.h"
 #include "client/widgets/paintbrush.h"
+#include "client/widgets/mappropertyeditor.h"
 
 
 MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
@@ -58,6 +59,11 @@ MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
     buttonTable->elementAt(0, 1)->setContentAlignment(AlignCenter);
     buttonTable->elementAt(0, 2)->setContentAlignment(AlignCenter);
     table->elementAt(1, 0)->setContentAlignment(AlignCenter);
+
+    Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
+    MapPropertyEditor *mpe = new MapPropertyEditor(model);
+
+    table->elementAt(2, 0)->addWidget(mpe);
 }
 
 void MapMakerPage::downloadImage()

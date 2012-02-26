@@ -31,6 +31,7 @@
 #include <Wt/WPointF>
 #include <Wt/WRectF>
 #include <Wt/WSvgImage>
+/*#include <Wt/WTransform>*/
 
 PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
 : WPaintedWidget(parent)
@@ -103,7 +104,7 @@ void PaintBrush::undoLastAction()
     }
 }
 
-void PaintBrush::saveImage()
+void PaintBrush::saveImage(/*const WTransform &transform*/)
 {
     if (!actions.empty()) 
     {
@@ -115,6 +116,7 @@ void PaintBrush::saveImage()
         {
             painter.drawPath(*it);
         }
+        //painter.setWorldTransform(transform);
         painter.end();
         std::ofstream f("test.svg");
         imageDevice.write(f);
