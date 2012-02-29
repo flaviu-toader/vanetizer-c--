@@ -61,7 +61,7 @@ public:
 
 private:
     static Wt::WStandardItem *groupItem(const std::string& groupName);
-    static std::vector<Wt::WStandardItem *> propertyItem(const std::string& name, const boost::any& data, int role);
+    static std::vector<Wt::WStandardItem *> propertyItem(const std::string& name, const boost::any& data);
 
     Wt::WStandardItemModel *model;
     Wt::WTreeView *treeView;

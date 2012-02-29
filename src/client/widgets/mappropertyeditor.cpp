@@ -14,6 +14,8 @@
 #include <Wt/WModelIndex>
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
+#include <Wt/WPushButton>
+#include <Wt/WTable>
 
 #include "mappropertyeditor.h"
 #include "logger.h"
@@ -22,12 +24,13 @@ using namespace Wt;
 
 MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
 {
-    new WText(tr("mappropertyeditor.title"), this);
+    WTable *mainTable = new WTable(this);
+    new WText(tr("mappropertyeditor.title"), mainTable->elementAt(0,0));
 
     // create the view.
-    WPanel *panel = new WPanel(this);
+    WPanel *panel = new WPanel(mainTable->elementAt(1,0));
     //panel->resize(WLength::Auto, WLength::Auto);
-    panel->resize(600, 400);
+    panel->resize(600, 335);
     panel->setCentralWidget(treeView = new WTreeView());
 
     if(!WApplication::instance()->environment().ajax()) 
@@ -39,12 +42,25 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
     treeView->setRowHeight(25);
     treeView->setModel(model);
     treeView->setColumnWidth(0, WLength(285));
-    treeView->setColumnAlignment(0, AlignCenter);
+    treeView->setColumnAlignment(0, AlignLeft);
     treeView->setColumnWidth(1, WLength(285));
-    treeView->setColumnAlignment(1, AlignCenter);
+    treeView->setColumnAlignment(1, AlignLeft);
 
     treeView->setExpanded(model->index(0, 0), true);
     treeView->setExpanded(model->index(0, 0, model->index(0, 0)), true);
+
+    WTable *buttonTable = new WTable(mainTable->elementAt(2, 0));
+    mainTable->elementAt(2, 0)->setContentAlignment(AlignCenter);
+
+    WPushButton *addProperty = new WPushButton(tr("mappropertyeditor.button.addproperty"), buttonTable->elementAt(0, 0));
+    addProperty->resize(120, 30);
+
+    WPushButton *removeProperty = new WPushButton(tr("mappropertyeditor.button.removeproperty"), buttonTable->elementAt(0, 1));
+    removeProperty->resize(120, 30);
+
+    WPushButton *validate = new WPushButton(tr("mappropertyeditor.button.validate"), buttonTable->elementAt(0, 2));
+    validate->resize(120, 30);
+
 }
 
 WStandardItemModel* MapPropertyEditor::createModel(WObject *parent) 
@@ -53,10 +69,6 @@ WStandardItemModel* MapPropertyEditor::createModel(WObject *parent)
 
     result->setHeaderData(0, Horizontal, tr("mappropertyeditor.header.propertyname").toUTF8());
     result->setHeaderData(1, Horizontal, tr("mappropertyeditor.header.propertyvalue").toUTF8());
-
-    result->appendRow(groupItem(tr("mappropertyeditor.group.general").toUTF8()));
-    result->appendRow(propertyItem(tr("mappropertyeditor.group.general.dimx").toUTF8(), 0, EditRole));
-    result->appendRow(propertyItem(tr("mappropertyeditor.group.general.dimy").toUTF8(), 0, EditRole));
 
     return result;
 }
@@ -68,7 +80,7 @@ WStandardItem *MapPropertyEditor::groupItem(const std::string& groupName)
     return result;
 }
 
-std::vector<WStandardItem *> MapPropertyEditor::propertyItem(const std::string& name, const boost::any& data, int role)
+std::vector<WStandardItem *> MapPropertyEditor::propertyItem(const std::string& name, const boost::any& data)
 {
     std::vector<WStandardItem *> result;
     WStandardItem *item;
@@ -77,9 +89,7 @@ std::vector<WStandardItem *> MapPropertyEditor::propertyItem(const std::string& 
     result.push_back(item);
 
     item = new WStandardItem;
-    item->setData(data, role);
-    item->setFlags(WFlags<ItemFlag>(ItemIsEditable));
-    item->set
+    item->setData(data, DisplayRole);
     result.push_back(item);
 
     return result;

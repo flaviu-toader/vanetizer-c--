@@ -27,5 +27,10 @@
     <message id='mappropertyeditor.group.general'>General simulation properties</message>
     <message id='mappropertyeditor.group.general.dimx'>Map width (in meters)</message>
     <message id='mappropertyeditor.group.general.dimy'>MapHeight (in meters)</message>
+    <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
+    <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>
+    <message id='mappropertyeditor.button.addproperty'>Add property...</message>
+    <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
+    <message id='mappropertyeditor.button.validate'>Validate</message>
     <!-- /Map Creation Tool section -->
 </messages>
