@@ -6,6 +6,7 @@
 #include <Wt/WTable>
 #include <Wt/WString>
 #include <Wt/WLabel>
+#include <Wt/WPushButton>
 
 #include "vanetareapropertyform.h"
 
@@ -19,10 +20,49 @@ VanetAreaPropertyForm::VanetAreaPropertyForm(WContainerWidget* parent):
     dimyLabel(tr("mappropertyeditor.group.general.dimy").toUTF8())
 {
     WTable *formTable = new WTable(this);
+    int row = 0;
 
-    WLabel *xLabel = new WLabel(formTable->elementAt(0, 0));
+    formTable->elementAt(row, 0)->setColumnSpan(2);
+    formTable->elementAt(row, 0)->setPadding(5);
+    feedbackMessages = formTable->elementAt(row, 0);
+    WCssDecorationStyle& errorStyle = feedbackMessages->decorationStyle();
+    errorStyle.setForegroundColor(Wt::red);
+    errorStyle.font().setSize(WFont::Smaller);
+    errorStyle.font().setWeight(WFont::Bold);
+    errorStyle.font().setStyle(WFont::Italic);
 
-    dimx = new WSpinBox(formTable->elementAt(0, 1));
+    ++row;
+    WLabel *xLabel = new WLabel(formTable->elementAt(row, 0));
+    xLabel->setText(fromUTF8(dimxLabel));
+    dimx = new WSpinBox(formTable->elementAt(row, 1));
+    dimx->setMinimum(0);
+    dimx->setMaximum(2000);
+    xLabel->setBuddy(dimx);
+
+    ++row;
+    WLabel *yLabel = new WLabel(formTable->elementAt(row, 0));
+    yLabel->setText(fromUTF8(dimyLabel));
+    dimy = new WSpinBox(formTable->elementAt(row, 1));
+    dimy->setMinimum(0);
+    dimy->setMaximum(2000);
+    yLabel->setBuddy(dimy);
+}
+
+WLength VanetAreaPropertyForm::formWidth() 
+{
+    return fWidth;
+}
+
+WLength VanetAreaPropertyForm::formHeight() 
+{
+    return fHeight;
+}
+
+bool VanetAreaPropertyForm::validate()
+{
+    feedbackMessages->clear();
+    bool valid = true;
+    return valid;
 }
 
 

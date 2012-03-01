@@ -18,6 +18,10 @@ public:
     virtual Wt::WLength formWidth() = 0;
     //! The height that the property dialog should be resized to when displaying this property form.
     virtual Wt::WLength formHeight() = 0;
+    //! validate the property form
+    virtual bool validate() = 0;
+    //! submit the form
+    virtual void submit() = 0;
     virtual ~AbstractPropertyForm();
 
 }
