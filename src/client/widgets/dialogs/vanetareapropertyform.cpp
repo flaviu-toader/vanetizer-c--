@@ -7,6 +7,8 @@
 #include <Wt/WString>
 #include <Wt/WLabel>
 #include <Wt/WPushButton>
+#include <Wt/WText>
+#include <Wt/WBreak>
 
 #include "vanetareapropertyform.h"
 
@@ -46,6 +48,21 @@ VanetAreaPropertyForm::VanetAreaPropertyForm(WContainerWidget* parent):
     dimy->setMinimum(0);
     dimy->setMaximum(2000);
     yLabel->setBuddy(dimy);
+
+    ++row;
+    formTable->elementAt(row, 0)->setColumnSpan(2);
+    formTable->elementAt(row, 0)->setContentAlignment(AlignCenter);
+    WPushButton *b;
+    WContainerWidget *buttons = new WContainerWidget(formTable->elementAt(row, 0));
+    buttons->addWidget(b = new WPushButton(tr("vanet.property.form.area.button.save")));
+    b->clicked().connect(this, &WDialog::accept);
+    contents()->enterPressed().connect(this, &WDialog::accept);
+    buttons->addWidget(b = new WPushButton(tr("vanet.property.form.area.button.cancel")));
+    b->clicked().connect(this, &WDialog::reject);
+
+    finished().connect(this, &VanetAreaPropertyForm::submit);
+
+    show();
 }
 
 WLength VanetAreaPropertyForm::formWidth() 
@@ -62,8 +79,18 @@ bool VanetAreaPropertyForm::validate()
 {
     feedbackMessages->clear();
     bool valid = true;
+    if (dimx->value() < 100 || dimy->value() < 100) 
+    {
+        valid = false;
+        feedbackMessages->addWidget(new WText(tr("vanet.property.form.area.error.dims")));
+        feedbackMessages->addWidget(new WBreak());
+    }
     return valid;
 }
 
-
-
+void VAnetAreaPropertyForm::submit(DialogCode result) 
+{
+    if (result == WDialog::Accepted && validate())
+    {
+    }
+}

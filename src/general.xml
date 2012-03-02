@@ -32,5 +32,10 @@
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
     <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
     <message id='mappropertyeditor.button.validate'>Validate</message>
+    <!-- Forms subsection -->
+    <message id='vanet.property.form.area.error.dims'>The map must be at least 100m x 100m.</message>
+    <message id='vanet.property.form.area.button.save'>Save</message>
+    <message id='vanet.property.form.area.button.cancel'>Cancel</message>
+    <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

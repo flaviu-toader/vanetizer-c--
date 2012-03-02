@@ -25,7 +25,6 @@ public:
     ~VanetAreaPropertyForm();
 private:
 
-    bool checkValid(WFormWidget *edit, const WString& errorText);
 
     Wt::WLength fWidth;
     Wt::WLength fHeight;

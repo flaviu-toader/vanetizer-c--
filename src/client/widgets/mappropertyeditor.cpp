@@ -45,6 +45,7 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
     treeView->setColumnAlignment(0, AlignLeft);
     treeView->setColumnWidth(1, WLength(285));
     treeView->setColumnAlignment(1, AlignLeft);
+    treeView->setSortingEnabled(false);
 
     treeView->setExpanded(model->index(0, 0), true);
     treeView->setExpanded(model->index(0, 0, model->index(0, 0)), true);

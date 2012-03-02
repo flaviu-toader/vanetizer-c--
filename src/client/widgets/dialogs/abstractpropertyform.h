@@ -4,6 +4,7 @@
 #define ABSTRACTPROPERTYFORM_H_
 
 #include <Wt/WContainerWidget>
+#include <Wt/WDialog>
 
 namespace Wt {
     class WStandardItem;
@@ -21,7 +22,7 @@ public:
     //! validate the property form
     virtual bool validate() = 0;
     //! submit the form
-    virtual void submit() = 0;
+    virtual void submit(DialogCode result) = 0;
     virtual ~AbstractPropertyForm();
 
 }
