@@ -62,6 +62,7 @@ public:
 private:
     static Wt::WStandardItem *groupItem(const std::string& groupName);
     static std::vector<Wt::WStandardItem *> propertyItem(const std::string& name, const boost::any& data);
+    void showPropertyDialog();
 
     Wt::WStandardItemModel *model;
     Wt::WTreeView *treeView;

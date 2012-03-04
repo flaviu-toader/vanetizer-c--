@@ -3,6 +3,9 @@
     <message id='application.title'>
         VANET Analysis tool
     </message>
+    <message id='application.error'>
+        Error
+    </message>
     <message id='navigationmenu.home'>
         Home page
     </message>
@@ -19,12 +22,18 @@
     <message id='button.save'>
         Save
     </message>
+    <message id='button.cancel'>
+        Cancel
+    </message>
+    <message id='constant.none'>
+        None
+    </message>
     <message id='mappropertyeditor.title'>
         VANET map properties
     </message>
     <message id='mappropertyeditor.header.propertyname'>Property</message>
     <message id='mappropertyeditor.header.propertyvalue'>Value</message>
-    <message id='mappropertyeditor.group.general'>General simulation properties</message>
+    <message id='mappropertyeditor.group.general'>Simulation area properties</message>
     <message id='mappropertyeditor.group.general.dimx'>Map width (in meters)</message>
     <message id='mappropertyeditor.group.general.dimy'>MapHeight (in meters)</message>
     <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
@@ -32,10 +41,34 @@
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
     <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
     <message id='mappropertyeditor.button.validate'>Validate</message>
+    
+    <message id='propertydialog.vanet.combobox.area'>
+        Area
+    </message>
+    <message id='propertydialog.vanet.combobox.step'>
+        Time-step
+    </message>
+    <message id='propertydialog.vanet.combobox.seed'>
+        Seed
+    </message>
+    <message id='propertydialog.vanet.combobox.extension'>
+        Extension
+    </message>
+    <message id='propertydialog.vanet.combobox.node'>
+        Node
+    </message>
+    <message id='propertydialog.vanet.combobox.nodegroup'>
+        Node group
+    </message>
+    
+    <message id='propertydialog.error.propertyexists'>
+        <p>The property "{1}" already exists in the tree.</p>
+    </message>
+    
     <!-- Forms subsection -->
-    <message id='vanet.property.form.area.error.dims'>The map must be at least 100m x 100m.</message>
-    <message id='vanet.property.form.area.button.save'>Save</message>
-    <message id='vanet.property.form.area.button.cancel'>Cancel</message>
+    <message id='vanet.property.form.area.error.dims'>
+        <p>The map must be at least 100m x 100m.</p>
+    </message>
     <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

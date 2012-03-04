@@ -2,6 +2,8 @@ set(cmake_source_dir .)
 set(CMAKE_BUILD_TYPE Debug)
 set(wt_project_target vanetizer.wt)
 set(wt_project_source 
+    client/widgets/dialogs/propertydialog.cpp
+    client/widgets/dialogs/vanetareapropertyform.cpp
     client/widgets/mappropertyeditor.cpp
     client/widgets/paintbrush.cpp 
     client/mapmakerpage.cpp 

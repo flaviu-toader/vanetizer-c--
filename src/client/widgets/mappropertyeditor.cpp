@@ -19,6 +19,7 @@
 
 #include "mappropertyeditor.h"
 #include "logger.h"
+#include "client/widgets/dialogs/propertydialog.h"
 
 using namespace Wt;
 
@@ -45,6 +46,7 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
     treeView->setColumnAlignment(0, AlignLeft);
     treeView->setColumnWidth(1, WLength(285));
     treeView->setColumnAlignment(1, AlignLeft);
+    treeView->setColumnHidden(2, true);
     treeView->setSortingEnabled(false);
 
     treeView->setExpanded(model->index(0, 0), true);
@@ -55,6 +57,7 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
 
     WPushButton *addProperty = new WPushButton(tr("mappropertyeditor.button.addproperty"), buttonTable->elementAt(0, 0));
     addProperty->resize(120, 30);
+    addProperty->clicked().connect(this, &MapPropertyEditor::showPropertyDialog);
 
     WPushButton *removeProperty = new WPushButton(tr("mappropertyeditor.button.removeproperty"), buttonTable->elementAt(0, 1));
     removeProperty->resize(120, 30);
@@ -63,6 +66,12 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
     validate->resize(120, 30);
 
 }
+
+void MapPropertyEditor::showPropertyDialog()
+{
+    new PropertyDialog(model);
+}
+
 
 WStandardItemModel* MapPropertyEditor::createModel(WObject *parent) 
 {

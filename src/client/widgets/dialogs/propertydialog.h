@@ -4,17 +4,25 @@
 
 #include <Wt/WDialog>
 
+
 namespace Wt {
     class WComboBox;
+    class WStandardItemModel;
+    class WStandardItem;
 }
 
-class PropertyDialog : public WDialog
+class PropertyDialog : public Wt::WDialog
 {
 public:
-    PropertyDialog();
+    PropertyDialog(Wt::WStandardItemModel *model);
+
 private:
-    //TODO: also as a private member a list of pairs <string, WContainerWidget*> which will initialize the dialog with each relevant field,
-    // depending on the user's selection in the combobox
+    void submit(Wt::WDialog::DialogCode result);
+    void comboChanged(int itemIndex);
+    bool itemIsNew(Wt::WStandardItem* item);
+    
+    Wt::WStandardItemModel *model;
+    Wt::WContainerWidget *formContainer;
     Wt::WComboBox *mainComboBox;
 };
 
