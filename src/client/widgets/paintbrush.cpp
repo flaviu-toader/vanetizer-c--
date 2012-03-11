@@ -97,7 +97,7 @@ void PaintBrush::undoLastAction()
 {
     if (!actions.empty()) 
     {
-        Logger::entry("info", "User undid one action.");
+        Logger::entry("info") << "User undid one action.";
         actions.pop_back();
         update();
         undo = true;

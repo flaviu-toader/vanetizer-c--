@@ -23,6 +23,9 @@
 #include <Wt/WFlags>
 #include <Wt/WModelIndex>
 #include <boost/any.hpp>
+#include <map>
+
+#include "client/widgets/dialogs/propertydialog.h"
 
 // forward declarations
 namespace Wt {
@@ -63,10 +66,11 @@ private:
     static Wt::WStandardItem *groupItem(const std::string& groupName);
     static std::vector<Wt::WStandardItem *> propertyItem(const std::string& name, const boost::any& data);
     void showPropertyDialog();
+    void itemDoubleClicked(const Wt::WModelIndex &clickedItem);
 
     Wt::WStandardItemModel *model;
     Wt::WTreeView *treeView;
-
+    PropertyDialog *pd;
 };
 
 #endif // MAPPROPERTYEDITOR_H_

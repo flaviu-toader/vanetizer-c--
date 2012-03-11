@@ -22,11 +22,13 @@
 
 #include <Wt/WLogger>
 #include <iostream>
+#include <sstream>
 
 class Logger
 {
 public:
     static void entry(std::string level, std::string message);
+    static Wt::WLogEntry entry(std::string level);
     static Wt::WLogger *instance();
     ~Logger() 
     {

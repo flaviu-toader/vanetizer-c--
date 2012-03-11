@@ -1,74 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
-    <message id='application.title'>
-        VANET Analysis tool
-    </message>
-    <message id='application.error'>
-        Error
-    </message>
-    <message id='navigationmenu.home'>
-        Home page
-    </message>
-    <message id='navigationmenu.mapmaker'>
-        Map Creation Tool
-    </message>
+    <message id='application.title'>VANET Analysis tool</message>
+    <message id='application.error'>Error</message>
+    <message id='navigationmenu.home'>Home page</message>
+    <message id='navigationmenu.mapmaker'>Map Creation Tool</message>
     <!-- Map Creation Tool section -->
-    <message id='button.clear'>
-        Clear
-    </message>
-    <message id='button.undo'>
-        Undo
-    </message>
-    <message id='button.save'>
-        Save
-    </message>
-    <message id='button.cancel'>
-        Cancel
-    </message>
-    <message id='constant.none'>
-        None
-    </message>
-    <message id='mappropertyeditor.title'>
-        VANET map properties
-    </message>
+    <message id='button.clear'>Clear</message>
+    <message id='button.undo'>Undo</message>
+    <message id='button.save'>Save</message>
+    <message id='button.cancel'>Cancel</message>
+    <message id='constant.none'>None</message>
+    <message id='mappropertyeditor.title'>VANET map properties</message>
     <message id='mappropertyeditor.header.propertyname'>Property</message>
     <message id='mappropertyeditor.header.propertyvalue'>Value</message>
     <message id='mappropertyeditor.group.general'>Simulation area properties</message>
-    <message id='mappropertyeditor.group.general.dimx'>Map width (in meters)</message>
-    <message id='mappropertyeditor.group.general.dimy'>MapHeight (in meters)</message>
+    <message id='mappropertyeditor.group.general.dimx'>Map width (in meters) </message>
+    <message id='mappropertyeditor.group.general.dimy'>Map height (in meters) </message>
+    <message id='mappropertyeditor.group.step'>Simulation time-step property</message>
+    <message id='mappropertyeditor.group.step.label'>Duration of a single simulation time-step (in seconds) </message>
+    <message id='mappropertyeditor.group.seed'>Seed of the random number generation</message>
+    <message id='mappropertyeditor.group.seed.label'>Seed </message>
     <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
     <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
     <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
     <message id='mappropertyeditor.button.validate'>Validate</message>
     
-    <message id='propertydialog.vanet.combobox.area'>
-        Area
-    </message>
-    <message id='propertydialog.vanet.combobox.step'>
-        Time-step
-    </message>
-    <message id='propertydialog.vanet.combobox.seed'>
-        Seed
-    </message>
-    <message id='propertydialog.vanet.combobox.extension'>
-        Extension
-    </message>
-    <message id='propertydialog.vanet.combobox.node'>
-        Node
-    </message>
-    <message id='propertydialog.vanet.combobox.nodegroup'>
-        Node group
-    </message>
+    <message id='propertydialog.vanet.combobox.area'>Area</message>
+    <message id='propertydialog.vanet.combobox.step'>Time-step</message>
+    <message id='propertydialog.vanet.combobox.seed'>Seed</message>
+    <message id='propertydialog.vanet.combobox.extension'>Extension</message>
+    <message id='propertydialog.vanet.combobox.node'>Node</message>
+    <message id='propertydialog.vanet.combobox.nodegroup'>Node group</message>
     
-    <message id='propertydialog.error.propertyexists'>
-        <p>The property "{1}" already exists in the tree.</p>
-    </message>
+    <message id='propertydialog.error.propertyexists'><p>The property "{1}" already exists in the tree.</p></message>
     
     <!-- Forms subsection -->
-    <message id='vanet.property.form.area.error.dims'>
-        <p>The map must be at least 100m x 100m.</p>
-    </message>
+    <message id='vanet.property.form.area.error.dims'><p>The map must be at least 100m x 100m.</p></message>
+    <message id='vanet.property.form.seed.error.seedsize'><p>The seed string is too long</p></message>
+    <message id='vanet.property.form.extension.combo.label'>Extension type: </message>
+    <message id='vanet.property.form.extension.combo.glomosimoutput'>Glomosim output</message>
+    <message id='vanet.property.form.extension.combo.timesimulation'>Time simulation</message>
+    <message id='vanet.property.form.extension.combo.spatialmodel'>Spatial model</message>
+    <message id='vanet.property.form.extension.combo.trafficlights'>Traffic lights</message>
+    <message id='vanet.property.form.extension.combo.smdump'>Spatial model image</message>
     <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

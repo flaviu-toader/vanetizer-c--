@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include <Wt/WApplication>
 #include <Wt/WString>
 #include <Wt/WText>
@@ -18,7 +20,7 @@ private:
 
 VanetizerApplication::VanetizerApplication(const Wt::WEnvironment& environment, Wt::WtLibVersion version): WApplication(environment, version)
 {
-    Logger::entry("info", "Application successfully started!");
+    Logger::entry("info") << "Application successfully started!";
     messageResourceBundle().use("general");
     setTitle(Wt::WString::tr("application.title"));
     

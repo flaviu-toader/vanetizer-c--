@@ -19,6 +19,7 @@
 
 #include <Wt/WLogger>
 #include <iostream>
+#include <sstream>
 
 #include "logger.h"
 
@@ -47,4 +48,9 @@ Wt::WLogger *Logger::instance()
 void Logger::entry(std::string level, std::string message) 
 {
     instance()->entry(level) << Wt::WLogger::timestamp << Wt::WLogger::sep << message;
+}
+
+Wt::WLogEntry Logger::entry(std::string level) 
+{
+    return instance()->entry(level) << Wt::WLogger::timestamp << Wt::WLogger::sep;
 }

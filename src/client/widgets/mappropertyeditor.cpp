@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <map>
+#include <boost/assign.hpp>
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -20,11 +22,12 @@
 #include "mappropertyeditor.h"
 #include "logger.h"
 #include "client/widgets/dialogs/propertydialog.h"
+#include "client/widgets/dialogs/abstractpropertyform.h"
 
 using namespace Wt;
 
 MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
-{
+{    
     WTable *mainTable = new WTable(this);
     new WText(tr("mappropertyeditor.title"), mainTable->elementAt(0,0));
 
@@ -51,6 +54,8 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
 
     treeView->setExpanded(model->index(0, 0), true);
     treeView->setExpanded(model->index(0, 0, model->index(0, 0)), true);
+    
+    treeView->doubleClicked().connect(this, &MapPropertyEditor::itemDoubleClicked);
 
     WTable *buttonTable = new WTable(mainTable->elementAt(2, 0));
     mainTable->elementAt(2, 0)->setContentAlignment(AlignCenter);
@@ -69,7 +74,8 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model) : model(model)
 
 void MapPropertyEditor::showPropertyDialog()
 {
-    new PropertyDialog(model);
+    pd = new PropertyDialog(model);
+    pd->show();
 }
 
 
@@ -104,4 +110,16 @@ std::vector<WStandardItem *> MapPropertyEditor::propertyItem(const std::string& 
 
     return result;
 }
+
+void MapPropertyEditor::itemDoubleClicked(const WModelIndex& clickedItem)
+{
+    if (clickedItem.parent() == treeView->rootIndex()) 
+    {
+        WStandardItem *item = model->item(clickedItem.row(), clickedItem.column());
+        pd = new PropertyDialog(model);
+        pd->setPreselectedProperty(item);
+        pd->show();
+    }
+}
+
 
