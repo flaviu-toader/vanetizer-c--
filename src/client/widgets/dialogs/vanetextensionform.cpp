@@ -3,8 +3,11 @@
 #include <Wt/WLabel>
 #include <Wt/WComboBox>
 #include <Wt/WContainerWidget>
+#include <boost/concept_check.hpp>
 
 #include "vanetextensionform.h"
+#include "logger.h"
+#include "client/widgets/dialogs/vanetgmsoutpropertyform.h"
 
 using namespace Wt;
 
@@ -53,5 +56,16 @@ Wt::WStandardItem* VanetExtensionForm::treeNode()
 
 void VanetExtensionForm::comboChanged(int itemIndex)
 {
-
+    Logger::entry("info") << "itemIndex = " << itemIndex;
+    switch(itemIndex)
+    {
+        case 0:
+            extensionFormContainer_->clear();
+            form_ = new VanetGmsOutPropertyForm(extensionFormContainer_);
+            if (preselectedExtensionItem_ != 0)
+            {
+                // TODO: implementation for when returning to the glomosimoutput form
+            }
+            
+    }
 }

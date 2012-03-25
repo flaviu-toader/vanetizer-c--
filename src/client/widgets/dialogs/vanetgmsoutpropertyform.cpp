@@ -6,6 +6,7 @@
 #include <Wt/WLengthValidator>
 #include <Wt/WDoubleSpinBox>
 #include <Wt/WStandardItem>
+#include <Wt/WContainerWidget>
 
 #include "vanetgmsoutpropertyform.h"
 #include "logger.h"

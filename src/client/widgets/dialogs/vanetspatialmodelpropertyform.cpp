@@ -116,12 +116,12 @@ void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::st
     trafficLight_->setValueText(boost::any_cast< WString >(*(values.find("traffic_light="))));
     maxTrafficLights_->setValue(boost::any_cast<int>(*(values.find("max_traffic_lights"))));
     laneNumber_->setValue(boost::any_cast<int>(*(values.find("number_lane"))));
-    string checkvalue = *(values.find("full="));
+    string checkvalue = boost::any_cast<string>(*(values.find("full=")));
     full_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
     max_->setValue(boost::any_cast<int>(*(values.find("max="))));
-    checkvalue = *(values.find("dir="));
+    checkvalue = boost::any_cast<string>(*(values.find("dir=")));
     dir_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
-    checkvalue = *(values.find("reflect_directions"));
+    checkvalue = boost::any_cast<string>(*(values.find("reflect_directions")));
     reflectDirs_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
 }
 

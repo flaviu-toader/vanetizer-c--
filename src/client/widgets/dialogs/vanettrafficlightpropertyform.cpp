@@ -16,7 +16,7 @@ VanetTrafficLightPropertyForm::VanetTrafficLightPropertyForm(Wt::WContainerWidge
     WTable* form = new WTable(this);
     int row = 0;
     
-    WLabel* l = WLabel(tr("vanet.property.form.trlight.step"), form->elementAt(row, 0));
+    WLabel* l = new WLabel(tr("vanet.property.form.trlight.step"), form->elementAt(row, 0));
     step_ = new WSpinBox(form->elementAt(row, 1));
     step_->setMaximum(180000);
     step_->setMinimum(100);
