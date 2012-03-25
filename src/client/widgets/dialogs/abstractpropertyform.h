@@ -4,6 +4,7 @@
 #define ABSTRACTPROPERTYFORM_H_
 
 #include <vector>
+#include <string>
 #include <boost/any.hpp>
 
 #include <Wt/WContainerWidget>
@@ -49,7 +50,7 @@ public:
      * This method returns true when from the Vanet point of view the input given in the form is acceptable.
      * It also populates the list of feedback messages.
      */
-    virtual bool validate() = 0;
+    virtual bool validate();
     
     //! Get error messages.
     /*!
@@ -57,7 +58,7 @@ public:
      * displayed in a message box when Accepting the opened property dialog (and usually 
      * invalidating the acceptance)
      */
-    virtual std::vector<std::string> feedbackMessages() = 0;
+    virtual std::vector<std::string> feedbackMessages();
     
     //! Sets preselected values for the form.
     /*!
@@ -65,7 +66,7 @@ public:
      * this method will add in the property form the values that the user previously set to that node,
      * for editing.
      */
-    virtual void setPreselectedValues(const std::vector<boost::any> &values) = 0;
+    virtual void setPreselectedValues(const std::map< std::string, boost::any > &values) = 0;
     
 protected:
     
@@ -78,6 +79,9 @@ protected:
      *  * third column represents a property id (hidden column)
      */
     virtual std::vector<Wt::WStandardItem *> propertyRow(const std::string &propertyId, const std::string &propertyName, const std::string &propertyValue);
+    
+    //! Holds the form's feedback messages.
+    std::vector< std::string > messages_;
 };
 
 

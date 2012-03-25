@@ -26,3 +26,14 @@ std::vector<WStandardItem *> AbstractPropertyForm::propertyRow(const std::string
 
     return propertyItems;
 }
+
+
+std::vector< std::string, std::allocator< std::string > > AbstractPropertyForm::feedbackMessages()
+{
+    return messages_;
+}
+
+bool AbstractPropertyForm::validate()
+{
+    return true;
+}

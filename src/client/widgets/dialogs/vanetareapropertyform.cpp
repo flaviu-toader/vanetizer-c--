@@ -8,7 +8,6 @@
 #include <Wt/WTable>
 #include <Wt/WString>
 #include <Wt/WLabel>
-#include <Wt/WStandardItemModel>
 
 #include "logger.h"
 #include "vanetareapropertyform.h"
@@ -16,16 +15,13 @@
 
 using namespace Wt;
 
-VanetAreaPropertyForm::VanetAreaPropertyForm(WStandardItemModel *model, WContainerWidget* parent): 
-    model_(model),
-    dimxLabel_(tr("mappropertyeditor.group.general.dimx").toUTF8()),
-    dimyLabel_(tr("mappropertyeditor.group.general.dimy").toUTF8())
+VanetAreaPropertyForm::VanetAreaPropertyForm(WContainerWidget* parent) 
 {
     WTable *formTable = new WTable(this);
     int row = 0;
 
     WLabel *xLabel = new WLabel(formTable->elementAt(row, 0));
-    xLabel->setText(WString::fromUTF8(dimxLabel_));
+    xLabel->setText(WString::fromUTF8(tr("mappropertyeditor.group.general.dimx").toUTF8()));
     dimx_ = new WSpinBox(formTable->elementAt(row, 1));
     dimx_->setMinimum(0);
     dimx_->setMaximum(90000);
@@ -33,12 +29,11 @@ VanetAreaPropertyForm::VanetAreaPropertyForm(WStandardItemModel *model, WContain
 
     ++row;
     WLabel *yLabel = new WLabel(formTable->elementAt(row, 0));
-    yLabel->setText(WString::fromUTF8(dimyLabel_));
+    yLabel->setText(WString::fromUTF8(tr("mappropertyeditor.group.general.dimy").toUTF8()));
     dimy_ = new WSpinBox(formTable->elementAt(row, 1));
     dimy_->setMinimum(0);
     dimy_->setMaximum(90000);
     yLabel->setBuddy(dimy_);
-
 }
 
 bool VanetAreaPropertyForm::validate()
@@ -52,25 +47,13 @@ bool VanetAreaPropertyForm::validate()
     return valid;
 }
 
-std::vector<std::string> VanetAreaPropertyForm::feedbackMessages() 
+void VanetAreaPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    return messages_;
-}
-
-void VanetAreaPropertyForm::setPreselectedValues(const std::vector< boost::any >& values)
-{
-    try
-    {
-        int dimxVal = boost::any_cast<int>(values.at(0));
-        int dimyVal = boost::any_cast<int>(values.at(1));
-        Logger::entry("info") << "Received preselected X value: " << dimxVal << " and Y value" << dimyVal;
-        dimx_->setValue(dimxVal);
-        dimy_->setValue(dimyVal);
-    }
-    catch (std::out_of_range) 
-    {
-        Logger::entry("fatal") << "Fatal error. Parameter index for VanetAreaPropertyForm::setPreselectedValues out of range!";
-    }
+    int dimxVal = boost::any_cast<int>(*(values.find("dimx")));
+    dimx_->setValue(dimxVal);
+    int dimyVal = boost::any_cast<int>(*(values.find("dimy")));
+    dimy_->setValue(dimyVal);
+    Logger::entry("info") << "Received preselected X value: " << dimxVal << " and Y value" << dimyVal;
 }
 
 

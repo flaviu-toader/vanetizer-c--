@@ -159,47 +159,44 @@ void PropertyDialog::comboChanged(int itemIndex)
     {
         case 1:
             formContainer_->clear();
-            form = new VanetAreaPropertyForm(model_, formContainer_);
+            form = new VanetAreaPropertyForm(formContainer_);
             if (preselectedItem_ != 0) 
             {
-//                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
-                vector<boost::any> values;
+                map<string, boost::any> values;
                 Logger::entry("info") << "Adding preselected value for X: " << preselectedItem_->child(0, 1)->text();
                 Logger::entry("info") << "Adding preselected value for Y: " << preselectedItem_->child(1, 1)->text();
-                values.push_back(boost::lexical_cast<int>(preselectedItem_->child(0, 1)->text()));
-                values.push_back(boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text()));
+                values.insert(pair< string, boost::any >(string("dimx"), boost::lexical_cast<int>(preselectedItem_->child(0, 1)->text())));
+                values.insert(pair< string, boost::any >(string("dimy"), boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text())));
                 form->setPreselectedValues(values);
             }
             formContainer_->addWidget(form);
             break;
         case 2:
             formContainer_->clear();
-            form = new VanetStepPropertyForm(model_, formContainer_);
+            form = new VanetStepPropertyForm(formContainer_);
             if (preselectedItem_ != 0) 
             {
-//                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
                 WString preselectedValue = preselectedItem_->child(0, 1)->text();
-                vector<boost::any> values;
+                map<string, boost::any> values;
                 Logger::entry("info") << "Adding preselected step value: " << preselectedValue;
                 stringstream ss(preselectedValue.toUTF8());
                 double val;
                 ss.precision(3);
                 ss >> fixed >> val;
-                values.push_back(val);
+                values.insert(pair<string, boost::any >(("step"), boost::any(val)));
                 form->setPreselectedValues(values);
             }
             formContainer_->addWidget(form);
             break;
         case 3:
             formContainer_->clear();
-            form = new VanetSeedPropertyForm(model_, formContainer_);
+            form = new VanetSeedPropertyForm(formContainer_);
             if (preselectedItem_ != 0)
             {
-//                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
                 WString preselectedValue = preselectedItem_->child(0, 1)->text();
-                vector<boost::any> values;
+                map<string, boost::any> values;
                 Logger::entry("info") << "Adding preselected seed value: " << preselectedValue;
-                values.push_back(preselectedValue);
+                values.insert(pair< string, boost::any >(string("seed"), preselectedValue));
                 form->setPreselectedValues(values);
             }
             formContainer_->addWidget(form);

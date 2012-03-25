@@ -28,7 +28,6 @@ private:
     Wt::WStandardItem* preselectedItem_;
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mainComboBox_;
-    std::map<VanetProperty, Wt::WString> comboMap_;
 };
 
 #endif // PROPERTYDIALOG_H_

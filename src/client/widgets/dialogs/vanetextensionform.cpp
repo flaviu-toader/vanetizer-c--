@@ -8,15 +8,13 @@
 
 using namespace Wt;
 
-VanetExtensionForm::VanetExtensionForm(Wt::WStandardItemModel* model, Wt::WContainerWidget* parent):
-    model_(model),
-    comboLabel_(tr("vanet.property.form.extension.combo.label").toUTF8())
+VanetExtensionForm::VanetExtensionForm(Wt::WContainerWidget* parent)
 {
     WTable* formTable = new WTable(this);
     int row = 0;
     
     WLabel* extLabel = new WLabel(formTable->elementAt(row, 0));
-    extLabel->setText(WString::fromUTF8(comboLabel_));
+    extLabel->setText(WString::fromUTF8(tr("vanet.property.form.extension.combo.label").toUTF8()));
 
     extensionComboBox_ = new WComboBox(formTable->elementAt(row, 1));
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.glomosimoutput"));
@@ -30,19 +28,15 @@ VanetExtensionForm::VanetExtensionForm(Wt::WStandardItemModel* model, Wt::WConta
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.tigerreader"));
 
     extensionComboBox_->activated().connect(this, &VanetExtensionForm::comboChanged);
+    extLabel->setBuddy(extensionComboBox_);
 
     ++row;
-    formTabel->elementAt(row, 0)->setColumnSpan(2);
+    formTable->elementAt(row, 0)->setColumnSpan(2);
     extensionFormContainer_ = new WContainerWidget(formTable->elementAt(row, 0));
 }
 
 
-void VanetExtensionForm::setPreselectedValues(const std::vector< boost::any, std::allocator< boost::any > >& values)
-{
-
-}
-
-std::vector< std::string, std::allocator< std::string > > VanetExtensionForm::feedbackMessages()
+void VanetExtensionForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
 
 }
@@ -57,3 +51,7 @@ Wt::WStandardItem* VanetExtensionForm::treeNode()
 
 }
 
+void VanetExtensionForm::comboChanged(int itemIndex)
+{
+
+}

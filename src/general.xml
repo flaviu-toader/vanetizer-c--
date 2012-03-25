@@ -20,6 +20,28 @@
     <message id='mappropertyeditor.group.step.label'>Duration of a single simulation time-step (in seconds) </message>
     <message id='mappropertyeditor.group.seed'>Seed of the random number generation</message>
     <message id='mappropertyeditor.group.seed.label'>Seed </message>
+    <message id='mappropertyeditor.group.gmsout'>Glomosim mobility trace</message>
+    <message id='mappropertyeditor.group.gmsout.output'>Output file </message>
+    <message id='mappropertyeditor.group.gmsout.step'>Step </message>
+    <message id='mappropertyeditor.group.timesim'>Time simulation</message>
+    <message id='mappropertyeditor.group.timesim.param'>Param </message>
+    <message id='mappropertyeditor.group.spmodel'>Spatial model</message>
+    <message id='mappropertyeditor.group.spmodel.minx'>Minimum X (in m)</message>
+    <message id='mappropertyeditor.group.spmodel.miny'>Minimum Y (in m)</message>
+    <message id='mappropertyeditor.group.spmodel.maxx'>Maximum X (in m)</message>
+    <message id='mappropertyeditor.group.spmodel.maxy'>Maximum Y (in m)</message>
+    <message id='mappropertyeditor.group.spmodel.trlight'>Traffic light extension name</message>
+    <message id='mappropertyeditor.group.spmodel.maxtrlight'>Intersections managed by traffic lights</message>
+    <message id='mappropertyeditor.group.spmodel.lanes'>Number of lanes</message>
+    <message id='mappropertyeditor.group.spmodel.allmulti'>Do all roads have multiple lanes?</message>
+    <message id='mappropertyeditor.group.spmodel.nomulti'>Number of roads with multiple lanes</message>
+    <message id='mappropertyeditor.group.spmodel.bidirmulti'>Differentiate the two lane direction only for mutliple lane roads?</message>
+    <message id='mappropertyeditor.group.spmodel.bidir'>Differentiate the two lane direction?</message>
+    <message id='mappropertyeditor.group.trlight'>Traffic lights</message>
+    <message id='mappropertyeditor.group.trlight.step'>Interval between traffic light changes</message>
+    <message id='mappropertyeditor.group.spmodeldump'>Spatial model dump</message>
+    <message id='mappropertyeditor.group.spmodeldump.output'>Output file </message>
+    
     <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
     <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
@@ -44,6 +66,32 @@
     <message id='vanet.property.form.extension.combo.spatialmodel'>Spatial model</message>
     <message id='vanet.property.form.extension.combo.trafficlights'>Traffic lights</message>
     <message id='vanet.property.form.extension.combo.smdump'>Spatial model image</message>
+    <message id='vanet.property.form.extension.combo.mobilitytrace'>Mobility trace</message>
+    <message id='vanet.property.form.extension.combo.gdfwriter'>GDF Writer</message>
+    <message id='vanet.property.form.extension.combo.gdfreader'>GDF Reader</message>
+    <message id='vanet.property.form.extension.combo.tigerreader'>TIGER Reader</message>
+    <message id='vanet.property.form.gmsout.output'>Output file: </message>
+    <message id='vanet.property.form.gmsout.step'>Step: </message>
+    <message id='vanet.property.form.gmsout.error.badfilename'><p>Invalid filename.</p></message>
+    <message id='vanet.property.form.timesim.length'>Time simulation: </message>
+    <message id='vanet.property.form.spmodel.minx'>Leftmost X coordinate (in m) of the "clipping window": </message>
+    <message id='vanet.property.form.spmodel.miny'>Lowermost Y coordinate (in m) of the "clipping window": </message>
+    <message id='vanet.property.form.spmodel.maxx'>Rightmost X coordinate (in m) of the "clipping window": </message>
+    <message id='vanet.property.form.spmodel.maxy'>Uppermost Y coordinate (in m) of the "clipping window": </message>
+    <message id='vanet.property.form.spmodel.trlight'>Name of the traffic light extension (if different from default): </message>
+    <message id='vanet.property.form.spmodel.maxtrlight'>Number of intersections managed by traffic lights: </message>
+    <message id='vanet.property.form.spmodel.lanes'>Number of lanes: </message>
+    <message id='vanet.property.form.spmodel.allmulti'>All roads have multiple lanes</message>
+    <message id='vanet.property.form.spmodel.nomulti'>Maximum number of roads with multiple lanes: </message>
+    <message id='vanet.property.form.spmodel.bidirmulti'>Differentiate the two lane direction only for multiple lane roads</message>
+    <message id='vanet.property.form.spmodel.bidir'>Differentiate the two lane direction</message>
+    <message id='vanet.property.form.spmodel.error.xerr'><p>The value for leftmost X coordinate must not be greater than the value of the rightmost X coordinate</p></message>
+    <message id='vanet.property.form.spmodel.error.yerr'><p>The value for lowermost Y coordinate must not be greater than the value of the uppermost Y coordinate</p></message>
+    <message id='vanet.property.form.spmodel.error.inputerr'><p>One of the inputs is invalid. Please retry.</p></message>
+    <message id='vanet.property.form.trlight.step'>Time interval between traffic light changes (in ms): </message>
+    <message id='vanet.property.form.trlight.error.step'><p>Provided time interval between traffic light changes must be between 180 and 10 seconds (in ms).</p></message>
+    <message id='vanet.property.form.spmodeldump.output'>Output file: </message>
+    <message id='vanet.property.form.spmodeldump.error.output'><p>Output filename should be between 5 and 15 characters long.</p></message>
     <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

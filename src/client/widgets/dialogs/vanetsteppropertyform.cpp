@@ -1,12 +1,11 @@
 #include <string>
-#include <vector>
+#include <map>
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include <boost/any.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WStandardItem>
-#include <Wt/WStandardItemModel>
 #include <Wt/WDoubleSpinBox>
 #include <Wt/WString>
 #include <Wt/WLabel>
@@ -17,15 +16,13 @@
 
 using namespace Wt;
 
-VanetStepPropertyForm::VanetStepPropertyForm(Wt::WStandardItemModel* model, Wt::WContainerWidget* parent):
-    model_(model),
-    stepLabel_(tr("mappropertyeditor.group.step.label").toUTF8())
+VanetStepPropertyForm::VanetStepPropertyForm(Wt::WContainerWidget* parent)
 {
     WTable *formTable = new WTable(this);
     int row = 0;
     
     WLabel *sLabel = new WLabel(formTable->elementAt(row, 0));
-    sLabel->setText(WString::fromUTF8(stepLabel_));
+    sLabel->setText(WString::fromUTF8(tr("mappropertyeditor.group.step.label").toUTF8()));
     step_ = new WDoubleSpinBox(formTable->elementAt(row, 1));
     step_->setDecimals(3);
     step_->setMaximum(10.999);
@@ -34,27 +31,11 @@ VanetStepPropertyForm::VanetStepPropertyForm(Wt::WStandardItemModel* model, Wt::
     
 }
 
-void VanetStepPropertyForm::setPreselectedValues(const std::vector< boost::any, std::allocator< boost::any > >& values)
+void VanetStepPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    try
-    {
-        double val = boost::any_cast<double>(values.at(0));
-        Logger::entry("info") << "Received preselected step value: " << val;
-        step_->setValue(val);
-    }
-    catch (std::out_of_range)
-    {
-        Logger::entry("fatal") << "Fatal error. Parameter index for VanetStepPropertyForm::setPreselectedValues out of range!";
-    }
-}
-
-std::vector< std::string, std::allocator< std::string > > VanetStepPropertyForm::feedbackMessages()
-{
-}
-
-bool VanetStepPropertyForm::validate()
-{
-    return true;
+    double val = boost::any_cast<double>(*values.find("step"));
+    Logger::entry("info") << "Received preselected step value: " << val;
+    step_->setValue(val);
 }
 
 Wt::WStandardItem* VanetStepPropertyForm::treeNode()

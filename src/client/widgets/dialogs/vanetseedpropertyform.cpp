@@ -1,11 +1,10 @@
 #include <string>
-#include <vector>
+#include <map>
 #include <boost/lexical_cast.hpp>
 #include <boost/any.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WStandardItem>
-#include <Wt/WStandardItemModel>
 #include <Wt/WLineEdit>
 #include <Wt/WString>
 #include <Wt/WLabel>
@@ -16,15 +15,13 @@
 
 using namespace Wt;
 
-VanetSeedPropertyForm::VanetSeedPropertyForm(WStandardItemModel* model, WContainerWidget* parent):
-    model_(model),
-    seedLabel_(tr("mappropertyeditor.group.seed.label").toUTF8())
+VanetSeedPropertyForm::VanetSeedPropertyForm(WContainerWidget* parent)
 {
     WTable *formTable = new WTable(this);
     int row = 0;
     
     WLabel * sLabel = new WLabel(formTable->elementAt(row, 0));
-    sLabel->setText(WString::fromUTF8(seedLabel_));
+    sLabel->setText(WString::fromUTF8(tr("mappropertyeditor.group.seed.label").toUTF8()));
     seed_ = new WLineEdit(formTable->elementAt(row, 1));
     WLengthValidator *validator = new WLengthValidator(0, 16);
     validator->setMandatory(true);
@@ -34,22 +31,10 @@ VanetSeedPropertyForm::VanetSeedPropertyForm(WStandardItemModel* model, WContain
 }
 
 
-void VanetSeedPropertyForm::setPreselectedValues(const std::vector< boost::any, std::allocator< boost::any > >& values)
+void VanetSeedPropertyForm::setPreselectedValues(const std::map< std::string,  boost::any >& values)
 {
-    try
-    {
-        WString val = boost::any_cast<WString>(values.at(0));
-        Logger::entry("info") << "Received preselected seed value: " << val.toUTF8() ;
-    }
-    catch (std::out_of_range)
-    {
-        Logger::entry("fatal") << "Fatal error. Parameter index for VanetSeedPropertyForm::setPreselectedValues is out of range!";
-    }
-}
-
-std::vector< std::string, std::allocator< std::string > > VanetSeedPropertyForm::feedbackMessages()
-{
-
+    WString val = boost::any_cast<WString>(*(values.find("seed")));
+    Logger::entry("info") << "Received preselected seed value: " << val.toUTF8() ;
 }
 
 bool VanetSeedPropertyForm::validate()
