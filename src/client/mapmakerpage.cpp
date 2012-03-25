@@ -63,9 +63,11 @@ MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
     Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
     MapPropertyEditor *mpe = new MapPropertyEditor(model);
 
-    table->elementAt(0, 1)->addWidget(mpe);
-    table->elementAt(0, 1)->setRowSpan(2);
-    table->elementAt(0, 1)->setPadding(50);
+    table->elementAt(1, 0)->addWidget(mpe);
+    table->elementAt(1, 0)->setRowSpan(2);
+    table->elementAt(1, 0)->setPadding(50);
+    
+    setOverflow(OverflowAuto);
 }
 
 void MapMakerPage::downloadImage()
