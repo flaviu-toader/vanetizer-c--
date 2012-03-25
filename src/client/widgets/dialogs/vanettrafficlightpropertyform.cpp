@@ -45,7 +45,7 @@ Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode()
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.trlight"));
     result->setData(VanetTrafficLights);
     
-    result->appendRow(propertyRow(string("step="), tr("").toUTF8(), boost::lexical_cast<string>(step_->value())));
+    result->appendRow(propertyRow(string("step="), tr("mappropertyeditor.group.trlight.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
     
     return result;
 }

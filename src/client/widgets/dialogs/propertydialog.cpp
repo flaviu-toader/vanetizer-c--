@@ -169,7 +169,7 @@ void PropertyDialog::comboChanged(int itemIndex)
                 values.insert(pair< string, boost::any >(string("dimy"), boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text())));
                 form->setPreselectedValues(values);
             }
-//             formContainer_->addWidget(form);
+            formContainer_->addWidget(form);
             break;
         case 2:
             formContainer_->clear();
@@ -186,7 +186,7 @@ void PropertyDialog::comboChanged(int itemIndex)
                 values.insert(pair<string, boost::any >(("step"), boost::any(val)));
                 form->setPreselectedValues(values);
             }
-//             formContainer_->addWidget(form);
+            formContainer_->addWidget(form);
             break;
         case 3:
             formContainer_->clear();
@@ -199,7 +199,7 @@ void PropertyDialog::comboChanged(int itemIndex)
                 values.insert(pair< string, boost::any >(string("seed"), preselectedValue));
                 form->setPreselectedValues(values);
             }
-//             formContainer_->addWidget(form);
+            formContainer_->addWidget(form);
             break;
         case 4:
             break;
