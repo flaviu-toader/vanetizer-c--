@@ -109,20 +109,50 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
 
 void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    minX_->setValue(boost::any_cast<int>(*(values.find("min_x="))));
-    minY_->setValue(boost::any_cast<int>(*(values.find("min_y="))));
-    maxX_->setValue(boost::any_cast<int>(*(values.find("max_x="))));
-    maxY_->setValue(boost::any_cast<int>(*(values.find("max_y="))));
-    trafficLight_->setValueText(boost::any_cast< WString >(*(values.find("traffic_light="))));
-    maxTrafficLights_->setValue(boost::any_cast<int>(*(values.find("max_traffic_lights"))));
-    laneNumber_->setValue(boost::any_cast<int>(*(values.find("number_lane"))));
-    string checkvalue = boost::any_cast<string>(*(values.find("full=")));
-    full_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
-    max_->setValue(boost::any_cast<int>(*(values.find("max="))));
-    checkvalue = boost::any_cast<string>(*(values.find("dir=")));
-    dir_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
-    checkvalue = boost::any_cast<string>(*(values.find("reflect_directions")));
-    reflectDirs_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+    map< string, boost::any >::const_iterator it;
+    it = values.find("min_x=");
+    if (it != values.end())
+        minX_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("min_y=");
+    if (it != values.end())
+        minY_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("max_x=");
+    if (it != values.end())
+        maxX_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("max_y=");
+    if (it != values.end())
+        maxY_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("traffic_light=");
+    if (it != values.end())
+        trafficLight_->setValueText(WString::fromUTF8(boost::any_cast< string >(it->second)));
+    it = values.find("max_traffic_lights");
+    if (it != values.end())
+        maxTrafficLights_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("number_lane");
+    if (it != values.end())
+        laneNumber_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    string checkvalue;
+    it = values.find("full=");
+    if (it != values.end())
+    {
+        checkvalue = boost::any_cast< string >(it->second);
+        full_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+    }
+    it = values.find("max=");
+    if (it != values.end())
+        max_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    it = values.find("dir=");
+    if (it != values.end())
+    {
+        checkvalue = boost::any_cast< string >(it->second);
+        dir_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+    }
+    it = values.find("reflect_directions");
+    if (it != values.end())
+    {
+        checkvalue = boost::any_cast< string >(it->second);
+        reflectDirs_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+    }
 }
 
 Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode()

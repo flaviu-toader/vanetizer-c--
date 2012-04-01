@@ -1,16 +1,23 @@
+#include <boost/concept_check.hpp>
+#include <boost/any.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WLabel>
 #include <Wt/WComboBox>
 #include <Wt/WContainerWidget>
-#include <boost/concept_check.hpp>
+#include <Wt/WStandardItem>
 
 #include "vanetextensionform.h"
 #include "logger.h"
 #include "client/widgets/dialogs/vanetgmsoutpropertyform.h"
+#include "client/widgets/dialogs/vanettimesimulationpropertyform.h"
+#include "client/widgets/dialogs/vanetspatialmodelpropertyform.h"
+#include "client/widgets/dialogs/vanettrafficlightpropertyform.h"
+#include "client/widgets/dialogs/vanetspmodeldump.h"
 
 using namespace Wt;
 
+//TODO: this class and PropertyDialog have a lot in common. Implement the common functionality in an abstract class.
 VanetExtensionForm::VanetExtensionForm(Wt::WContainerWidget* parent)
 {
     WTable* formTable = new WTable(this);
@@ -25,47 +32,97 @@ VanetExtensionForm::VanetExtensionForm(Wt::WContainerWidget* parent)
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.spatialmodel"));
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.trafficlights"));
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.smdump"));
-    extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.mobilitytrace"));
-    extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfwriter"));
-    extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfreader"));
-    extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.tigerreader"));
+//     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.mobilitytrace"));
+//     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfwriter"));
+//     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfreader"));
+//     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.tigerreader"));
 
-    extensionComboBox_->activated().connect(this, &VanetExtensionForm::comboChanged);
+    extensionComboBox_->activated().connect(this, &VanetExtensionForm::extensionComboChanged);
     extLabel->setBuddy(extensionComboBox_);
 
     ++row;
     formTable->elementAt(row, 0)->setColumnSpan(2);
+    formTable->elementAt(row, 0)->setPadding(10);
     extensionFormContainer_ = new WContainerWidget(formTable->elementAt(row, 0));
+    
+    preselectedExtensionItem_ = 0;
+    extensionComboChanged(0);
 }
 
 
 void VanetExtensionForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
+    form_->setPreselectedValues(values);
+}
 
+std::vector< std::string > VanetExtensionForm::feedbackMessages()
+{
+    return form_->feedbackMessages();
+}
+
+void VanetExtensionForm::setPreselectedExtension(WStandardItem* rootItem)
+{
+    int currentIndex = (int)boost::any_cast<VanetProperty>(rootItem->data()) - 6;
+    Logger::entry("info") << "Current index for extensions: " << currentIndex;
+    extensionComboBox_->setCurrentIndex(currentIndex);
+    preselectedExtensionItem_ = rootItem;
+    extensionComboChanged(currentIndex);
 }
 
 bool VanetExtensionForm::validate()
 {
-
+    return form_->validate();
 }
 
 Wt::WStandardItem* VanetExtensionForm::treeNode()
 {
-
+    return form_->treeNode();
 }
 
-void VanetExtensionForm::comboChanged(int itemIndex)
+void VanetExtensionForm::extensionComboChanged(int itemIndex)
 {
-    Logger::entry("info") << "itemIndex = " << itemIndex;
+    Logger::entry("info") << "Extension itemIndex = " << itemIndex;
+    extensionFormContainer_->clear();
     switch(itemIndex)
     {
         case 0:
-            extensionFormContainer_->clear();
             form_ = new VanetGmsOutPropertyForm(extensionFormContainer_);
-            if (preselectedExtensionItem_ != 0)
-            {
-                // TODO: implementation for when returning to the glomosimoutput form
-            }
+            break;
+        case 1:
+            form_ = new VanetTimeSimulationPropertyForm(extensionFormContainer_);
+            break;
+        case 2:
+            form_ = new VanetSpatialModelPropertyForm(extensionFormContainer_);
+            break;
+        case 3:
+            form_ = new VanetTrafficLightPropertyForm(extensionFormContainer_);
+            break;
+        case 4:
+            form_ = new VanetSpModelDump(extensionFormContainer_);
+            break;
+        default:
+            extensionFormContainer_->clear();
             
     }
+    if (preselectedExtensionItem_ != 0)
+    {
+        form_->setPreselectedValues(getValuesMap());
+    }
+    extensionFormContainer_->addWidget(form_);
 }
+
+std::map< std::string, boost::any > VanetExtensionForm::getValuesMap()
+{
+    std::map< std::string, boost::any > values;
+    Logger::entry("info") << "The row count of this preselected item is: " << preselectedExtensionItem_->rowCount();
+    for (int row = 0; row < preselectedExtensionItem_->rowCount(); row++)
+    {
+        WString key = preselectedExtensionItem_->child(row, 2)->text();
+        WString value = preselectedExtensionItem_->child(row, 1)->text();
+        values.insert(std::make_pair< std::string, boost::any >(key.toUTF8(), value.toUTF8()));
+        Logger::entry("info") << "Added preselected key for Glomosim output: " << key << " and value: " << value;
+    }
+
+    return values;
+}
+

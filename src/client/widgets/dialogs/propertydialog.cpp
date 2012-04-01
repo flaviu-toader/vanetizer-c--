@@ -26,6 +26,7 @@
 #include "client/widgets/dialogs/vanetareapropertyform.h"
 #include "client/widgets/dialogs/vanetsteppropertyform.h"
 #include "client/widgets/dialogs/vanetseedpropertyform.h"
+#include "client/widgets/dialogs/vanetextensionform.h"
 #include "logger.h"
 
 using namespace Wt;
@@ -33,7 +34,7 @@ using namespace std;
 
 PropertyDialog::PropertyDialog(WStandardItemModel *model) :
     model_(model)
-{   
+{
     WTable *table = new WTable(this->contents());
     int row = 0;
 
@@ -42,12 +43,12 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.area"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.step"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.extension"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
-    
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.extension"));
+
     mainComboBox_->activated().connect(this, &PropertyDialog::comboChanged);
-    
+
     ++row;
     formContainer_ = new WContainerWidget(table->elementAt(row, 0));
 
@@ -69,6 +70,10 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model) :
 void PropertyDialog::setPreselectedProperty(WStandardItem *rootItem)
 {
     VanetProperty currentIndex = boost::any_cast<VanetProperty>(rootItem->data());
+    if ((int) currentIndex > 6)
+    {
+        currentIndex = VanetGlomosimOutput;
+    }
     mainComboBox_->setCurrentIndex(currentIndex);
     preselectedItem_ = rootItem;
     comboChanged(currentIndex);
@@ -93,7 +98,7 @@ void PropertyDialog::submit(DialogCode result)
         if(itemIsNew(newItem) && preselectedItem_ == 0)
         {
             model_->appendRow(newItem);
-        } 
+        }
         else
         {
             // in case we are editing an existing item, replace it in the model
@@ -106,23 +111,23 @@ void PropertyDialog::submit(DialogCode result)
 //                 model_->insertRow(oldRow, newItem);
                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
                 model_->itemFromIndex(ix)->removeRows(0, preselectedItem_->rowCount());
-                for (int i = 0; i < newItem->rowCount(); i++) 
+                for (int i = 0; i < newItem->rowCount(); i++)
                 {
                     std::vector<WStandardItem *> row;
-                    for (int j = 0; j < newItem->columnCount(); j++) 
+                    for (int j = 0; j < newItem->columnCount(); j++)
                     {
                         row.push_back(newItem->child(i, j));
                     }
                     model_->itemFromIndex(ix)->appendRow(row);;
                 }
-            } 
-            else 
+            }
+            else
             {
                 WString msg = tr("propertydialog.error.propertyexists");
                 messages.push_back(msg.arg(newItem->text()).toUTF8());
             }
         }
-        if (!messages.empty()) 
+        if (!messages.empty())
         {
             WMessageBox::show(tr("application.error"), accumulate(messages.begin(), messages.end(), string("")), Ok);
         }
@@ -130,7 +135,7 @@ void PropertyDialog::submit(DialogCode result)
     delete this;
 }
 
-//! Performs a check on the each node of the treenode if it has the same data as another item in the tree. The data 
+//! Performs a check on the each node of the treenode if it has the same data as another item in the tree. The data
 bool PropertyDialog::itemIsNew(WStandardItem *item)
 {
     // if preselectedItem is not null, it means we are editing an existing property
@@ -139,7 +144,7 @@ bool PropertyDialog::itemIsNew(WStandardItem *item)
         return true;
     }
     VanetProperty itemProp = boost::any_cast<VanetProperty>(item->data());
-    for (int i = 0; i < model_->rowCount(); i++) 
+    for (int i = 0; i < model_->rowCount(); i++)
     {
         VanetProperty currentProp = boost::any_cast<VanetProperty>(model_->item(i)->data());
         if (currentProp == itemProp)
@@ -154,69 +159,67 @@ bool PropertyDialog::itemIsNew(WStandardItem *item)
 void PropertyDialog::comboChanged(int itemIndex)
 {
     Logger::entry("info") << "itemIndex = " << itemIndex;
-    AbstractPropertyForm *form;
+    AbstractPropertyForm* form = 0;
+    formContainer_->clear();
     switch (itemIndex)
     {
-        case 1:
-            formContainer_->clear();
-            form = new VanetAreaPropertyForm(formContainer_);
-            if (preselectedItem_ != 0) 
-            {
-                map<string, boost::any> values;
-                Logger::entry("info") << "Adding preselected value for X: " << preselectedItem_->child(0, 1)->text();
-                Logger::entry("info") << "Adding preselected value for Y: " << preselectedItem_->child(1, 1)->text();
-                values.insert(pair< string, boost::any >(string("dimx"), boost::lexical_cast<int>(preselectedItem_->child(0, 1)->text())));
-                values.insert(pair< string, boost::any >(string("dimy"), boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text())));
-                form->setPreselectedValues(values);
-            }
-            formContainer_->addWidget(form);
-            break;
-        case 2:
-            formContainer_->clear();
-            form = new VanetStepPropertyForm(formContainer_);
-            if (preselectedItem_ != 0) 
-            {
-                WString preselectedValue = preselectedItem_->child(0, 1)->text();
-                map<string, boost::any> values;
-                Logger::entry("info") << "Adding preselected step value: " << preselectedValue;
-                stringstream ss(preselectedValue.toUTF8());
-                double val;
-                ss.precision(3);
-                ss >> fixed >> val;
-                values.insert(pair<string, boost::any >(("step"), boost::any(val)));
-                form->setPreselectedValues(values);
-            }
-            formContainer_->addWidget(form);
-            break;
-        case 3:
-            formContainer_->clear();
-            form = new VanetSeedPropertyForm(formContainer_);
-            if (preselectedItem_ != 0)
-            {
-                WString preselectedValue = preselectedItem_->child(0, 1)->text();
-                map<string, boost::any> values;
-                Logger::entry("info") << "Adding preselected seed value: " << preselectedValue;
-                values.insert(pair< string, boost::any >(string("seed"), preselectedValue));
-                form->setPreselectedValues(values);
-            }
-            formContainer_->addWidget(form);
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-            // cases from 6 to 14 are only one item in the mainComboBox_: Vanet Extension.
-            break;
-        default:
-            formContainer_->clear();
+    case 1:
+        form = new VanetAreaPropertyForm(formContainer_);
+        if (preselectedItem_ != 0)
+        {
+            map<string, boost::any> values;
+            Logger::entry("info") << "Adding preselected value for X: " << preselectedItem_->child(0, 1)->text();
+            Logger::entry("info") << "Adding preselected value for Y: " << preselectedItem_->child(1, 1)->text();
+            values.insert(pair< string, boost::any >(string("dimx"), boost::lexical_cast<int>(preselectedItem_->child(0, 1)->text())));
+            values.insert(pair< string, boost::any >(string("dimy"), boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text())));
+            form->setPreselectedValues(values);
+        }
+        break;
+    case 2:
+        form = new VanetStepPropertyForm(formContainer_);
+        if (preselectedItem_ != 0)
+        {
+            WString preselectedValue = preselectedItem_->child(0, 1)->text();
+            map<string, boost::any> values;
+            Logger::entry("info") << "Adding preselected step value: " << preselectedValue;
+            stringstream ss(preselectedValue.toUTF8());
+            double val;
+            ss.precision(3);
+            ss >> fixed >> val;
+            values.insert(pair<string, boost::any >(("step"), boost::any(val)));
+            form->setPreselectedValues(values);
+        }
+        break;
+    case 3:
+        form = new VanetSeedPropertyForm(formContainer_);
+        if (preselectedItem_ != 0)
+        {
+            WString preselectedValue = preselectedItem_->child(0, 1)->text();
+            map<string, boost::any> values;
+            Logger::entry("info") << "Adding preselected seed value: " << preselectedValue;
+            values.insert(pair< string, boost::any >(string("seed"), preselectedValue));
+            form->setPreselectedValues(values);
+        }
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    case 6:
+        form = new VanetExtensionForm(formContainer_);
+        if (preselectedItem_ != 0)
+        {
+            VanetExtensionForm* extensionForm = static_cast< VanetExtensionForm* > (form);
+            extensionForm->setPreselectedExtension(preselectedItem_);
+        }
+        break;
+    default:
+        formContainer_->clear();
+    }
+
+    if (form)
+    {
+        formContainer_->addWidget(form);
     }
 }
+

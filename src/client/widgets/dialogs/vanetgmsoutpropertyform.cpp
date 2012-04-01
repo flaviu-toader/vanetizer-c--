@@ -1,4 +1,6 @@
+#include <map>
 #include <boost/any.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WLabel>
@@ -38,10 +40,21 @@ VanetGmsOutPropertyForm::VanetGmsOutPropertyForm(Wt::WContainerWidget* parent)
 
 void VanetGmsOutPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    WString filename = boost::any_cast< WString >(*(values.find("output=")));
-    outputFileName_->setValueText(filename);
-    double step = boost::any_cast< double >(*(values.find("step")));
-    step_->setValue(step);
+    map<string, boost::any>::const_iterator it;
+    it = values.find("output=");
+    if (it != values.end())
+    {
+        string filename = boost::any_cast<string>(it->second);
+        Logger::entry("info") << "Setting preselected output value to " << filename;
+        outputFileName_->setValueText(filename);
+    }
+    it = values.find("step");
+    if (it != values.end())
+    {
+        double step = boost::lexical_cast< double >(boost::any_cast< string >(it->second));
+        Logger::entry("info") << "Setting preselected step value to " << step;
+        step_->setValue(step);
+    }
 }
 
 bool VanetGmsOutPropertyForm::validate()

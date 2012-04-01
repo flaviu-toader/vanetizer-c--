@@ -11,7 +11,7 @@ namespace Wt
     class WStandardItem;
 }
 
-class VanetExtensionForm : public AbstractPropertyForm
+class VanetExtensionForm : public AbstractPropertyForm  
 {
 
 public:
@@ -24,11 +24,15 @@ public:
     
     virtual Wt::WStandardItem* treeNode();
     
+    virtual std::vector< std::string > feedbackMessages();
+    
     void setPreselectedExtension(Wt::WStandardItem* rootItem);
     
 private:
     //! Slot called when the combo value changes. Also called when editing an existing extension.
-    void comboChanged(int itemIndex);
+    void extensionComboChanged(int itemIndex);
+    
+    std::map <std::string, boost::any> getValuesMap();
     
     Wt::WStandardItem* preselectedExtensionItem_;
     Wt::WContainerWidget* extensionFormContainer_;

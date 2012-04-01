@@ -24,7 +24,9 @@ VanetSpModelDump::VanetSpModelDump(Wt::WContainerWidget* parent)
 
 void VanetSpModelDump::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    string filename = boost::any_cast<string>(*(values.find("output=")));
+    map< string, boost::any >::const_iterator it;
+    it = values.find("output=");
+    string filename = boost::any_cast< string >(it->second);
     output_->setValueText(WString::fromUTF8(filename));
 }
 

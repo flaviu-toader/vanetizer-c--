@@ -1,6 +1,7 @@
 #include <map>
 #include <string>
 #include <boost/any.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WLabel>
@@ -29,8 +30,13 @@ VanetTimeSimulationPropertyForm::VanetTimeSimulationPropertyForm(Wt::WContainerW
 
 void VanetTimeSimulationPropertyForm::setPreselectedValues(const map< string, boost::any >& values)
 {
-    double param = boost::any_cast<double>(*(values.find("param=")));
-    param_->setValue(param);
+    map< string, boost::any>::const_iterator it;
+    it = values.find("param=");
+    if (it != values.end()) 
+    {
+        double param = boost::lexical_cast< double >(boost::any_cast< string >(it->second));
+        param_->setValue(param);
+    }
 }
 
 Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode()
@@ -42,4 +48,6 @@ Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode()
     ss.precision(1);
     ss << std::fixed << param_->value();
     result->appendRow(propertyRow(string("param="), tr("mappropertyeditor.group.timesim.param").toUTF8(), ss.str()));
+    
+    return result;
 }

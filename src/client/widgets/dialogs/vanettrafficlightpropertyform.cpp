@@ -37,7 +37,9 @@ bool VanetTrafficLightPropertyForm::validate()
 
 void VanetTrafficLightPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    step_->setValue(boost::any_cast<int>(*(values.find("step="))));
+    map< string, boost::any >::const_iterator it;
+    it = values.find("step=");
+    step_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
 }
 
 Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode()
