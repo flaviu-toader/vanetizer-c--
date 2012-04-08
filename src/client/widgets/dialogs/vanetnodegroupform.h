@@ -13,6 +13,9 @@ public:
     virtual Wt::WStandardItem* treeNode();
     virtual bool validate();
     virtual std::vector< std::string > feedbackMessages();
+private:
+    Wt::WLineEdit* id_;
+    Wt::WSpinBox* number_;
 };
 
 #endif // VANETNODEGROUPFORM_H

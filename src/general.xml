@@ -41,6 +41,10 @@
     <message id='mappropertyeditor.group.trlight.step'>Interval between traffic light changes</message>
     <message id='mappropertyeditor.group.spmodeldump'>Spatial model dump</message>
     <message id='mappropertyeditor.group.spmodeldump.output'>Output file </message>
+    <message id='mappropertyeditor.group.mobility'>Mobility model</message>
+    <message id='mappropertyeditor.group.mobility.combo'>Model used</message>
+    <message id='mappropertyeditor.group.mobility.minspeed'>Minimal speed of movement (in m/s)</message>
+    <message id='mappropertyeditor.group.mobility.maxspeed'>Maximum speed of movement (in m/s)</message>
     
     <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
     <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>
@@ -92,6 +96,23 @@
     <message id='vanet.property.form.trlight.error.step'><p>Provided time interval between traffic light changes must be between 180 and 10 seconds (in ms).</p></message>
     <message id='vanet.property.form.spmodeldump.output'>Output file: </message>
     <message id='vanet.property.form.spmodeldump.error.output'><p>Output filename should be between 5 and 15 characters long.</p></message>
+    <message id='vanet.property.form.mobility.combo'>Mobility model: </message>
+    <message id='vanet.property.form.mobility.combo.lc'>Lane changing</message>
+    <message id='vanet.property.form.mobility.combo.im'>Intersection management</message>
+    <message id='vanet.property.form.mobility.minspeed'>Minimal speed of movement (in m/s): </message>
+    <message id='vanet.property.form.mobility.maxspeed'>Maximum speed of movement (in m/s): </message>
+    <message id='vanet.property.form.mobility.length'>Vehicle length (in m): </message>
+    <message id='vanet.property.form.mobility.maxaccel'>Maximal acceleration (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.jamdist'>Minimal distance to a standing node (in m): </message>
+    <message id='vanet.property.form.mobility.t'>Safe time headway (in s): </message>
+    <message id='vanet.property.form.mobility.step'>Step for recalculating movement parameters (in s): </message>
+    <message id='vanet.property.form.mobility.stay'>Initial stay duration (in s): </message>
+    <message id='vanet.property.form.mobility.random'>Randomly choose initial stay duration</message>
+    <message id='vanet.property.form.mobility.ignoreborders'>Ignore intersections located at the border of the map</message>
+    <message id='vanet.property.form.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.p'>Politeness factor of drivers when changing lane: </message>
+    <message id='vanet.property.form.mobility.athr'>Threshold acceleration for lane change: </message>
     <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

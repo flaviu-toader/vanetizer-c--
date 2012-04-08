@@ -17,7 +17,6 @@
 
 using namespace Wt;
 
-//TODO: this class and PropertyDialog have a lot in common. Implement the common functionality in an abstract class.
 VanetExtensionForm::VanetExtensionForm(Wt::WContainerWidget* parent)
 {
     WTable* formTable = new WTable(this);
@@ -32,6 +31,7 @@ VanetExtensionForm::VanetExtensionForm(Wt::WContainerWidget* parent)
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.spatialmodel"));
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.trafficlights"));
     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.smdump"));
+    // These commented extensions are not yet implemented.
 //     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.mobilitytrace"));
 //     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfwriter"));
 //     extensionComboBox_->addItem(tr("vanet.property.form.extension.combo.gdfreader"));

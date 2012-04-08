@@ -12,6 +12,7 @@ set(wt_project_source
     client/widgets/dialogs/vanetspmodeldump.cpp
     client/widgets/dialogs/vanettimesimulationpropertyform.cpp
     client/widgets/dialogs/vanettrafficlightpropertyform.cpp
+    client/widgets/dialogs/vanetmobilitymodelform.cpp 
     client/widgets/dialogs/vanetnodegroupform.cpp 
     client/widgets/dialogs/propertydialog.cpp
     client/widgets/mappropertyeditor.cpp
