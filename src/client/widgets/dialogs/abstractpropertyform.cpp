@@ -6,6 +6,10 @@
 #include "abstractpropertyform.h"
 
 using namespace Wt;
+    
+const char* const AbstractPropertyForm::LANE_CHANGING_MODEL = "polito.uomm.IDM_LC";
+const char* const AbstractPropertyForm::INTERSECTION_MANAGEMENT_MODEL = "polito.uomm.IDM_IM";
+
 
 std::vector<WStandardItem *> AbstractPropertyForm::propertyRow(const std::string &propertyId, const std::string &propertyName, const std::string &propertyValue)
 {

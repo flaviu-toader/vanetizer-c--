@@ -136,7 +136,7 @@ void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::st
     if (it != values.end())
     {
         checkvalue = boost::any_cast< string >(it->second);
-        full_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+        full_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
     }
     it = values.find("max=");
     if (it != values.end())
@@ -145,13 +145,13 @@ void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::st
     if (it != values.end())
     {
         checkvalue = boost::any_cast< string >(it->second);
-        dir_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+        dir_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
     }
     it = values.find("reflect_directions");
     if (it != values.end())
     {
         checkvalue = boost::any_cast< string >(it->second);
-        reflectDirs_->setCheckState((checkvalue == "Yes") ? Checked : Unchecked);
+        reflectDirs_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
     }
 }
 
@@ -171,23 +171,23 @@ Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode()
     }
     result->appendRow(propertyRow(string("max_traffic_lights"), tr("mappropertyeditor.group.spmodel.maxtrlight").toUTF8(), boost::lexical_cast<string>(maxTrafficLights_->value())));
     result->appendRow(propertyRow(string("number_lane"), tr("mappropertyeditor.group.spmodel.lanes").toUTF8(), boost::lexical_cast<string>(laneNumber_->value())));
-    string checkvalue = "Yes";
+    string checkvalue = tr("constant.yes").toUTF8();
     if (full_->checkState() == Unchecked)
     {
-        checkvalue = "No";
+        checkvalue = tr("constant.no").toUTF8();
     }
     result->appendRow(propertyRow(string("full="), tr("mappropertyeditor.group.spmodel.allmulti").toUTF8(), checkvalue));
     result->appendRow(propertyRow(string("max="), tr("mappropertyeditor.group.spmodel.nomulti").toUTF8(), boost::lexical_cast<string>(max_->value())));
-    checkvalue = "Yes";
+    checkvalue = tr("constant.yes").toUTF8();
     if (dir_->checkState() == Unchecked)
     {
-        checkvalue = "No";
+        checkvalue = tr("constant.no").toUTF8();
     }
     result->appendRow(propertyRow(string("dir="), tr("mappropertyeditor.group.spmodel.bidirmulti").toUTF8(), checkvalue));
-    checkvalue = "Yes";
+    checkvalue = tr("constant.yes").toUTF8();
     if (reflectDirs_->checkState() == Unchecked)
     {
-        checkvalue = "No";
+        checkvalue = tr("constant.no").toUTF8();
     }
     result->appendRow(propertyRow(string("reflect_directions"), tr("mappropertyeditor.group.spmodel.bidir").toUTF8(), checkvalue));
     return result;

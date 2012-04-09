@@ -1,9 +1,14 @@
+#include <string>
+#include <boost/lexical_cast.hpp>
+
 #include <Wt/WTable>
 #include <Wt/WLabel>
 #include <Wt/WCheckBox>
 #include <Wt/WComboBox>
 #include <Wt/WDoubleSpinBox>
+#include <Wt/WStandardItem>
 
+#include "abstractpropertyform.h"
 #include "vanetmobilitymodelform.h"
 #include "logger.h"
 
@@ -147,7 +152,50 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
 
 WStandardItem* VanetMobilityModelForm::treeNode()
 {
-
+    WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.mobility"));
+    
+    string mobilityClass;
+    if (mobilityCombo_->currentIndex() == 0 || mobilityCombo_->currentIndex() == -1) 
+    {
+        mobilityClass = string(AbstractPropertyForm::INTERSECTION_MANAGEMENT_MODEL);
+    }
+    else
+        if (mobilityCombo_->currentIndex() == 1)
+        {
+            mobilityClass = string(AbstractPropertyForm::LANE_CHANGING_MODEL);
+        }
+    if (mobilityClass.empty())
+    {
+        Logger::entry("error") << "Could not determine Mobility class! Exiting";
+        throw "Could not determine mobility class.";
+    }
+    
+    result->appendRow(propertyRow(string("class="), tr("mappropertyeditor.group.mobility.combo").toUTF8(), mobilityClass));
+    result->appendRow(propertyRow(string("minspeed"), tr("mappropertyeditor.group.mobility.minspeed").toUTF8(), boost::lexical_cast<string>(minSpeed_->value())));
+    result->appendRow(propertyRow(string("maxspeed"), tr("mappropertyeditor.group.mobility.maxspeed").toUTF8(), boost::lexical_cast<string>(maxSpeed_->value())));
+    result->appendRow(propertyRow(string("l"), tr("mappropertyeditor.group.mobility.length").toUTF8(), boost::lexical_cast<string>(length_->value())));
+    result->appendRow(propertyRow(string("a"), tr("mappropertyeditor.group.mobility.maxaccel").toUTF8(), boost::lexical_cast<string>(maxAccel_->value())));
+    result->appendRow(propertyRow(string("b"), tr("mappropertyeditor.group.mobility.comfydecel").toUTF8(), boost::lexical_cast<string>(comfyDecel_->value())));
+    result->appendRow(propertyRow(string("s0"), tr("mappropertyeditor.group.mobility.jamdist").toUTF8(), boost::lexical_cast<string>(jamDistance_->value())));
+    result->appendRow(propertyRow(string("t"), tr("mappropertyeditor.group.mobility.t").toUTF8(), boost::lexical_cast<string>(safeTimeHeadway_->value())));
+    result->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.mobility.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
+    result->appendRow(propertyRow(string("stay"), tr("mappropertyeditor.group.mobility.stay").toUTF8(), boost::lexical_cast<string>(stay_->value())));
+    
+    string checkvalue = tr("constant.yes").toUTF8();
+    if (random_->checkState() == Unchecked)
+    {
+        checkvalue = tr("constant.no").toUTF8();
+    }
+    result->appendRow(propertyRow(string("random="), tr("mappropertyeditor.group.mobility.random").toUTF8(), checkvalue));
+    checkvalue = tr("constant.yes").toUTF8();
+    if (ignoreBorders_->checkState() == Unchecked)
+    {
+        checkvalue = tr("constant.no").toUTF8();
+    }
+    result->appendRow(propertyRow(string("ignoreBorders"), tr("mappropertyeditor.group.mobility.ignoreborders").toUTF8(), checkvalue));
+    result->appendRow(propertyRow(string("bsave"), tr("mappropertyeditor.group.mobility.bsave").toUTF8(), boost::lexical_cast<string>(bsave_->value())));
+    result->appendRow(propertyRow(string("p"), tr("mappropertyeditor.group.mobility.p").toUTF8(), boost::lexical_cast<string>(politeness_->value())));
+    result->appendRow(propertyRow(string("athr"), tr("mappropertyeditor.group.mobility.athr").toUTF8(), boost::lexical_cast<string>(accelThresh_->value())));
 }
 
 bool VanetMobilityModelForm::validate()

@@ -10,6 +10,8 @@
     <message id='button.save'>Save</message>
     <message id='button.cancel'>Cancel</message>
     <message id='constant.none'>None</message>
+    <message id='constant.yes'>Yes</message>
+    <message id='constant.no'>No</message>
     <message id='mappropertyeditor.title'>VANET map properties</message>
     <message id='mappropertyeditor.header.propertyname'>Property</message>
     <message id='mappropertyeditor.header.propertyvalue'>Value</message>
@@ -45,6 +47,18 @@
     <message id='mappropertyeditor.group.mobility.combo'>Model used</message>
     <message id='mappropertyeditor.group.mobility.minspeed'>Minimal speed of movement (in m/s)</message>
     <message id='mappropertyeditor.group.mobility.maxspeed'>Maximum speed of movement (in m/s)</message>
+    <message id='mappropertyeditor.group.mobility.length'>Vehicle length (in m)</message>
+    <message id='mappropertyeditor.group.mobility.maxaccel'>Maximal acceleration (in m/s<sup>2</sup>)</message>
+    <message id='mappropertyeditor.group.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<sup>2</sup>)</message>
+    <message id='mappropertyeditor.group.mobility.jamdist'>Minimal distance to a standing node (in m)</message>
+    <message id='mappropertyeditor.group.mobility.t'>Safe time headway (in s)</message>
+    <message id='mappropertyeditor.group.mobility.step'>Step for recalculating movement parameters (in s)</message>
+    <message id='mappropertyeditor.group.mobility.stay'>Initial stay duration (in s)</message>
+    <message id='mappropertyeditor.group.mobility.random'>Choose initial stay duration randomly?</message>
+    <message id='mappropertyeditor.group.mobility.ignoreborders'>Ignore intersections located at the border of the map?</message>
+    <message id='mappropertyeditor.group.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>)</message>
+    <message id='mappropertyeditor.group.mobility.p'>Politeness factor</message>
+    <message id='mappropertyeditor.group.mobility.athr'>Threshold acceleration for lane change</message>
     
     <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
     <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>

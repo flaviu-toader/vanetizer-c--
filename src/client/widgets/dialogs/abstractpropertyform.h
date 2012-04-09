@@ -39,6 +39,12 @@ namespace Wt
 class AbstractPropertyForm : public Wt::WContainerWidget
 {
 public:
+    
+    //! The constant for the lane changing mobility model.
+    static const char* const LANE_CHANGING_MODEL;
+    //! The constant for the intersection management mobility model.
+    static const char* const INTERSECTION_MANAGEMENT_MODEL;
+    
     //! Get the information ready to be added to the model.
     /*!
      * Returns the information held by this form in a model-digestible format (as a WStandardItem).
