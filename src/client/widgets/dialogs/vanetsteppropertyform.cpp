@@ -31,11 +31,20 @@ VanetStepPropertyForm::VanetStepPropertyForm(Wt::WContainerWidget* parent)
     
 }
 
+bool VanetStepPropertyForm::validate(std::vector< std::string >& messages)
+{
+    if (step_->value() <= step_->minimum() ||
+        step_->value() >= step_->maximum())
+    {
+        messages.push_back(tr("vanet.property.form.step.error.step").toUTF8());
+        return false;
+    }
+    return true;
+}
+
 void VanetStepPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    double val = boost::any_cast<double>(*values.find("step"));
-    Logger::entry("info") << "Received preselected step value: " << val;
-    step_->setValue(val);
+    setPreselectedDoubleValue("step", values, step_);
 }
 
 Wt::WStandardItem* VanetStepPropertyForm::treeNode()

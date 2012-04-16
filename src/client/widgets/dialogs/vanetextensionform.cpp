@@ -55,11 +55,6 @@ void VanetExtensionForm::setPreselectedValues(const std::map< std::string, boost
     form_->setPreselectedValues(values);
 }
 
-std::vector< std::string > VanetExtensionForm::feedbackMessages()
-{
-    return form_->feedbackMessages();
-}
-
 void VanetExtensionForm::setPreselectedExtension(WStandardItem* rootItem)
 {
     int currentIndex = (int)boost::any_cast<VanetProperty>(rootItem->data()) - 6;
@@ -69,9 +64,9 @@ void VanetExtensionForm::setPreselectedExtension(WStandardItem* rootItem)
     extensionComboChanged(currentIndex);
 }
 
-bool VanetExtensionForm::validate()
+bool VanetExtensionForm::validate(std::vector< std::string >& messages)
 {
-    return form_->validate();
+    return form_->validate(messages);
 }
 
 Wt::WStandardItem* VanetExtensionForm::treeNode()
@@ -104,11 +99,14 @@ void VanetExtensionForm::extensionComboChanged(int itemIndex)
             extensionFormContainer_->clear();
             
     }
-    if (preselectedExtensionItem_ != 0)
+    if (preselectedExtensionItem_ != 0 && form_ != 0)
     {
         form_->setPreselectedValues(getValuesMap());
     }
-    extensionFormContainer_->addWidget(form_);
+    if (form_)
+    {
+        extensionFormContainer_->addWidget(form_);
+    }
 }
 
 std::map< std::string, boost::any > VanetExtensionForm::getValuesMap()
@@ -120,7 +118,7 @@ std::map< std::string, boost::any > VanetExtensionForm::getValuesMap()
         WString key = preselectedExtensionItem_->child(row, 2)->text();
         WString value = preselectedExtensionItem_->child(row, 1)->text();
         values.insert(std::make_pair< std::string, boost::any >(key.toUTF8(), value.toUTF8()));
-        Logger::entry("info") << "Added preselected key for Glomosim output: " << key << " and value: " << value;
+        Logger::entry("info") << "Added preselected key for extension: " << key << " and value: " << value;
     }
 
     return values;

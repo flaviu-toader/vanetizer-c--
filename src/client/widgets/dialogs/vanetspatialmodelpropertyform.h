@@ -18,7 +18,7 @@ public:
     VanetSpatialModelPropertyForm(Wt::WContainerWidget* parent = 0);
     virtual void setPreselectedValues(const std::map< std::string, boost::any, std::less< std::string >, std::allocator< std::pair< const std::string, boost::any > > >& values);
     virtual Wt::WStandardItem* treeNode();
-    virtual bool validate();
+    virtual bool validate(std::vector< std::string >& messages);
     
 private:
     Wt::WSpinBox* minX_, * minY_, * maxX_, * maxY_, * maxTrafficLights_, * laneNumber_, * max_;

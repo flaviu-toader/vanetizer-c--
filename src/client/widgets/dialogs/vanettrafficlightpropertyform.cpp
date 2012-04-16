@@ -25,11 +25,11 @@ VanetTrafficLightPropertyForm::VanetTrafficLightPropertyForm(Wt::WContainerWidge
     l->setBuddy(step_);
 }
 
-bool VanetTrafficLightPropertyForm::validate()
+bool VanetTrafficLightPropertyForm::validate(std::vector< std::string >& messages)
 {
     if(step_->validate() == WValidator::Invalid) 
     {
-        messages_.push_back(tr("vanet.property.form.trlight.error.step").toUTF8());
+        messages.push_back(tr("vanet.property.form.trlight.error.step").toUTF8());
         return false;
     }
     return true;
@@ -37,9 +37,7 @@ bool VanetTrafficLightPropertyForm::validate()
 
 void VanetTrafficLightPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    map< string, boost::any >::const_iterator it;
-    it = values.find("step=");
-    step_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
+    setPreselectedIntegerValue("step=", values, step_);
 }
 
 Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode()

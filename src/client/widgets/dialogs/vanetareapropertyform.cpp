@@ -36,12 +36,12 @@ VanetAreaPropertyForm::VanetAreaPropertyForm(WContainerWidget* parent)
     yLabel->setBuddy(dimy_);
 }
 
-bool VanetAreaPropertyForm::validate()
+bool VanetAreaPropertyForm::validate(std::vector< std::string >& messages)
 {
     bool valid = true;
     if (dimx_->value() < 100 || dimy_->value() < 100) 
     {
-        messages_.push_back(tr("vanet.property.form.area.error.dims").toUTF8());
+        messages.push_back(tr("vanet.property.form.area.error.dims").toUTF8());
         valid = false;
     }
     return valid;
@@ -49,11 +49,8 @@ bool VanetAreaPropertyForm::validate()
 
 void VanetAreaPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    int dimxVal = boost::any_cast<int>(*(values.find("dimx")));
-    dimx_->setValue(dimxVal);
-    int dimyVal = boost::any_cast<int>(*(values.find("dimy")));
-    dimy_->setValue(dimyVal);
-    Logger::entry("info") << "Received preselected X value: " << dimxVal << " and Y value" << dimyVal;
+    setPreselectedIntegerValue("dimx", values, dimx_);
+    setPreselectedIntegerValue("dimy", values, dimy_);
 }
 
 

@@ -23,7 +23,7 @@ VanetSeedPropertyForm::VanetSeedPropertyForm(WContainerWidget* parent)
     WLabel * sLabel = new WLabel(formTable->elementAt(row, 0));
     sLabel->setText(WString::fromUTF8(tr("mappropertyeditor.group.seed.label").toUTF8()));
     seed_ = new WLineEdit(formTable->elementAt(row, 1));
-    WLengthValidator *validator = new WLengthValidator(0, 16);
+    WLengthValidator *validator = new WLengthValidator(1, 16);
     validator->setMandatory(true);
     seed_->setValidator(validator);
     sLabel->setBuddy(seed_);
@@ -33,15 +33,16 @@ VanetSeedPropertyForm::VanetSeedPropertyForm(WContainerWidget* parent)
 
 void VanetSeedPropertyForm::setPreselectedValues(const std::map< std::string,  boost::any >& values)
 {
-    WString val = boost::any_cast<WString>(*(values.find("seed")));
-    Logger::entry("info") << "Received preselected seed value: " << val.toUTF8() ;
+    setPreselectedLineValue("seed", values, seed_);
 }
 
-bool VanetSeedPropertyForm::validate()
+bool VanetSeedPropertyForm::validate(std::vector< std::string >& messages)
 {
-    if (seed_->validate() == WValidator::Invalid) 
+    if (seed_->validate() == WLengthValidator::Invalid ||
+        seed_->validate() == WLengthValidator::InvalidEmpty
+    ) 
     {
-        messages_.push_back(tr("vanet.property.form.seed.error.seedsize").toUTF8());
+        messages.push_back(tr("vanet.property.form.seed.error.seedsize").toUTF8());
         return false;
     }
     return true;

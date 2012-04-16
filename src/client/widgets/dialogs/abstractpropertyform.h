@@ -34,6 +34,10 @@ namespace Wt
 {
     class WStandardItem;
     class WLength;
+    class WLineEdit;
+    class WDoubleSpinBox;
+    class WCheckBox;
+    class WSpinBox;
 }
 
 class AbstractPropertyForm : public Wt::WContainerWidget
@@ -56,15 +60,7 @@ public:
      * This method returns true when from the Vanet point of view the input given in the form is acceptable.
      * It also populates the list of feedback messages.
      */
-    virtual bool validate();
-    
-    //! Get error messages.
-    /*!
-     * When the form generates feedback messages, these are stored in this list, to be
-     * displayed in a message box when Accepting the opened property dialog (and usually 
-     * invalidating the acceptance)
-     */
-    virtual std::vector<std::string> feedbackMessages();
+    virtual bool validate(std::vector< std::string >& messages) = 0;
     
     //! Sets preselected values for the form.
     /*!
@@ -86,8 +82,17 @@ protected:
      */
     virtual std::vector<Wt::WStandardItem *> propertyRow(const std::string &propertyId, const std::string &propertyName, const std::string &propertyValue);
     
-    //! Holds the form's feedback messages.
-    std::vector< std::string > messages_;
+    //! Set the preselected value for a double spin box.
+    virtual void setPreselectedDoubleValue(const char* key, const std::map< std::string, boost::any >& values, Wt::WDoubleSpinBox* spinBox);
+    
+    //! Set the preselected value for a check box.
+    virtual void setPreselectedCheckboxValue(const char* key, const std::map< std::string, boost::any >& values, Wt::WCheckBox* checkBox);
+    
+    //! Set the preselected value for a line edit.
+    virtual void setPreselectedLineValue(const char* key, const std::map< std::string, boost::any >& values, Wt::WLineEdit* lineEdit);
+    
+    //! Set the preselected value for a spin box;
+    virtual void setPreselectedIntegerValue(const char* key, const std::map< std::string, boost::any >& values, Wt::WSpinBox* spinBox);
 };
 
 

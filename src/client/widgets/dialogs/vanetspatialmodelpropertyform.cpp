@@ -26,7 +26,6 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     minX_->setMaximum(20000);
     minX_->setMinimum(0);
     minX_->setValue(0);
-    minX_->validator()->setMandatory(true);
     l->setBuddy(minX_);
     
     ++row;
@@ -35,7 +34,6 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     minY_->setMaximum(20000);
     minY_->setMinimum(0);
     minY_->setValue(0);
-    minY_->validator()->setMandatory(true);
     l->setBuddy(minY_); 
     
     ++row;
@@ -44,7 +42,6 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     maxX_->setMaximum(20000);
     maxX_->setMinimum(0);
     maxX_->setValue(0);
-    maxX_->validator()->setMandatory(true);
     l->setBuddy(maxX_);
     
     ++row;
@@ -53,7 +50,6 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     maxY_->setMaximum(20000);
     maxY_->setMinimum(0);
     maxY_->setValue(0);
-    maxY_->validator()->setMandatory(true);
     l->setBuddy(maxY_);
     
     ++row;
@@ -70,7 +66,6 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     maxTrafficLights_->setMaximum(1000);
     maxTrafficLights_->setMinimum(0);
     maxTrafficLights_->setValue(5);
-    maxTrafficLights_->validator()->setMandatory(false);
     l->setBuddy(maxTrafficLights_);
     
     ++row;
@@ -82,17 +77,17 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
     l->setBuddy(laneNumber_);
     
     ++row;
-    t->elementAt(row, 0)->setColumnSpan(2);
-    full_ = new WCheckBox(tr("vanet.property.form.spmodel.allmulti"), t->elementAt(row, 0));
-    full_->setCheckState(Unchecked);
-    
-    ++row;
     l = new WLabel(tr("vanet.property.form.spmodel.nomulti"), t->elementAt(row, 0));
     max_ = new WSpinBox(t->elementAt(row, 1));
     max_->setMaximum(1000);
     max_->setMinimum(0);
     max_->setValue(4);
     l->setBuddy(max_);
+    
+    ++row;
+    t->elementAt(row, 0)->setColumnSpan(2);
+    full_ = new WCheckBox(tr("vanet.property.form.spmodel.allmulti"), t->elementAt(row, 0));
+    full_->setCheckState(Unchecked);
     
     ++row;
     t->elementAt(row, 0)->setColumnSpan(2);
@@ -109,50 +104,17 @@ VanetSpatialModelPropertyForm::VanetSpatialModelPropertyForm(Wt::WContainerWidge
 
 void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    map< string, boost::any >::const_iterator it;
-    it = values.find("min_x=");
-    if (it != values.end())
-        minX_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("min_y=");
-    if (it != values.end())
-        minY_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("max_x=");
-    if (it != values.end())
-        maxX_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("max_y=");
-    if (it != values.end())
-        maxY_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("traffic_light=");
-    if (it != values.end())
-        trafficLight_->setValueText(WString::fromUTF8(boost::any_cast< string >(it->second)));
-    it = values.find("max_traffic_lights");
-    if (it != values.end())
-        maxTrafficLights_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("number_lane");
-    if (it != values.end())
-        laneNumber_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    string checkvalue;
-    it = values.find("full=");
-    if (it != values.end())
-    {
-        checkvalue = boost::any_cast< string >(it->second);
-        full_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
-    }
-    it = values.find("max=");
-    if (it != values.end())
-        max_->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    it = values.find("dir=");
-    if (it != values.end())
-    {
-        checkvalue = boost::any_cast< string >(it->second);
-        dir_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
-    }
-    it = values.find("reflect_directions");
-    if (it != values.end())
-    {
-        checkvalue = boost::any_cast< string >(it->second);
-        reflectDirs_->setCheckState((checkvalue == tr("const.yes").toUTF8()) ? Checked : Unchecked);
-    }
+    setPreselectedIntegerValue("min_x=", values, minX_);
+    setPreselectedIntegerValue("min_y=", values, minY_);
+    setPreselectedIntegerValue("max_x=", values, maxX_);
+    setPreselectedIntegerValue("max_y=", values, maxY_);
+    setPreselectedLineValue("traffic_light=", values, trafficLight_);
+    setPreselectedIntegerValue("max_traffic_lights", values, maxTrafficLights_);
+    setPreselectedIntegerValue("number_lane", values, laneNumber_);
+    setPreselectedCheckboxValue("full=", values, full_);
+    setPreselectedIntegerValue("max=", values, max_);
+    setPreselectedCheckboxValue("dir=", values, dir_);
+    setPreselectedCheckboxValue("reflect_directions", values, reflectDirs_);
 }
 
 Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode()
@@ -193,35 +155,27 @@ Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode()
     return result;
 }
 
-bool VanetSpatialModelPropertyForm::validate()
+bool VanetSpatialModelPropertyForm::validate(std::vector< std::string >& messages)
 {
     bool valid = true;
     if (maxX_->value() <= minX_->value())
     {
-        messages_.push_back(tr("vanet.property.form.spmodel.error.xerr").toUTF8());
+        messages.push_back(tr("vanet.property.form.spmodel.error.xerr").toUTF8());
         valid = false;
     }
     
     if (maxY_->value() <= minY_->value())
     {
-        messages_.push_back(tr("vanet.property.form.spmodel.error.yerr").toUTF8());
+        messages.push_back(tr("vanet.property.form.spmodel.error.yerr").toUTF8());
         valid = false;
     }
     
-    if (maxX_->validate() == WValidator::Invalid ||
-        maxY_->validate() == WValidator::Invalid ||
-        minX_->validate() == WValidator::Invalid ||
-        minY_->validate() == WValidator::Invalid ||
-        trafficLight_->validate() == WValidator::Invalid ||
-        maxTrafficLights_->validate() == WValidator::Invalid ||
-        laneNumber_->validate() == WValidator::Invalid ||
-        full_->validate() == WValidator::Invalid ||
-        max_->validate() == WValidator::Invalid ||
-        dir_->validate() == WValidator::Invalid || 
-        reflectDirs_->validate() == WValidator::Invalid
+    if (maxX_->value() == 0 ||
+        maxY_->value() == 0 ||
+        trafficLight_->validate() == WLengthValidator::Invalid 
     )
     {
-        messages_.push_back(tr("vanet.property.form.spmodel.error.inputerr").toUTF8());
+        messages.push_back(tr("vanet.property.form.spmodel.error.inputerr").toUTF8());
         valid = false;
     }
     return valid;

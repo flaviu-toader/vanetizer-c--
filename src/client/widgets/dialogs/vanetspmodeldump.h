@@ -16,7 +16,7 @@ public:
     VanetSpModelDump(Wt::WContainerWidget* parent = 0);
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
     virtual Wt::WStandardItem* treeNode();
-    virtual bool validate();
+    virtual bool validate(std::vector< std::string >& messages);
 private:
     Wt::WLineEdit* output_;
 };

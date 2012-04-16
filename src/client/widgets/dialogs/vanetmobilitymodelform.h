@@ -22,9 +22,7 @@ public:
     VanetMobilityModelForm(Wt::WContainerWidget* parent = 0);
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
     virtual Wt::WStandardItem* treeNode();
-    virtual bool validate();
-    virtual std::vector< std::string > feedbackMessages();
-    virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
+    virtual bool validate(std::vector< std::string >& messages);
 private:
     void mobilityChanged(int itemIndex);
     Wt::WComboBox* mobilityCombo_;

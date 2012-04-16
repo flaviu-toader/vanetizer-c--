@@ -1,4 +1,6 @@
 #include <map>
+#include <vector>
+#include <string>
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -40,30 +42,17 @@ VanetGmsOutPropertyForm::VanetGmsOutPropertyForm(Wt::WContainerWidget* parent)
 
 void VanetGmsOutPropertyForm::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    map<string, boost::any>::const_iterator it;
-    it = values.find("output=");
-    if (it != values.end())
-    {
-        string filename = boost::any_cast<string>(it->second);
-        Logger::entry("info") << "Setting preselected output value to " << filename;
-        outputFileName_->setValueText(filename);
-    }
-    it = values.find("step");
-    if (it != values.end())
-    {
-        double step = boost::lexical_cast< double >(boost::any_cast< string >(it->second));
-        Logger::entry("info") << "Setting preselected step value to " << step;
-        step_->setValue(step);
-    }
+    setPreselectedLineValue("output=", values, outputFileName_);
+    setPreselectedDoubleValue("step", values, step_);
 }
 
-bool VanetGmsOutPropertyForm::validate()
+bool VanetGmsOutPropertyForm::validate(std::vector< std::string >& messages)
 {
     if (outputFileName_->validate() == WValidator::Valid)
     {
         return true;
     }
-    messages_.push_back(tr("vanet.property.form.gmsout.error.badfilename").toUTF8());
+    messages.push_back(tr("vanet.property.form.gmsout.error.badfilename").toUTF8());
     return false;
 }
 

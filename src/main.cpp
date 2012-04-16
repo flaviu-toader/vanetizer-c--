@@ -39,7 +39,7 @@ VanetizerApplication::VanetizerApplication(const Wt::WEnvironment& environment, 
     NavigationMenu *navigation = new NavigationMenu(contentsWidget);
     mainLayout->addWidget(navigation, Wt::WBorderLayout::West);
 
-    setCssTheme("default");
+    setCssTheme("polished");
     
     root()->setLayout(mainLayout);
 }

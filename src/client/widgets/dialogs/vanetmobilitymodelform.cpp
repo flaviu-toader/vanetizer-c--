@@ -1,5 +1,8 @@
 #include <string>
+#include <vector>
 #include <boost/lexical_cast.hpp>
+#include <boost/any.hpp>
+#include <boost/concept_check.hpp>
 
 #include <Wt/WTable>
 #include <Wt/WLabel>
@@ -15,7 +18,7 @@
 using namespace Wt;
 using namespace std;
 
-void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any >& values)
+VanetMobilityModelForm::VanetMobilityModelForm(WContainerWidget* parent)
 {
     WTable* t = new WTable(this);
     int row = 0;
@@ -24,7 +27,6 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     mobilityCombo_ = new WComboBox(t->elementAt(row, 1));
     mobilityCombo_->addItem(tr("vanet.property.form.mobility.combo.im"));
     mobilityCombo_->addItem(tr("vanet.property.form.mobility.combo.lc"));
-    
     mobilityCombo_->activated().connect(this, &VanetMobilityModelForm::mobilityChanged);
     l->setBuddy(mobilityCombo_);
     
@@ -51,7 +53,7 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     length_ = new WDoubleSpinBox(t->elementAt(row, 1));
     length_->setDecimals(1);
     length_->setMaximum(20.0);
-    length_->setMinimum(0.1);
+    length_->setMinimum(0.0);
     length_->setValue(5.0);
     l->setBuddy(length_);
     
@@ -78,7 +80,7 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     jamDistance_ = new WDoubleSpinBox(t->elementAt(row, 1));
     jamDistance_->setDecimals(1);
     jamDistance_->setMaximum(5.0);
-    jamDistance_->setMinimum(0.1);
+    jamDistance_->setMinimum(0.0);
     jamDistance_->setValue(2.0);
     l->setBuddy(jamDistance_);
     
@@ -87,7 +89,7 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     safeTimeHeadway_ = new WDoubleSpinBox(t->elementAt(row, 1));
     safeTimeHeadway_->setDecimals(1);
     safeTimeHeadway_->setMaximum(10.0);
-    safeTimeHeadway_->setMinimum(0.1);
+    safeTimeHeadway_->setMinimum(0.0);
     safeTimeHeadway_->setValue(1.5);
     l->setBuddy(safeTimeHeadway_);
     
@@ -97,6 +99,7 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     step_->setDecimals(1);
     step_->setMaximum(10.0);
     step_->setMinimum(0.1);
+    step_->setValue(0.9);
     l->setBuddy(step_);
     
     ++row;
@@ -107,16 +110,6 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     stay_->setMinimum(0.0);
     stay_->setValue(0.0);
     l->setBuddy(stay_);
-    
-    ++row;
-    t->elementAt(row, 0)->setColumnSpan(2);
-    random_ = new WCheckBox(tr("vanet.property.form.mobility.random"), t->elementAt(row, 0));
-    random_->setCheckState(Unchecked);
-    
-    ++row;
-    t->elementAt(row, 0)->setColumnSpan(2);
-    ignoreBorders_ = new WCheckBox(tr("vanet.property.form.mobility.ignoreborders"), t->elementAt(row, 0));
-    ignoreBorders_->setCheckState(Unchecked);
     
     ++row;
     l = new WLabel(tr("vanet.property.form.mobility.bsave"), t->elementAt(row, 0));
@@ -148,6 +141,15 @@ void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any 
     accelThresh_->setDisabled(true);
     l->setBuddy(accelThresh_);
     
+    ++row;
+    t->elementAt(row, 0)->setColumnSpan(2);
+    random_ = new WCheckBox(tr("vanet.property.form.mobility.random"), t->elementAt(row, 0));
+    random_->setCheckState(Unchecked);
+    
+    ++row;
+    t->elementAt(row, 0)->setColumnSpan(2);
+    ignoreBorders_ = new WCheckBox(tr("vanet.property.form.mobility.ignoreborders"), t->elementAt(row, 0));
+    ignoreBorders_->setCheckState(Unchecked);
 }
 
 WStandardItem* VanetMobilityModelForm::treeNode()
@@ -173,13 +175,19 @@ WStandardItem* VanetMobilityModelForm::treeNode()
     result->appendRow(propertyRow(string("class="), tr("mappropertyeditor.group.mobility.combo").toUTF8(), mobilityClass));
     result->appendRow(propertyRow(string("minspeed"), tr("mappropertyeditor.group.mobility.minspeed").toUTF8(), boost::lexical_cast<string>(minSpeed_->value())));
     result->appendRow(propertyRow(string("maxspeed"), tr("mappropertyeditor.group.mobility.maxspeed").toUTF8(), boost::lexical_cast<string>(maxSpeed_->value())));
-    result->appendRow(propertyRow(string("l"), tr("mappropertyeditor.group.mobility.length").toUTF8(), boost::lexical_cast<string>(length_->value())));
-    result->appendRow(propertyRow(string("a"), tr("mappropertyeditor.group.mobility.maxaccel").toUTF8(), boost::lexical_cast<string>(maxAccel_->value())));
-    result->appendRow(propertyRow(string("b"), tr("mappropertyeditor.group.mobility.comfydecel").toUTF8(), boost::lexical_cast<string>(comfyDecel_->value())));
-    result->appendRow(propertyRow(string("s0"), tr("mappropertyeditor.group.mobility.jamdist").toUTF8(), boost::lexical_cast<string>(jamDistance_->value())));
-    result->appendRow(propertyRow(string("t"), tr("mappropertyeditor.group.mobility.t").toUTF8(), boost::lexical_cast<string>(safeTimeHeadway_->value())));
+    if (length_->value() != length_->minimum())
+        result->appendRow(propertyRow(string("l"), tr("mappropertyeditor.group.mobility.length").toUTF8(), boost::lexical_cast<string>(length_->value())));
+    if (maxAccel_->value() != maxAccel_->minimum())
+        result->appendRow(propertyRow(string("a"), tr("mappropertyeditor.group.mobility.maxaccel").toUTF8(), boost::lexical_cast<string>(maxAccel_->value())));
+    if (comfyDecel_->value() != comfyDecel_->minimum())
+        result->appendRow(propertyRow(string("b"), tr("mappropertyeditor.group.mobility.comfydecel").toUTF8(), boost::lexical_cast<string>(comfyDecel_->value())));
+    if (jamDistance_->value() != jamDistance_->minimum())
+        result->appendRow(propertyRow(string("s0"), tr("mappropertyeditor.group.mobility.jamdist").toUTF8(), boost::lexical_cast<string>(jamDistance_->value())));
+    if (safeTimeHeadway_->value() != safeTimeHeadway_->minimum())
+        result->appendRow(propertyRow(string("t"), tr("mappropertyeditor.group.mobility.t").toUTF8(), boost::lexical_cast<string>(safeTimeHeadway_->value())));
     result->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.mobility.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
-    result->appendRow(propertyRow(string("stay"), tr("mappropertyeditor.group.mobility.stay").toUTF8(), boost::lexical_cast<string>(stay_->value())));
+    if (stay_->value() != stay_->minimum())
+        result->appendRow(propertyRow(string("stay"), tr("mappropertyeditor.group.mobility.stay").toUTF8(), boost::lexical_cast<string>(stay_->value())));
     
     string checkvalue = tr("constant.yes").toUTF8();
     if (random_->checkState() == Unchecked)
@@ -193,19 +201,30 @@ WStandardItem* VanetMobilityModelForm::treeNode()
         checkvalue = tr("constant.no").toUTF8();
     }
     result->appendRow(propertyRow(string("ignoreBorders"), tr("mappropertyeditor.group.mobility.ignoreborders").toUTF8(), checkvalue));
-    result->appendRow(propertyRow(string("bsave"), tr("mappropertyeditor.group.mobility.bsave").toUTF8(), boost::lexical_cast<string>(bsave_->value())));
-    result->appendRow(propertyRow(string("p"), tr("mappropertyeditor.group.mobility.p").toUTF8(), boost::lexical_cast<string>(politeness_->value())));
-    result->appendRow(propertyRow(string("athr"), tr("mappropertyeditor.group.mobility.athr").toUTF8(), boost::lexical_cast<string>(accelThresh_->value())));
+    if (bsave_->isEnabled() && bsave_->value() != bsave_->minimum())
+        result->appendRow(propertyRow(string("bsave"), tr("mappropertyeditor.group.mobility.bsave").toUTF8(), boost::lexical_cast<string>(bsave_->value())));
+    if (politeness_->isEnabled() && politeness_->value() != politeness_->minimum())
+        result->appendRow(propertyRow(string("p"), tr("mappropertyeditor.group.mobility.p").toUTF8(), boost::lexical_cast<string>(politeness_->value())));
+    if (accelThresh_->isEnabled() && accelThresh_->value() != accelThresh_->minimum())
+        result->appendRow(propertyRow(string("athr"), tr("mappropertyeditor.group.mobility.athr").toUTF8(), boost::lexical_cast<string>(accelThresh_->value())));
+    
+    return result;
 }
 
-bool VanetMobilityModelForm::validate()
+bool VanetMobilityModelForm::validate(std::vector< std::string >& messages)
 {
-    return AbstractPropertyForm::validate();
-}
-
-vector< string > VanetMobilityModelForm::feedbackMessages()
-{
-    return AbstractPropertyForm::feedbackMessages();
+    if (accelThresh_->isEnabled() &&
+        accelThresh_->value() >= maxAccel_->value())
+    {
+        messages.push_back(tr("vanet.property.form.mobility.error.acceleration").toUTF8());
+        return false;
+    }
+    if (maxSpeed_->value() == 0.0 || minSpeed_->value() == 0.0)
+    {
+        messages.push_back(tr("vanet.property.form.mobility.error.speed").toUTF8());
+        return false;
+    }
+    return true;
 }
 
 void VanetMobilityModelForm::mobilityChanged(int itemIndex)
@@ -223,4 +242,39 @@ void VanetMobilityModelForm::mobilityChanged(int itemIndex)
     bsave_->setDisabled(disableItems);
     politeness_->setDisabled(disableItems);
     accelThresh_->setDisabled(disableItems);
+}
+
+void VanetMobilityModelForm::setPreselectedValues(const map< string, boost::any >& values)
+{
+    map< string, boost::any >::const_iterator it;
+    it = values.find("class=");
+    if (it != values.end())
+    {
+        string classString = boost::any_cast<string>(it->second);
+        if (classString == string(AbstractPropertyForm::INTERSECTION_MANAGEMENT_MODEL))
+        {
+            mobilityCombo_->setCurrentIndex(0);
+        }
+        if (classString == string(AbstractPropertyForm::LANE_CHANGING_MODEL))
+        {
+            mobilityCombo_->setCurrentIndex(1);
+        }
+    }
+    
+    setPreselectedDoubleValue("minspeed", values, minSpeed_);
+    setPreselectedDoubleValue("maxspeed", values, maxSpeed_);
+    setPreselectedDoubleValue("l", values, length_);
+    setPreselectedDoubleValue("a", values, maxAccel_);
+    setPreselectedDoubleValue("b", values, comfyDecel_);
+    setPreselectedDoubleValue("s0", values, jamDistance_);
+    setPreselectedDoubleValue("t", values, safeTimeHeadway_);
+    setPreselectedDoubleValue("step", values, step_);
+    setPreselectedDoubleValue("stay", values, stay_);
+    setPreselectedCheckboxValue("random=", values, random_);
+    setPreselectedCheckboxValue("ignoreBorders", values, ignoreBorders_);
+    setPreselectedDoubleValue("bsave", values, bsave_);
+    setPreselectedDoubleValue("p", values, politeness_);
+    setPreselectedDoubleValue("athr", values, accelThresh_);
+    
+    mobilityChanged(mobilityCombo_->currentIndex());
 }

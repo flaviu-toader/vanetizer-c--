@@ -59,9 +59,12 @@
     <message id='mappropertyeditor.group.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>)</message>
     <message id='mappropertyeditor.group.mobility.p'>Politeness factor</message>
     <message id='mappropertyeditor.group.mobility.athr'>Threshold acceleration for lane change</message>
+    <message id='mappropertyeditor.group.nodegroup'>Node group {1}</message>
+    <message id='mappropertyeditor.group.nodegroup.id'>Group id</message>
+    <message id='mappropertyeditor.group.nodegroup.nodes'>Number of nodes</message>
+    <message id='mappropertyeditor.group.node'>Node {1}</message>
+    <message id='mappropertyeditor.group.node.id'>Node id</message>
     
-    <message id='mappropertyeditor.group.nodes'>Nodes configuration</message>
-    <message id='mappropertyeditor.group.nodes.individual'>Individual nodes</message>
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
     <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
     <message id='mappropertyeditor.button.validate'>Validate</message>
@@ -77,7 +80,7 @@
     
     <!-- Forms subsection -->
     <message id='vanet.property.form.area.error.dims'><p>The map must be at least 100m x 100m.</p></message>
-    <message id='vanet.property.form.seed.error.seedsize'><p>The seed string is too long</p></message>
+    <message id='vanet.property.form.seed.error.seedsize'><p>The given seed string is not valid.</p></message>
     <message id='vanet.property.form.extension.combo.label'>Extension type: </message>
     <message id='vanet.property.form.extension.combo.glomosimoutput'>Glomosim output</message>
     <message id='vanet.property.form.extension.combo.timesimulation'>Time simulation</message>
@@ -105,7 +108,7 @@
     <message id='vanet.property.form.spmodel.bidir'>Differentiate the two lane direction</message>
     <message id='vanet.property.form.spmodel.error.xerr'><p>The value for leftmost X coordinate must not be greater than the value of the rightmost X coordinate</p></message>
     <message id='vanet.property.form.spmodel.error.yerr'><p>The value for lowermost Y coordinate must not be greater than the value of the uppermost Y coordinate</p></message>
-    <message id='vanet.property.form.spmodel.error.inputerr'><p>One of the inputs is invalid. Please retry.</p></message>
+    <message id='vanet.property.form.spmodel.error.inputerr'><p>At least one of the inputs is invalid. Please retry.</p></message>
     <message id='vanet.property.form.trlight.step'>Time interval between traffic light changes (in ms): </message>
     <message id='vanet.property.form.trlight.error.step'><p>Provided time interval between traffic light changes must be between 180 and 10 seconds (in ms).</p></message>
     <message id='vanet.property.form.spmodeldump.output'>Output file: </message>
@@ -126,7 +129,16 @@
     <message id='vanet.property.form.mobility.ignoreborders'>Ignore intersections located at the border of the map</message>
     <message id='vanet.property.form.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>): </message>
     <message id='vanet.property.form.mobility.p'>Politeness factor of drivers when changing lane: </message>
-    <message id='vanet.property.form.mobility.athr'>Threshold acceleration for lane change: </message>
+    <message id='vanet.property.form.mobility.athr'>Threshold acceleration for lane change (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.error.acceleration'><p>Threshold acceleration must be lower than maximal acceleration.</p></message>
+    <message id='vanet.property.form.mobility.error.speed'><p>The minimum and maximal speed shouldn't be 0.</p></message>
+    <message id='vanet.property.form.nodegroup.id'>Group id: </message>
+    <message id='vanet.property.form.nodegroup.number'>Number of nodes: </message>
+    <message id='vanet.property.form.nodes.mobility'><span style="font-weight:bold">Mobility model details</span></message>
+    <message id='vanet.property.form.nodegroup.error.idlength'><p>The id of the node group is not properly assigned</p></message>
+    <message id='vanet.property.form.step.error.step'><p>The given step value is not valid.</p></message>
+    <message id='vanet.property.form.node.id'>Node id: </message>
+    <message id='vanet.property.form.node.error.idlength'><p>The id of the node is not properly assigned.</p></message>
     <!-- /Forms subsection -->
     <!-- /Map Creation Tool section -->
 </messages>

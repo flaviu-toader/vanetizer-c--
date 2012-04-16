@@ -20,11 +20,9 @@ public:
     
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
     
-    virtual bool validate();
+    virtual bool validate(std::vector< std::string >& messages);
     
     virtual Wt::WStandardItem* treeNode();
-    
-    virtual std::vector< std::string > feedbackMessages();
     
     void setPreselectedExtension(Wt::WStandardItem* rootItem);
     

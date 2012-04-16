@@ -20,6 +20,7 @@ public:
     void setPreselectedProperty(Wt::WStandardItem *rootItem);
 
 private:
+    std::map< std::string, boost::any > getValuesMap();
     void submit(Wt::WDialog::DialogCode result);
     void comboChanged(int itemIndex);
     bool itemIsNew(Wt::WStandardItem* item);

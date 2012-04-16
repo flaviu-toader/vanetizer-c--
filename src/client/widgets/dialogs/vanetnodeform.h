@@ -1,29 +1,26 @@
-#ifndef VANETNODEGROUPFORM_H
-#define VANETNODEGROUPFORM_H
+#ifndef VANETNODEFORM_H
+#define VANETNODEFORM_H
 
 #include "abstractpropertyform.h"
 #include "vanetmobilitymodelform.h"
 
-namespace Wt
+namespace Wt 
 {
     class WLineEdit;
-    class WSpinBox;
     class WStandardItem;
 }
 
-
-class VanetNodeGroupForm : public AbstractPropertyForm
+class VanetNodeForm : public AbstractPropertyForm
 {
 
 public:
-    VanetNodeGroupForm(Wt::WContainerWidget* parent = 0);
+    VanetNodeForm();
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
-    virtual Wt::WStandardItem* treeNode();
     virtual bool validate(std::vector< std::string >& messages);
+    virtual Wt::WStandardItem* treeNode();
 private:
     Wt::WLineEdit* id_;
-    Wt::WSpinBox* number_;
     VanetMobilityModelForm* form_;
 };
 
-#endif // VANETNODEGROUPFORM_H
+#endif // VANETNODEFORM_H

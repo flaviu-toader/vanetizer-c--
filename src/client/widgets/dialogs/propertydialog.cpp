@@ -27,6 +27,7 @@
 #include "client/widgets/dialogs/vanetsteppropertyform.h"
 #include "client/widgets/dialogs/vanetseedpropertyform.h"
 #include "client/widgets/dialogs/vanetextensionform.h"
+#include "client/widgets/dialogs/vanetnodegroupform.h"
 #include "logger.h"
 
 using namespace Wt;
@@ -63,6 +64,10 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model) :
     b->clicked().connect(this, &WDialog::reject);
 
     finished().connect(this, &PropertyDialog::submit);
+    
+    setClosable(true);
+    setTitleBarEnabled(true);
+    setWindowTitle(tr("mappropertyeditor.title"));
 
     preselectedItem_ = 0;
 }
@@ -75,6 +80,7 @@ void PropertyDialog::setPreselectedProperty(WStandardItem *rootItem)
         currentIndex = VanetGlomosimOutput;
     }
     mainComboBox_->setCurrentIndex(currentIndex);
+    mainComboBox_->setDisabled(true);
     preselectedItem_ = rootItem;
     comboChanged(currentIndex);
 }
@@ -86,11 +92,10 @@ void PropertyDialog::submit(DialogCode result)
     {
         AbstractPropertyForm *form = dynamic_cast<AbstractPropertyForm *>(formContainer_->children().at(0));
         vector<string> messages;
-        if (!form->validate())
+        if (!form->validate(messages))
         {
-            messages = form->feedbackMessages();
             WMessageBox::show(tr("application.error"), accumulate(messages.begin(), messages.end(), string("")), Ok);
-            delete this;
+            show();
             return;
         }
         WStandardItem *newItem = form->treeNode();
@@ -104,11 +109,6 @@ void PropertyDialog::submit(DialogCode result)
             // in case we are editing an existing item, replace it in the model
             if (preselectedItem_ != 0)
             {
-                // this code segfaults for some reason when the updated item is not the last one...
-//                 int oldRow = model_->indexFromItem(preselectedItem_).row();
-//                 Logger::entry("info") << "Double clicked item is at " << oldRow;
-//                 model_->removeRows(oldRow, 1, model_->indexFromItem(preselectedItem_->parent()));
-//                 model_->insertRow(oldRow, newItem);
                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
                 model_->itemFromIndex(ix)->removeRows(0, preselectedItem_->rowCount());
                 for (int i = 0; i < newItem->rowCount(); i++)
@@ -165,61 +165,62 @@ void PropertyDialog::comboChanged(int itemIndex)
     {
     case 1:
         form = new VanetAreaPropertyForm(formContainer_);
-        if (preselectedItem_ != 0)
-        {
-            map<string, boost::any> values;
-            Logger::entry("info") << "Adding preselected value for X: " << preselectedItem_->child(0, 1)->text();
-            Logger::entry("info") << "Adding preselected value for Y: " << preselectedItem_->child(1, 1)->text();
-            values.insert(pair< string, boost::any >(string("dimx"), boost::lexical_cast<int>(preselectedItem_->child(0, 1)->text())));
-            values.insert(pair< string, boost::any >(string("dimy"), boost::lexical_cast<int>(preselectedItem_->child(1, 1)->text())));
-            form->setPreselectedValues(values);
-        }
         break;
     case 2:
         form = new VanetStepPropertyForm(formContainer_);
-        if (preselectedItem_ != 0)
-        {
-            WString preselectedValue = preselectedItem_->child(0, 1)->text();
-            map<string, boost::any> values;
-            Logger::entry("info") << "Adding preselected step value: " << preselectedValue;
-            stringstream ss(preselectedValue.toUTF8());
-            double val;
-            ss.precision(3);
-            ss >> fixed >> val;
-            values.insert(pair<string, boost::any >(("step"), boost::any(val)));
-            form->setPreselectedValues(values);
-        }
         break;
     case 3:
         form = new VanetSeedPropertyForm(formContainer_);
-        if (preselectedItem_ != 0)
-        {
-            WString preselectedValue = preselectedItem_->child(0, 1)->text();
-            map<string, boost::any> values;
-            Logger::entry("info") << "Adding preselected seed value: " << preselectedValue;
-            values.insert(pair< string, boost::any >(string("seed"), preselectedValue));
-            form->setPreselectedValues(values);
-        }
         break;
     case 4:
         break;
     case 5:
+        form = new VanetNodeGroupForm(formContainer_);
         break;
     case 6:
         form = new VanetExtensionForm(formContainer_);
-        if (preselectedItem_ != 0)
-        {
-            VanetExtensionForm* extensionForm = static_cast< VanetExtensionForm* > (form);
-            extensionForm->setPreselectedExtension(preselectedItem_);
-        }
         break;
     default:
         formContainer_->clear();
     }
 
-    if (form)
+    if (preselectedItem_ != 0 && form != 0)
+    {
+        form->setPreselectedValues(getValuesMap());
+    }
+    
+    if (form != 0)
     {
         formContainer_->addWidget(form);
     }
 }
 
+map< string, boost::any > PropertyDialog::getValuesMap()
+{
+    std::map< std::string, boost::any > values;
+    Logger::entry("info") << "The row count of this preselected item is: " << preselectedItem_->rowCount();
+    for (int row = 0; row < preselectedItem_->rowCount(); row++)
+    {
+        Logger::entry("info") << "Column count: " << preselectedItem_->child(row, 0)->columnCount();
+        // for now we only support one possible level of subgroups
+        if (preselectedItem_->child(row, 0)->columnCount() == 3) 
+        {
+            Logger::entry("info") << "Found a subgroup";
+            WStandardItem* subgroup = preselectedItem_->child(row, 0);
+            for (int r = 0; r < subgroup->rowCount(); r++)
+            {
+                WString k = subgroup->child(r, 2)->text();
+                WString v = subgroup->child(r, 1)->text();
+                values.insert(make_pair< string, boost::any >(k.toUTF8(), v.toUTF8()));
+                Logger::entry("info") << "\tAdded preselected key for property: " << k << " and value: " << v;
+            }
+            continue;
+        } 
+        WString key = preselectedItem_->child(row, 2)->text();
+        WString value = preselectedItem_->child(row, 1)->text();
+        values.insert(std::make_pair< std::string, boost::any >(key.toUTF8(), value.toUTF8()));
+        Logger::entry("info") << "Added preselected key for property: " << key << " and value: " << value;
+    }
+
+    return values;
+}

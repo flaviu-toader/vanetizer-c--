@@ -27,16 +27,15 @@ VanetTimeSimulationPropertyForm::VanetTimeSimulationPropertyForm(Wt::WContainerW
 
 }
 
+bool VanetTimeSimulationPropertyForm::validate(std::vector< std::string >& messages)
+{
+    return true;
+}
+
 
 void VanetTimeSimulationPropertyForm::setPreselectedValues(const map< string, boost::any >& values)
 {
-    map< string, boost::any>::const_iterator it;
-    it = values.find("param=");
-    if (it != values.end()) 
-    {
-        double param = boost::lexical_cast< double >(boost::any_cast< string >(it->second));
-        param_->setValue(param);
-    }
+    setPreselectedDoubleValue("param=", values, param_);
 }
 
 Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode()

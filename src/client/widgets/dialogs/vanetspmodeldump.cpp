@@ -24,10 +24,7 @@ VanetSpModelDump::VanetSpModelDump(Wt::WContainerWidget* parent)
 
 void VanetSpModelDump::setPreselectedValues(const std::map< std::string, boost::any >& values)
 {
-    map< string, boost::any >::const_iterator it;
-    it = values.find("output=");
-    string filename = boost::any_cast< string >(it->second);
-    output_->setValueText(WString::fromUTF8(filename));
+    setPreselectedLineValue("output=", values, output_);
 }
 
 Wt::WStandardItem* VanetSpModelDump::treeNode()
@@ -40,11 +37,11 @@ Wt::WStandardItem* VanetSpModelDump::treeNode()
     return result;
 }
 
-bool VanetSpModelDump::validate()
+bool VanetSpModelDump::validate(std::vector< std::string >& messages)
 {
     if (output_->validate() == WValidator::Invalid) 
     {
-        messages_.push_back(tr("vanet.property.form.spmodeldump.error.output").toUTF8());
+        messages.push_back(tr("vanet.property.form.spmodeldump.error.output").toUTF8());
         return false;
     }
     return true;
