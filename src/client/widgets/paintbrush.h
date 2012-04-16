@@ -29,21 +29,30 @@
 
 using namespace Wt;
 
+typedef std::pair<WPainterPath, int> EdgeType;
+
 class PaintBrush : public WPaintedWidget
 {
 public:
     PaintBrush(int width, int height, WContainerWidget *parent = 0);
     
-    void clear() {
-        if (!actions.empty()) 
+    void clear() 
+    {
+        if (!actions_.empty()) 
         {
-            actions.clear();
+            actions_.clear();
         }
         update();
     }
     
-    void setColor(const WColor& c) {
-        color = c;
+    void setColor(const WColor& c) 
+    {
+        color_ = c;
+    }
+    
+    void setCurrentSpeed(int speed) 
+    {
+        currentSpeed_ = speed;
     }
     
     void undoLastAction();
@@ -53,11 +62,12 @@ protected:
     virtual void paintEvent(WPaintDevice* paintDevice);
     
 private:
-    WPainterPath path;
-    WColor color;
-    int interactionCount;
-    std::vector<WPainterPath> actions;
-    bool undo;
+    WPainterPath path_;
+    WColor color_;
+    int currentSpeed_;
+    int interactionCount_;
+    std::vector<EdgeType> actions_;
+    bool undo_;
     
     void mouseDown(const WMouseEvent& e); 
 };

@@ -5,6 +5,7 @@
     <message id='navigationmenu.home'>Home page</message>
     <message id='navigationmenu.mapmaker'>Map Creation Tool</message>
     <!-- Map Creation Tool section -->
+    <!-- Global constants -->
     <message id='button.clear'>Clear</message>
     <message id='button.undo'>Undo</message>
     <message id='button.save'>Save</message>
@@ -12,9 +13,19 @@
     <message id='constant.none'>None</message>
     <message id='constant.yes'>Yes</message>
     <message id='constant.no'>No</message>
+    <!-- /Global constants -->
+    <!-- Paint brush form -->
+    <message id='painbrushform.speed.label'>Speed for current edge: </message>
+    <message id='painbrushform.speed.intro'><p>Here you can configure the aspect of the simulation map.
+        <br/>Just click once to place the origin of one edge, then
+        <br/>a second time in a different place on the surface to set the end point of the edge.
+        <br/>Each edge's speed can be configured with the spin box at the bottom.</p></message>
+    <!-- /Paint brush form -->
+    <!-- Map property editor -->
     <message id='mappropertyeditor.title'>VANET map properties</message>
     <message id='mappropertyeditor.header.propertyname'>Property</message>
     <message id='mappropertyeditor.header.propertyvalue'>Value</message>
+    <!-- Map property tree -->
     <message id='mappropertyeditor.group.general'>Simulation area properties</message>
     <message id='mappropertyeditor.group.general.dimx'>Map width (in meters) </message>
     <message id='mappropertyeditor.group.general.dimy'>Map height (in meters) </message>
@@ -48,15 +59,15 @@
     <message id='mappropertyeditor.group.mobility.minspeed'>Minimal speed of movement (in m/s)</message>
     <message id='mappropertyeditor.group.mobility.maxspeed'>Maximum speed of movement (in m/s)</message>
     <message id='mappropertyeditor.group.mobility.length'>Vehicle length (in m)</message>
-    <message id='mappropertyeditor.group.mobility.maxaccel'>Maximal acceleration (in m/s<sup>2</sup>)</message>
-    <message id='mappropertyeditor.group.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<sup>2</sup>)</message>
+    <message id='mappropertyeditor.group.mobility.maxaccel'>Maximal acceleration (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>)</message>
+    <message id='mappropertyeditor.group.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>)</message>
     <message id='mappropertyeditor.group.mobility.jamdist'>Minimal distance to a standing node (in m)</message>
     <message id='mappropertyeditor.group.mobility.t'>Safe time headway (in s)</message>
     <message id='mappropertyeditor.group.mobility.step'>Step for recalculating movement parameters (in s)</message>
     <message id='mappropertyeditor.group.mobility.stay'>Initial stay duration (in s)</message>
     <message id='mappropertyeditor.group.mobility.random'>Choose initial stay duration randomly?</message>
     <message id='mappropertyeditor.group.mobility.ignoreborders'>Ignore intersections located at the border of the map?</message>
-    <message id='mappropertyeditor.group.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>)</message>
+    <message id='mappropertyeditor.group.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>)</message>
     <message id='mappropertyeditor.group.mobility.p'>Politeness factor</message>
     <message id='mappropertyeditor.group.mobility.athr'>Threshold acceleration for lane change</message>
     <message id='mappropertyeditor.group.nodegroup'>Node group {1}</message>
@@ -64,10 +75,12 @@
     <message id='mappropertyeditor.group.nodegroup.nodes'>Number of nodes</message>
     <message id='mappropertyeditor.group.node'>Node {1}</message>
     <message id='mappropertyeditor.group.node.id'>Node id</message>
+    <!-- /Map property tree -->
     
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
     <message id='mappropertyeditor.button.removeproperty'>Remove property</message>
     <message id='mappropertyeditor.button.validate'>Validate</message>
+    <!-- /Map property editor -->
     
     <message id='propertydialog.vanet.combobox.area'>Area</message>
     <message id='propertydialog.vanet.combobox.step'>Time-step</message>
@@ -119,17 +132,17 @@
     <message id='vanet.property.form.mobility.minspeed'>Minimal speed of movement (in m/s): </message>
     <message id='vanet.property.form.mobility.maxspeed'>Maximum speed of movement (in m/s): </message>
     <message id='vanet.property.form.mobility.length'>Vehicle length (in m): </message>
-    <message id='vanet.property.form.mobility.maxaccel'>Maximal acceleration (in m/s<sup>2</sup>): </message>
-    <message id='vanet.property.form.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.maxaccel'>Maximal acceleration (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>): </message>
+    <message id='vanet.property.form.mobility.comfydecel'>"Comfortable" deceleration of movement (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>): </message>
     <message id='vanet.property.form.mobility.jamdist'>Minimal distance to a standing node (in m): </message>
     <message id='vanet.property.form.mobility.t'>Safe time headway (in s): </message>
     <message id='vanet.property.form.mobility.step'>Step for recalculating movement parameters (in s): </message>
     <message id='vanet.property.form.mobility.stay'>Initial stay duration (in s): </message>
     <message id='vanet.property.form.mobility.random'>Randomly choose initial stay duration</message>
     <message id='vanet.property.form.mobility.ignoreborders'>Ignore intersections located at the border of the map</message>
-    <message id='vanet.property.form.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.bsave'>Maximum "safe" deceleration of movement (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>): </message>
     <message id='vanet.property.form.mobility.p'>Politeness factor of drivers when changing lane: </message>
-    <message id='vanet.property.form.mobility.athr'>Threshold acceleration for lane change (in m/s<sup>2</sup>): </message>
+    <message id='vanet.property.form.mobility.athr'>Threshold acceleration for lane change (in m/s<span style="font-size:xx-small; vertical-align:top;">2</span>): </message>
     <message id='vanet.property.form.mobility.error.acceleration'><p>Threshold acceleration must be lower than maximal acceleration.</p></message>
     <message id='vanet.property.form.mobility.error.speed'><p>The minimum and maximal speed shouldn't be 0.</p></message>
     <message id='vanet.property.form.nodegroup.id'>Group id: </message>

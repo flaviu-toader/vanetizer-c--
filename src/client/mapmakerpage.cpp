@@ -27,52 +27,29 @@
 #include <Wt/WStandardItemModel>
 
 #include "mapmakerpage.h"
-#include "client/widgets/paintbrush.h"
+#include "client/widgets/paintbrushform.h"
 #include "client/widgets/mappropertyeditor.h"
 
+using namespace Wt;
 
 MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
 {
     resize(Wt::WLength::Auto, Wt::WLength::Auto);
     
+    setContentAlignment(AlignCenter);
     WTable *table = new WTable(this);
+    int row = 0;
     
-    paintbrush = new PaintBrush(710, 400, table->elementAt(0, 0));
-    paintbrush->decorationStyle().setBorder(WBorder(WBorder::Solid, WBorder::Medium, WColor(black)));
+    form_ = new PaintBrushForm(table->elementAt(row, 0));
     
-    WTable *buttonTable = new WTable(table->elementAt(1,0));
-    Wt::WPushButton *clearButton = new Wt::WPushButton(tr("button.clear"), buttonTable->elementAt(0,1));
-    clearButton->setWidth(100);
-    clearButton->setHeight(30);
-    clearButton->clicked().connect(paintbrush, &PaintBrush::clear);
-    
-    Wt::WPushButton *undoButton = new Wt::WPushButton(tr("button.undo"), buttonTable->elementAt(0,2));
-    undoButton->setWidth(100);
-    undoButton->setHeight(30);
-    undoButton->clicked().connect(paintbrush, &PaintBrush::undoLastAction);
-    
-    Wt::WPushButton *saveButton = new Wt::WPushButton(tr("button.save"), buttonTable->elementAt(0,3));
-    saveButton->setWidth(100);
-    saveButton->setHeight(30);
-    saveButton->clicked().connect(this, &MapMakerPage::downloadImage);
-    
-    buttonTable->elementAt(0, 1)->setContentAlignment(AlignCenter);
-    buttonTable->elementAt(0, 2)->setContentAlignment(AlignCenter);
-    table->elementAt(1, 0)->setContentAlignment(AlignCenter);
-
+    ++row;
     Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
     MapPropertyEditor *mpe = new MapPropertyEditor(model);
-
-    table->elementAt(1, 0)->addWidget(mpe);
-    table->elementAt(1, 0)->setRowSpan(2);
-    table->elementAt(1, 0)->setPadding(50);
+    table->elementAt(row, 0)->addWidget(mpe);
+    table->elementAt(row, 0)->setRowSpan(2);
+    table->elementAt(row, 0)->setPadding(25);
     
     setOverflow(OverflowAuto);
-}
-
-void MapMakerPage::downloadImage()
-{
-    paintbrush->saveImage();
 }
 
 

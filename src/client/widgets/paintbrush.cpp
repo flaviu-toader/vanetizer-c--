@@ -20,6 +20,7 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include "paintbrush.h"
 
@@ -37,8 +38,8 @@ PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
 : WPaintedWidget(parent)
 {
     setSelectable(false);
-    interactionCount = 0;
-    undo = false;
+    interactionCount_ = 0;
+    undo_ = false;
     
     resize(WLength(width), WLength(height));
     
@@ -46,7 +47,7 @@ PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
     
     mouseWentDown().connect(this, &PaintBrush::mouseDown);
     
-    color = WColor(black);
+    color_ = WColor(black);
     
     // setPreferredMethod(InlineSvgVml);
 }
@@ -58,63 +59,66 @@ void PaintBrush::paintEvent(WPaintDevice *paintDevice)
     
     WPen pen;
     pen.setWidth(3);
-    pen.setColor(color);
+    pen.setColor(color_);
     painter.setPen(pen);
-    if (!undo) 
+    if (!undo_) 
     {
-        painter.drawPath(path);
+        painter.drawPath(path_);
     } 
     else 
     {
-        for(std::vector<WPainterPath>::iterator it = actions.begin(); it != actions.end(); ++it) 
+        for(std::vector<EdgeType>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
         {
-            painter.drawPath(*it);
+            WPainterPath p = it->first;
+            painter.drawPath(p);
         }
-        undo = false;
+        undo_ = false;
         update(PaintUpdate);
     }
-    path = WPainterPath(path.currentPosition());
+    path_ = WPainterPath(path_.currentPosition());
 }
 
 void PaintBrush::mouseDown(const WMouseEvent& e)
 {
     Coordinates c = e.widget();
-    if (interactionCount == 0) {
-        path = WPainterPath(WPointF(c.x, c.y));
-        interactionCount++;
-        path.addRect(c.x, c.y, 1, 1);
+    if (interactionCount_ == 0) {
+        path_ = WPainterPath(WPointF(c.x, c.y));
+        interactionCount_++;
+        path_.addRect(c.x, c.y, 1, 1);
         update(PaintUpdate);
     } else {
-        path.lineTo(c.x, c.y);
-        interactionCount = 0;
-        path.addRect(c.x, c.y, 1, 1);
-        actions.push_back(path);
+        path_.lineTo(c.x, c.y);
+        interactionCount_ = 0;
+        path_.addRect(c.x, c.y, 1, 1);
+        EdgeType edge = std::make_pair<WPainterPath, int>(path_, currentSpeed_);
+        actions_.push_back(edge);
         update(PaintUpdate);
     }
 }
 
 void PaintBrush::undoLastAction()
 {
-    if (!actions.empty()) 
+    if (!actions_.empty()) 
     {
         Logger::entry("info") << "User undid one action.";
-        actions.pop_back();
+        actions_.pop_back();
         update();
-        undo = true;
+        undo_ = true;
     }
 }
 
 void PaintBrush::saveImage(/*const WTransform &transform*/)
 {
-    if (!actions.empty()) 
+    if (!actions_.empty()) 
     {
         // TODO: instead of painting to an svg image, 'dump' the actions in an xml file 
         // with a compatible format to VanetMobiSim
         Wt::WSvgImage imageDevice(this->width(), this->height());
         WPainter painter(&imageDevice);
-        for (std::vector<WPainterPath>::iterator it = actions.begin(); it != actions.end(); ++it) 
+        for (std::vector<EdgeType>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
         {
-            painter.drawPath(*it);
+            WPainterPath p = it->first;
+            painter.drawPath(p);
         }
         //painter.setWorldTransform(transform);
         painter.end();

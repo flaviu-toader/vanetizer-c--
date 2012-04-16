@@ -28,6 +28,7 @@
 #include "client/widgets/dialogs/vanetseedpropertyform.h"
 #include "client/widgets/dialogs/vanetextensionform.h"
 #include "client/widgets/dialogs/vanetnodegroupform.h"
+#include "client/widgets/dialogs/vanetnodeform.h"
 #include "logger.h"
 
 using namespace Wt;
@@ -147,6 +148,15 @@ bool PropertyDialog::itemIsNew(WStandardItem *item)
     for (int i = 0; i < model_->rowCount(); i++)
     {
         VanetProperty currentProp = boost::any_cast<VanetProperty>(model_->item(i)->data());
+        if (itemProp == VanetNodeGroup || 
+            itemProp == VanetNode)
+        {
+            if (model_->item(i)->text() == item->text()) 
+            {
+                return false;
+            }
+            return true;
+        }
         if (currentProp == itemProp)
         {
             return false;
@@ -164,21 +174,22 @@ void PropertyDialog::comboChanged(int itemIndex)
     switch (itemIndex)
     {
     case 1:
-        form = new VanetAreaPropertyForm(formContainer_);
+        form = new VanetAreaPropertyForm;
         break;
     case 2:
-        form = new VanetStepPropertyForm(formContainer_);
+        form = new VanetStepPropertyForm;
         break;
     case 3:
-        form = new VanetSeedPropertyForm(formContainer_);
+        form = new VanetSeedPropertyForm;
         break;
     case 4:
+        form = new VanetNodeForm;
         break;
     case 5:
-        form = new VanetNodeGroupForm(formContainer_);
+        form = new VanetNodeGroupForm;
         break;
     case 6:
-        form = new VanetExtensionForm(formContainer_);
+        form = new VanetExtensionForm;
         break;
     default:
         formContainer_->clear();

@@ -1,7 +1,7 @@
 set(cmake_source_dir .)
 set(CMAKE_BUILD_TYPE Debug)
 set(wt_project_target vanetizer.wt)
-set(wt_project_source  
+set(wt_project_source 
     client/widgets/dialogs/abstractpropertyform.cpp
     client/widgets/dialogs/vanetareapropertyform.cpp
     client/widgets/dialogs/vanetsteppropertyform.cpp 
@@ -16,8 +16,9 @@ set(wt_project_source
     client/widgets/dialogs/vanetnodegroupform.cpp 
     client/widgets/dialogs/vanetnodeform.cpp
     client/widgets/dialogs/propertydialog.cpp
-    client/widgets/mappropertyeditor.cpp
     client/widgets/paintbrush.cpp 
+    client/widgets/paintbrushform.cpp  
+    client/widgets/mappropertyeditor.cpp
     client/mapmakerpage.cpp 
     client/navigationmenu.cpp
     logger.cpp 

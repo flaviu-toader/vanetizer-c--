@@ -21,7 +21,13 @@
 #define MAPMAKERPAGE_H
 
 #include <Wt/WContainerWidget>
-#include "client/widgets/paintbrush.h"
+
+class PaintBrushForm;
+
+namespace Wt
+{
+    class WComboBox;
+}
 
 class MapMakerPage : public Wt::WContainerWidget
 {
@@ -29,9 +35,8 @@ public:
     MapMakerPage(WContainerWidget* parent = 0);
     
 private:
-    PaintBrush *paintbrush;
-    
-    void downloadImage();
+    Wt::WComboBox* mapCombo_;
+    PaintBrushForm* form_;
 };
 
 #endif // MAPMAKERPAGE_H
