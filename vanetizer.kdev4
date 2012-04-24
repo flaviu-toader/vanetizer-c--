@@ -1,4 +1,4 @@
 [Project]
-Name=vanetizer
 Manager=KDevCMakeManager
+Name=vanetizer-c--
 VersionControl=kdevgit

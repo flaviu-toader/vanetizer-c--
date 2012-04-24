@@ -1,9 +1,9 @@
-#include <vector>
 #include <string>
 #include <pugixml/pugixml.hpp>
 
 #include <Wt/WStandardItem>
 #include <Wt/WString>
+#include <boost/concept_check.hpp>
 
 #include "areapropertyconvertor.h"
 #include "abstractpropertyconvertor.h"
@@ -41,10 +41,16 @@ WStandardItem* AreaPropertyConvertor::treeNode(const pugi::xml_node& root)
     for(pugi::xml_node_iterator it = root.begin(); it != root.end(); ++it)
     {
         pugi::xml_node currentNode = *it;
-        if (currentNode.name() == "dimx")
+        if (currentNode.name() == "dimx") 
+        {
             dimxval = string(currentNode.value());
+            continue;
+        }
         if (currentNode.name() == "dimy")
+        {
             dimyval = string(currentNode.value());
+            continue;
+        }
         if (!dimxval.empty() && !dimyval.empty())
             break;
     }

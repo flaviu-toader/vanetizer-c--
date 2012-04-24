@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <Wt/WStandardItem>
+#include <Wt/WString>
 
 #include "abstractpropertyconvertor.h"
 
@@ -13,15 +14,15 @@ std::vector< WStandardItem* > AbstractPropertyConvertor::propertyRow(const strin
     WStandardItem *item;
 
     // tree column 0: property name
-    item = new WStandardItem(propertyName);
+    item = new WStandardItem(WString::fromUTF8(propertyName));
     propertyItems.push_back(item);
 
     // tree column 1: property value
-    item = new WStandardItem(propertyValue);
+    item = new WStandardItem(WString::fromUTF8(propertyValue));
     propertyItems.push_back(item);
     
     // tree column 2: property id (hidden column)
-    item = new WStandardItem(propertyId);
+    item = new WStandardItem(WString::fromUTF8(propertyId));
     propertyItems.push_back(item);
 
     return propertyItems;

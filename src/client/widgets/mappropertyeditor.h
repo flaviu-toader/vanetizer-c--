@@ -69,6 +69,7 @@ private:
     void itemDoubleClicked(const Wt::WModelIndex &clickedItem);
     void itemClicked(const Wt::WModelIndex &clickedItem);
     void removeSelectedProperty();
+    void validateClicked();
 
     Wt::WPushButton* addProperty_, * removeProperty_, * validate_, * save_;
     Wt::WStandardItemModel* model_;

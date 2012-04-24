@@ -1,4 +1,5 @@
 #include <string>
+#include <boost/any.hpp>
 #include <pugixml/pugixml.hpp>
 
 #include <Wt/WStandardItemModel>
@@ -25,14 +26,27 @@ void ModelToXmlConverter::convertXml()
     for (int i = 0; i < model_->rowCount(); i++)
     {
         WStandardItem* currentItem = model_->item(i);
-        int itemType = boost::any_cast<int>(currentItem->data());
-        AbstractPropertyConvertor* convertor;
-        switch(itemType)
+        try 
         {
-            case VanetArea:
-                convertor = new AreaPropertyConvertor;
-                break;
+            int itemType = boost::any_cast<VanetProperty>(currentItem->data());
+            AbstractPropertyConvertor* convertor;
+            switch(itemType)
+            {
+                case 1:
+                    convertor = new AreaPropertyConvertor;
+                    break;
+            }
+            convertor->appendXml(root_, currentItem);
         }
-        convertor->appendXml(root_, currentItem);
+        catch(boost::bad_any_cast e)
+        {
+            Logger::entry("error") << "Bad any cast when getting data from item " << currentItem->text().toUTF8() << ". Exception message: " << e.what();
+        }
     }
 }
+
+void ModelToXmlConverter::validate()
+{
+    doc_.save_file("test.xml");
+}
+

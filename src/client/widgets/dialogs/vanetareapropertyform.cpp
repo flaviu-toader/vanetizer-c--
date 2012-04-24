@@ -56,9 +56,8 @@ void VanetAreaPropertyForm::setPreselectedValues(const std::map< std::string, bo
 
 WStandardItem *VanetAreaPropertyForm::treeNode() 
 {
-    WStandardItem *result = new WStandardItem();
+    WStandardItem *result = new WStandardItem(tr("mappropertyeditor.group.general"));
     result->setData(VanetArea);
-    result->setText(tr("mappropertyeditor.group.general").toUTF8());
 
     result->appendRow(propertyRow(std::string("dimx"), tr("mappropertyeditor.group.general.dimx").toUTF8(), boost::lexical_cast<std::string>(dimx_->value())));
     result->appendRow(propertyRow(std::string("dimy"), tr("mappropertyeditor.group.general.dimy").toUTF8(), boost::lexical_cast<std::string>(dimy_->value())));

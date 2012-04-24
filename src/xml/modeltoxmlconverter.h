@@ -1,16 +1,18 @@
 #ifndef MODELTOXMLCONVERTER_H
 #define MODELTOXMLCONVERTER_H
 
+#include <pugixml/pugixml.hpp>
+
 namespace Wt
 {
     class WStandardItemModel;
 }
 
-namespace pugi
-{
-    class xml_document;
-    class xml_node;
-}
+// namespace pugi
+// {
+//     class xml_document;
+//     class xml_node;
+// }
 
 class ModelToXmlConverter
 {
