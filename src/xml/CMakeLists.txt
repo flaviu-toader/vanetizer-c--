@@ -1,5 +1,5 @@
 set(vanetxml_source
-    xml/property/areapropertyconvertor.cpp
+    property/areapropertyconvertor.cpp
     modeltoxmlconverter.cpp
 )
 
