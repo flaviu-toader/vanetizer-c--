@@ -18,13 +18,13 @@ const char* const AreaPropertyConvertor::TREENODE_NAME = "mappropertyeditor.grou
 void AreaPropertyConvertor::appendXml(pugi::xml_node& root, WStandardItem* treeNode)
 {
     // check if we're looking at the right node...
-    if (treeNode->data() == VanetArea) 
+    if (boost::any_cast<VanetProperty>(treeNode->data()) == VanetArea) 
     {
         for (int i = 0; i < treeNode->rowCount(); i++)
         {
             // for the area property we currently have only 2 possible nodes: dimx and dimy
-            string nodename = treeNode->child(i, 2);
-            string nodevalue = treeNode->child(i, 1);
+            string nodename = treeNode->child(i, 2)->text().toUTF8();
+            string nodevalue = treeNode->child(i, 1)->text().toUTF8();
             
             pugi::xml_node newNode = root.append_child(nodename.c_str());
             newNode.append_child(pugi::node_pcdata).set_value(nodevalue.c_str());

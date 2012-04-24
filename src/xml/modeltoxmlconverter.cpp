@@ -25,7 +25,7 @@ void ModelToXmlConverter::convertXml()
     for (int i = 0; i < model_->rowCount(); i++)
     {
         WStandardItem* currentItem = model_->item(i);
-        int itemType = currentItem->data();
+        int itemType = boost::any_cast<int>(currentItem->data());
         AbstractPropertyConvertor* convertor;
         switch(itemType)
         {
