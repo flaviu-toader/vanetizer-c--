@@ -28,11 +28,13 @@
 #include "client/widgets/dialogs/propertydialog.h"
 
 // forward declarations
+class MapMakerPage;
 namespace Wt {
     class WStandardItem;
     class WStandardItemModel;
     class WTreeView;
     class WString;
+    class WPushButton;
 }
 
 //! A treeview allowing to set/change properties for VANET maps.
@@ -47,13 +49,13 @@ public:
     /*!
      * This property editor constructor takes in a Wt::StandardItemModel as the model to be rendered using the treeview.
      */
-    MapPropertyEditor(Wt::WStandardItemModel *model);
+    MapPropertyEditor(MapMakerPage* mapmaker, Wt::WStandardItemModel* model);
 
     //! Get the treeview.
     /*! 
      * Returns the treeview used in this property editor.
      */
-    Wt::WTreeView *getTreeView() const { return treeView; }
+    Wt::WTreeView *getTreeView() const { return treeView_; }
 
     //! Static method that generates the model for our map property editor.
     /*!
@@ -63,14 +65,17 @@ public:
     static Wt::WStandardItemModel *createModel(WObject *parent);
 
 private:
-    static Wt::WStandardItem *groupItem(const std::string& groupName);
-    static std::vector<Wt::WStandardItem *> propertyItem(const std::string& name, const boost::any& data);
     void showPropertyDialog();
     void itemDoubleClicked(const Wt::WModelIndex &clickedItem);
+    void itemClicked(const Wt::WModelIndex &clickedItem);
+    void removeSelectedProperty();
 
-    Wt::WStandardItemModel *model;
-    Wt::WTreeView *treeView;
-    PropertyDialog *pd;
+    Wt::WPushButton* addProperty_, * removeProperty_, * validate_, * save_;
+    Wt::WStandardItemModel* model_;
+    MapMakerPage* mapmaker_;
+    Wt::WStandardItem* selectedItem_;
+    Wt::WTreeView* treeView_;
+    PropertyDialog* pd_;
 };
 
 #endif // MAPPROPERTYEDITOR_H_

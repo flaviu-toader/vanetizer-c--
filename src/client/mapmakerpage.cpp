@@ -25,6 +25,9 @@
 #include <Wt/WTable>
 #include <Wt/WMessageBox>
 #include <Wt/WStandardItemModel>
+#include <Wt/WComboBox>
+#include <Wt/WLabel>
+#include <Wt/WContainerWidget>
 
 #include "mapmakerpage.h"
 #include "client/widgets/paintbrushform.h"
@@ -37,14 +40,24 @@ MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
     resize(Wt::WLength::Auto, Wt::WLength::Auto);
     
     setContentAlignment(AlignCenter);
-    WTable *table = new WTable(this);
+    WTable* table = new WTable(this);
     int row = 0;
     
-    form_ = new PaintBrushForm(table->elementAt(row, 0));
+    WLabel* l = new WLabel(tr("mapmaker.combo.label"), table->elementAt(row, 0));
+    mapCombo_ = new WComboBox(table->elementAt(row, 0));
+    mapCombo_->addItem(tr("mapmaker.combo.random"));
+    mapCombo_->addItem(tr("mapmaker.combo.user"));
+    l->setBuddy(mapCombo_);
+    mapCombo_->activated().connect(this, &MapMakerPage::mapComboChanged);
+    
+    ++row;
+    // only attach the form to the table if the correct option is selected in the combo.
+    formContainer_ = new WContainerWidget(table->elementAt(row, 0));
+    paintBrushForm_ = new PaintBrushForm;
     
     ++row;
     Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
-    MapPropertyEditor *mpe = new MapPropertyEditor(model);
+    MapPropertyEditor *mpe = new MapPropertyEditor(this, model);
     table->elementAt(row, 0)->addWidget(mpe);
     table->elementAt(row, 0)->setRowSpan(2);
     table->elementAt(row, 0)->setPadding(25);
@@ -52,4 +65,16 @@ MapMakerPage::MapMakerPage(WContainerWidget* parent): WContainerWidget(parent)
     setOverflow(OverflowAuto);
 }
 
+void MapMakerPage::mapComboChanged(int index)
+{
+    switch(index)
+    {
+        case 1:
+            formContainer_->clear();
+            formContainer_->addWidget(paintBrushForm_);
+            break;
+        default:
+            formContainer_->clear();
+    }
+}
 

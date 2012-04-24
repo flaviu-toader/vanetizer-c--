@@ -4,7 +4,6 @@
     <message id='application.error'>Error</message>
     <message id='navigationmenu.home'>Home page</message>
     <message id='navigationmenu.mapmaker'>Map Creation Tool</message>
-    <!-- Map Creation Tool section -->
     <!-- Global constants -->
     <message id='button.clear'>Clear</message>
     <message id='button.undo'>Undo</message>
@@ -14,6 +13,10 @@
     <message id='constant.yes'>Yes</message>
     <message id='constant.no'>No</message>
     <!-- /Global constants -->
+    <!-- Map Creation Tool section -->
+    <message id='mapmaker.combo.label'>Choose the map type: </message>
+    <message id='mapmaker.combo.random'>Randomly generated map</message>
+    <message id='mapmaker.combo.user'>User created map</message>
     <!-- Paint brush form -->
     <message id='painbrushform.speed.label'>Speed for current edge: </message>
     <message id='painbrushform.speed.intro'><p>Here you can configure the aspect of the simulation map.

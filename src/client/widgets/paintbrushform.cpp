@@ -52,23 +52,17 @@ PaintBrushForm::PaintBrushForm(WContainerWidget* parent) : WTable(parent)
     undoButton->setHeight(30);
     undoButton->clicked().connect(paintbrush_, &PaintBrush::undoLastAction);
     
-    ++bcol;
-    WPushButton *saveButton = new WPushButton(tr("button.save"), buttonTable->elementAt(0, bcol));
-    saveButton->setWidth(100);
-    saveButton->setHeight(30);
-    saveButton->clicked().connect(this, &PaintBrushForm::downloadImage);
+    //++bcol;
+    //WPushButton *saveButton = new WPushButton(tr("button.save"), buttonTable->elementAt(0, bcol));
+    //saveButton->setWidth(100);
+    //saveButton->setHeight(30);
+    //saveButton->clicked().connect(this, &PaintBrushForm::downloadImage);
     
     buttonTable->elementAt(0, 1)->setContentAlignment(AlignCenter);
     buttonTable->elementAt(0, 2)->setContentAlignment(AlignCenter);
     elementAt(row, 0)->setContentAlignment(AlignCenter);
     
     paintbrush_->setCurrentSpeed(speed_->value());
-}
-
-void PaintBrushForm::downloadImage()
-{
-    Logger::entry("info") << "Download image";
-
 }
 
 void PaintBrushForm::speedChanged(int newSpeed)

@@ -27,6 +27,7 @@ class PaintBrushForm;
 namespace Wt
 {
     class WComboBox;
+    class WTable;
 }
 
 class MapMakerPage : public Wt::WContainerWidget
@@ -35,8 +36,11 @@ public:
     MapMakerPage(WContainerWidget* parent = 0);
     
 private:
+    void mapComboChanged(int index);
+    
+    Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;
-    PaintBrushForm* form_;
+    PaintBrushForm* paintBrushForm_;
 };
 
 #endif // MAPMAKERPAGE_H

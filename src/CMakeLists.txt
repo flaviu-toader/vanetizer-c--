@@ -36,7 +36,7 @@ include_directories(${cmake_source_dir})
 
 # create the logs directory
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/logs)
-
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bin/resources)
 # copy themes to resources directory
 file(COPY ../themes/ DESTINATION ${PROJECT_BINARY_DIR}/bin/resources/themes/)

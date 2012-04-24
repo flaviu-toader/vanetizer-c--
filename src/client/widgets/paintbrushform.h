@@ -1,9 +1,9 @@
 #ifndef PAINTBRUSHFORM_H
 #define PAINTBRUSHFORM_H
 
+#include <vector>
 #include <Wt/WTable>
-
-class PaintBrush;
+#include "client/widgets/paintbrush.h"
 
 namespace Wt 
 {
@@ -15,8 +15,8 @@ class PaintBrushForm : public Wt::WTable
 
 public:
     PaintBrushForm(Wt::WContainerWidget* parent = 0);
+    std::vector<EdgeType> edges();
 private: 
-    void downloadImage();
     void speedChanged(int newSpeed);
     
     PaintBrush* paintbrush_;

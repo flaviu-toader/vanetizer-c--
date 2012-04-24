@@ -55,6 +55,8 @@ public:
         currentSpeed_ = speed;
     }
     
+    std::vector<EdgeType> edges();
+    
     void undoLastAction();
     
     void saveImage();

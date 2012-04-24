@@ -127,5 +127,7 @@ void PaintBrush::saveImage(/*const WTransform &transform*/)
     }
 }
 
-
-
+std::vector<EdgeType> PaintBrush::edges()
+{
+    return actions_;
+}
