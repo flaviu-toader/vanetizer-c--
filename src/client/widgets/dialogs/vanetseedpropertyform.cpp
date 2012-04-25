@@ -48,11 +48,15 @@ bool VanetSeedPropertyForm::validate(std::vector< std::string >& messages)
     return true;
 }
 
-Wt::WStandardItem* VanetSeedPropertyForm::treeNode()
+Wt::WStandardItem* VanetSeedPropertyForm::treeNode(std::vector< Node >& nodes)
 {
     WStandardItem * result = new WStandardItem(tr("mappropertyeditor.group.seed").toUTF8());
     result->setData(VanetSeed);
+    
+    Node seedNode("seed");
+    seedNode.value(seed_->valueText().toUTF8());
     result->appendRow(propertyRow(std::string("seed"), tr("mappropertyeditor.group.seed.label").toUTF8(), seed_->valueText().toUTF8()));
+    nodes.push_back(seedNode);
     return result;
 }
 

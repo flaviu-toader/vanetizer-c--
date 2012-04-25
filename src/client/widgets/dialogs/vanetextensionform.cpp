@@ -69,9 +69,9 @@ bool VanetExtensionForm::validate(std::vector< std::string >& messages)
     return form_->validate(messages);
 }
 
-Wt::WStandardItem* VanetExtensionForm::treeNode()
+Wt::WStandardItem* VanetExtensionForm::treeNode(std::vector< Node >& nodes)
 {
-    return form_->treeNode();
+    return form_->treeNode(nodes);
 }
 
 void VanetExtensionForm::extensionComboChanged(int itemIndex)
@@ -122,5 +122,10 @@ std::map< std::string, boost::any > VanetExtensionForm::getValuesMap()
     }
 
     return values;
+}
+
+std::vector< Node > VanetExtensionForm::getNodes() const
+{
+    return form_->getNodes();
 }
 

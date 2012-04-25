@@ -22,7 +22,7 @@ public:
     
     virtual bool validate(std::vector< std::string >& messages);
     
-    virtual Wt::WStandardItem* treeNode();
+    virtual Wt::WStandardItem* treeNode(std::vector< Node >& nodes);
     
     void setPreselectedExtension(Wt::WStandardItem* rootItem);
     

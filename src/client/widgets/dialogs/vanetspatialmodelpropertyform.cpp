@@ -117,41 +117,85 @@ void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::st
     setPreselectedCheckboxValue("reflect_directions", values, reflectDirs_);
 }
 
-Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode()
+Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode(std::vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.spmodel"));
     result->setData(VanetSpatialModel);
     
+    Node extNode("extension");
+    Attribute classAttr("class", "de.uni_stuttgart.informatik.canu.spatialmodel.core.SpatialModel");
+    extNode.addAttribute(classAttr);
+    
+    Attribute minxAttr("min_x", boost::lexical_cast<string>(minX_->value()));
+    extNode.addAttribute(minxAttr);
     result->appendRow(propertyRow(string("min_x="), tr("mappropertyeditor.group.spmodel.minx").toUTF8(), boost::lexical_cast<string>(minX_->value())));
+    
+    Attribute minyAttr("min_y", boost::lexical_cast<string>(minY_->value()));
+    extNode.addAttribute(minyAttr);
     result->appendRow(propertyRow(string("min_y="), tr("mappropertyeditor.group.spmodel.miny").toUTF8(), boost::lexical_cast<string>(minY_->value())));
+    
+    Attribute maxxAttr("max_x", boost::lexical_cast<string>(maxX_->value()));
+    extNode.addAttribute(maxxAttr);
     result->appendRow(propertyRow(string("max_x="), tr("mappropertyeditor.group.spmodel.maxx").toUTF8(), boost::lexical_cast<string>(maxX_->value())));
+    
+    Attribute maxyAttr("max_y", boost::lexical_cast<string>(maxY_->value()));
+    extNode.addAttribute(maxyAttr);
     result->appendRow(propertyRow(string("max_y="), tr("mappropertyeditor.group.spmodel.maxy").toUTF8(), boost::lexical_cast<string>(maxY_->value())));
+    
     string trafficLightName = trafficLight_->valueText().toUTF8();
     if (!trafficLightName.empty()) 
     {
+        Attribute trafficLightAttr("traffic_light", trafficLightName);
+        extNode.addAttribute(trafficLightAttr);
         result->appendRow(propertyRow(string("traffic_light="), tr("mappropertyeditor.group.spmodel.trlight").toUTF8(), trafficLightName));
     }
+    
+    Node maxTrLightsNode("max_traffic_lights");
+    maxTrLightsNode.value(boost::lexical_cast<string>(maxTrafficLights_->value()));
+    extNode.addChild(maxTrLightsNode);
     result->appendRow(propertyRow(string("max_traffic_lights"), tr("mappropertyeditor.group.spmodel.maxtrlight").toUTF8(), boost::lexical_cast<string>(maxTrafficLights_->value())));
+    
+    Node numberLaneNode("number_lane");
+    numberLaneNode.value(boost::lexical_cast<string>(laneNumber_->value()));
     result->appendRow(propertyRow(string("number_lane"), tr("mappropertyeditor.group.spmodel.lanes").toUTF8(), boost::lexical_cast<string>(laneNumber_->value())));
+    
+    Attribute fullAttr("full", "true");
     string checkvalue = tr("constant.yes").toUTF8();
     if (full_->checkState() == Unchecked)
     {
+        fullAttr.value("false");
         checkvalue = tr("constant.no").toUTF8();
     }
+    numberLaneNode.addAttribute(fullAttr);
     result->appendRow(propertyRow(string("full="), tr("mappropertyeditor.group.spmodel.allmulti").toUTF8(), checkvalue));
+    
+    Attribute maxAttr("max", boost::lexical_cast<string>(max_->value()));
+    numberLaneNode.addAttribute(maxAttr);
     result->appendRow(propertyRow(string("max="), tr("mappropertyeditor.group.spmodel.nomulti").toUTF8(), boost::lexical_cast<string>(max_->value())));
+    
+    Attribute dirAttr("dir", "true");
     checkvalue = tr("constant.yes").toUTF8();
     if (dir_->checkState() == Unchecked)
     {
+        dirAttr.value("false");
         checkvalue = tr("constant.no").toUTF8();
     }
+    numberLaneNode.addAttribute(dirAttr);
     result->appendRow(propertyRow(string("dir="), tr("mappropertyeditor.group.spmodel.bidirmulti").toUTF8(), checkvalue));
+    extNode.addChild(numberLaneNode);
+    
+    Node reflectDirsNode("reflect_directions");
+    reflectDirsNode.value("true");
     checkvalue = tr("constant.yes").toUTF8();
     if (reflectDirs_->checkState() == Unchecked)
     {
+        reflectDirsNode.value("false");
         checkvalue = tr("constant.no").toUTF8();
     }
     result->appendRow(propertyRow(string("reflect_directions"), tr("mappropertyeditor.group.spmodel.bidir").toUTF8(), checkvalue));
+    extNode.addChild(reflectDirsNode);
+    
+    nodes.push_back(extNode);
     return result;
 }
 

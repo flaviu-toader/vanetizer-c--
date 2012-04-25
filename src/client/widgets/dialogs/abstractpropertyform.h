@@ -9,6 +9,8 @@
 
 #include <Wt/WContainerWidget>
 
+#include "client/xmlhelper.h"
+
 enum VanetProperty 
 {
     VanetNone,                  // 0
@@ -52,8 +54,9 @@ public:
     //! Get the information ready to be added to the model.
     /*!
      * Returns the information held by this form in a model-digestible format (as a WStandardItem).
+     * The output parameter nodes contains a vector of xml helper nodes used for conversion to xml of this treeNode.
      */
-    virtual Wt::WStandardItem *treeNode() = 0;
+    virtual Wt::WStandardItem *treeNode(std::vector< Node >& nodes) = 0;
  
     //! Makes special bussiness-related checks on the form.
     /*!

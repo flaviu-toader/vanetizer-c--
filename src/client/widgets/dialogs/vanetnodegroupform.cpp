@@ -70,14 +70,29 @@ void VanetNodeGroupForm::setPreselectedValues(const std::map< std::string, boost
 
 }
 
-Wt::WStandardItem* VanetNodeGroupForm::treeNode()
+Wt::WStandardItem* VanetNodeGroupForm::treeNode(std::vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.nodegroup").arg(id_->valueText()));
     result->setData(VanetNodeGroup);
     
+    Node nodeGroupNode("nodegroup");
+    Attribute idAttr("id", id_->valueText().toUTF8());
+    nodeGroupNode.addAttribute(idAttr);
     result->appendRow(propertyRow(string("id="), tr("mappropertyeditor.group.nodegroup.id").toUTF8(), id_->valueText().toUTF8()));;
+    
+    Attribute nAttr("n", boost::lexical_cast< string >(number_->value()));
+    nodeGroupNode.addAttribute(nAttr);
     result->appendRow(propertyRow(string("n="), tr("mappropertyeditor.group.nodegroup.nodes").toUTF8(), boost::lexical_cast< string >(number_->value())));
-    result->appendRow(form_->treeNode());
+    
+    Node posNode("position");
+    Attribute rndAttr("random", "true");
+    posNode.addAttribute(rndAttr);
+    nodeGroupNode.addChild(posNode);
+    
+    result->appendRow(form_->treeNode(nodes));
+    Node extNode = nodes.pop_back();
+    nodeGroupNode.addChild(extNode);
+    nodes.push_back(nodeGroupNode);
     
     return result;
 }

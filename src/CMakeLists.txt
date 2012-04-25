@@ -21,6 +21,7 @@ set(wt_project_source
     client/widgets/mappropertyeditor.cpp
     client/mapmakerpage.cpp 
     client/navigationmenu.cpp
+    client/xmlhelper.cpp
     logger.cpp 
     main.cpp
 )

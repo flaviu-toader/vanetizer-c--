@@ -1,4 +1,5 @@
 #include <map>
+#include <vector>
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -70,14 +71,24 @@ bool VanetNodeForm::validate(std::vector< std::string >& messages)
 
 }
 
-Wt::WStandardItem* VanetNodeForm::treeNode()
+Wt::WStandardItem* VanetNodeForm::treeNode(std::vector< Node >& nodes)
 {
+    
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.node").arg(id_->valueText()));
     result->setData(VanetNode);
     
+    Node n("node");
+    Attribute idAttr("id", id_->valueText().toUTF8());
+    n.addAttribute(idAttr);
+    Node posNode("position");
+    Attribute rndAttr("random", "true");
+    posNode.addAttribute(rndAttr);
+    n.addChild(posNode);
     result->appendRow(propertyRow(string("id="), tr("mappropertyeditor.group.node.id").toUTF8(), id_->valueText().toUTF8()));;
-    result->appendRow(form_->treeNode());
-    
+    result->appendRow(form_->treeNode(nodes));
+    Node extNode = nodes.pop_back();
+    n.addChild(extNode);
+    nodes.push_back(n);
     return result;
 
 }

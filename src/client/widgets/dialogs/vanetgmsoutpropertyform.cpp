@@ -12,6 +12,7 @@
 #include <Wt/WStandardItem>
 #include <Wt/WContainerWidget>
 
+#include "client/xmlhelper.h"
 #include "vanetgmsoutpropertyform.h"
 #include "logger.h"
 
@@ -56,16 +57,26 @@ bool VanetGmsOutPropertyForm::validate(std::vector< std::string >& messages)
     return false;
 }
 
-Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode()
+Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode(std::vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem();
     result->setData(VanetGlomosimOutput);
     result->setText(tr("mappropertyeditor.group.gmsout"));
     
+    Node extensionNode = Node("extension");
+    Attribute extensionClass = Attribute("class", "de.uni_stuttgart.informatik.canu.mobisim.extensions.GlomosimOutput");
+    extensionNode.addAttribute(extensionClass);
+    Attribute output = Attribute("output", outputFileName_->valueText().toUTF8());
+    extensionNode.addAttribute(output);
+    nodes.push_back(extensionNode);
     result->appendRow(propertyRow(string("output="), tr("mappropertyeditor.group.gmsout.output").toUTF8(), outputFileName_->valueText().toUTF8()));
+    
     stringstream ss;
     ss.precision(1);
     ss << std::fixed << step_->value();
+    Node stepNode = Node("step");
+    stepNode.value(ss.str());
+    nodes.push_back(stepNode);
     result->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.gmsout.step").toUTF8(), ss.str()));
     
     return result;

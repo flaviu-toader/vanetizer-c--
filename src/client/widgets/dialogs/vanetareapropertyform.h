@@ -19,10 +19,9 @@ class VanetAreaPropertyForm : public AbstractPropertyForm
 {
 public:
     VanetAreaPropertyForm(Wt::WContainerWidget* parent = 0);
-    virtual Wt::WStandardItem *treeNode();
+    virtual Wt::WStandardItem *treeNode(std::vector< Node >& nodes);
     virtual bool validate(std::vector< std::string >& messages);
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
-
 private:
     Wt::WSpinBox* dimx_, * dimy_;
     Wt::WStandardItemModel* model_;
