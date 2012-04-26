@@ -25,6 +25,7 @@ private:
     void comboChanged(int itemIndex);
     bool itemIsNew(Wt::WStandardItem* item);
     
+    Node root_;
     Wt::WStandardItemModel* model_;
     Wt::WStandardItem* preselectedItem_;
     Wt::WContainerWidget* formContainer_;

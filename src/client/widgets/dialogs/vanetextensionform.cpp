@@ -124,8 +124,3 @@ std::map< std::string, boost::any > VanetExtensionForm::getValuesMap()
     return values;
 }
 
-std::vector< Node > VanetExtensionForm::getNodes() const
-{
-    return form_->getNodes();
-}
-

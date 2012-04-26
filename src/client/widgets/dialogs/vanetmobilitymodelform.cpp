@@ -173,11 +173,11 @@ WStandardItem* VanetMobilityModelForm::treeNode(std::vector< Node >& nodes)
         throw "Could not determine mobility class.";
     }
     
-    Attribute classAttribute = new Attribute("class", mobilityClass);
+    Attribute classAttribute = Attribute("class", mobilityClass);
     extensionNode.addAttribute(classAttribute);
-    Attribute posGenAttr = new Attribute("initposgenerator", "PosGen");
+    Attribute posGenAttr = Attribute("initposgenerator", "PosGen");
     extensionNode.addAttribute(posGenAttr);
-    Attribute tripGenAttr = new Attribute("tripgenerator", "TripGen");
+    Attribute tripGenAttr = Attribute("tripgenerator", "TripGen");
     extensionNode.addAttribute(tripGenAttr);
     result->appendRow(propertyRow(string("class="), tr("mappropertyeditor.group.mobility.combo").toUTF8(), mobilityClass));
     

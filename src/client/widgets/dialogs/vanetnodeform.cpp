@@ -86,7 +86,8 @@ Wt::WStandardItem* VanetNodeForm::treeNode(std::vector< Node >& nodes)
     n.addChild(posNode);
     result->appendRow(propertyRow(string("id="), tr("mappropertyeditor.group.node.id").toUTF8(), id_->valueText().toUTF8()));;
     result->appendRow(form_->treeNode(nodes));
-    Node extNode = nodes.pop_back();
+    Node extNode = nodes.back();
+    nodes.pop_back();
     n.addChild(extNode);
     nodes.push_back(n);
     return result;

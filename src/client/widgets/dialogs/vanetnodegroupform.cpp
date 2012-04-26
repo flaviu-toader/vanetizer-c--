@@ -90,7 +90,8 @@ Wt::WStandardItem* VanetNodeGroupForm::treeNode(std::vector< Node >& nodes)
     nodeGroupNode.addChild(posNode);
     
     result->appendRow(form_->treeNode(nodes));
-    Node extNode = nodes.pop_back();
+    Node extNode = nodes.back();
+    nodes.pop_back();
     nodeGroupNode.addChild(extNode);
     nodes.push_back(nodeGroupNode);
     

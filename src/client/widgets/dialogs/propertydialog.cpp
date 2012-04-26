@@ -35,7 +35,8 @@ using namespace Wt;
 using namespace std;
 
 PropertyDialog::PropertyDialog(WStandardItemModel *model) :
-    model_(model)
+    model_(model),
+    root_(Node("universe"))
 {
     WTable *table = new WTable(this->contents());
     int row = 0;
@@ -99,7 +100,9 @@ void PropertyDialog::submit(DialogCode result)
             show();
             return;
         }
-        WStandardItem *newItem = form->treeNode();
+        vector< Node > nodes;
+        WStandardItem *newItem = form->treeNode(nodes);
+        root_.addChildren(nodes);
         // check if we are dealing really with a new item
         if(itemIsNew(newItem) && preselectedItem_ == 0)
         {
