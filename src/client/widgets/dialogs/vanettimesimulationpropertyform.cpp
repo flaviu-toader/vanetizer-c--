@@ -38,15 +38,22 @@ void VanetTimeSimulationPropertyForm::setPreselectedValues(const map< string, bo
     setPreselectedDoubleValue("param=", values, param_);
 }
 
-Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode()
+Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode(vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.timesim"));
     result->setData(VanetTimeSimulation);
     
+    Node n("extension");
+    Attribute c("class", "de.uni_stuttgart.informatik.canu.spatialmodel.simulations.TimeSimulation");
+    n.addAttribute(c);
+    
     stringstream ss;
     ss.precision(1);
     ss << std::fixed << param_->value();
+    Attribute p("param", ss.str());
+    n.addAttribute(p);
     result->appendRow(propertyRow(string("param="), tr("mappropertyeditor.group.timesim.param").toUTF8(), ss.str()));
     
+    nodes.push_back(n);
     return result;
 }

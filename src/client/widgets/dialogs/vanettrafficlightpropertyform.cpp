@@ -40,13 +40,19 @@ void VanetTrafficLightPropertyForm::setPreselectedValues(const std::map< std::st
     setPreselectedIntegerValue("step=", values, step_);
 }
 
-Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode()
+Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode(vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.trlight"));
     result->setData(VanetTrafficLights);
     
+    Node n("extension");
+    Attribute c("class", "eurecom.spatialmodel.extensions.TrafficLight");
+    n.addAttribute(c);
+    Attribute s("step", boost::lexical_cast<string>(step_->value()));
+    n.addAttribute(s);
     result->appendRow(propertyRow(string("step="), tr("mappropertyeditor.group.trlight.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
     
+    nodes.push_back(n);
     return result;
 }
 

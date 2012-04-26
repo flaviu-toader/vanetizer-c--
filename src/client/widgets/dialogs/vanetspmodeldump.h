@@ -15,7 +15,7 @@ class VanetSpModelDump : public AbstractPropertyForm
 public:
     VanetSpModelDump(Wt::WContainerWidget* parent = 0);
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
-    virtual Wt::WStandardItem* treeNode();
+    virtual Wt::WStandardItem* treeNode(std::vector< Node >& nodes);
     virtual bool validate(std::vector< std::string >& messages);
 private:
     Wt::WLineEdit* output_;

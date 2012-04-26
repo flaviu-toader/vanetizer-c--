@@ -47,15 +47,19 @@ void VanetStepPropertyForm::setPreselectedValues(const std::map< std::string, bo
     setPreselectedDoubleValue("step", values, step_);
 }
 
-Wt::WStandardItem* VanetStepPropertyForm::treeNode()
+Wt::WStandardItem* VanetStepPropertyForm::treeNode(std::vector< Node >& nodes)
 {
     WStandardItem *result = new WStandardItem(tr("mappropertyeditor.group.step").toUTF8());
     result->setData(VanetStep);
+    
+    Node n("step");
     std::stringstream ss;
     ss.precision(3);
     ss << std::fixed << step_->value();
+    n.value(ss.str());
     result->appendRow(propertyRow(std::string("step"), tr("mappropertyeditor.group.step.label").toUTF8(), ss.str()));
     
+    nodes.push_back(n);
     return result;
 }
 

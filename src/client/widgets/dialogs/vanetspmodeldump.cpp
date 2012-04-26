@@ -27,13 +27,19 @@ void VanetSpModelDump::setPreselectedValues(const std::map< std::string, boost::
     setPreselectedLineValue("output=", values, output_);
 }
 
-Wt::WStandardItem* VanetSpModelDump::treeNode()
+Wt::WStandardItem* VanetSpModelDump::treeNode(vector< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.spmodeldump"));
     result->setData(VanetSpatialModelDump);
-
+    
+    Node extNode("extension");
+    Attribute classAttr("class", "de.uni_stuttgart.informatik.canu.spatialmodel.extensions.DumpSpatialModel");
+    extNode.addAttribute(classAttr);
+    Attribute outAttr("output", output_->valueText().toUTF8());
+    extNode.addAttribute(outAttr);
     result->appendRow(propertyRow(string("output="), tr("mappropertyeditor.group.spmodeldump.output").toUTF8(), output_->valueText().toUTF8()));
     
+    nodes.push_back(extNode);
     return result;
 }
 
