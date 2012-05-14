@@ -117,7 +117,7 @@ void VanetSpatialModelPropertyForm::setPreselectedValues(const std::map< std::st
     setPreselectedCheckboxValue("reflect_directions", values, reflectDirs_);
 }
 
-Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode(std::vector< Node >& nodes)
+Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode(std::list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.spmodel"));
     result->setData(VanetSpatialModel);

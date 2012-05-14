@@ -11,7 +11,6 @@
 
 #include "logger.h"
 #include "vanetareapropertyform.h"
-#include "client/xmlhelper.h"
 #include "client/widgets/dialogs/abstractpropertyform.h"
 
 using namespace Wt;
@@ -55,7 +54,7 @@ void VanetAreaPropertyForm::setPreselectedValues(const std::map< std::string, bo
 }
 
 
-WStandardItem *VanetAreaPropertyForm::treeNode(std::vector< Node >& nodes) 
+WStandardItem *VanetAreaPropertyForm::treeNode(std::list< Node >& nodes) 
 {
     WStandardItem *result = new WStandardItem(tr("mappropertyeditor.group.general"));
     result->setData(VanetArea);

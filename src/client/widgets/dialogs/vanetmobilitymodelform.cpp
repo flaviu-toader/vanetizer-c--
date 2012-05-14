@@ -152,7 +152,7 @@ VanetMobilityModelForm::VanetMobilityModelForm(WContainerWidget* parent)
     ignoreBorders_->setCheckState(Unchecked);
 }
 
-WStandardItem* VanetMobilityModelForm::treeNode(std::vector< Node >& nodes)
+WStandardItem* VanetMobilityModelForm::treeNode(std::list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.mobility"));
     

@@ -19,7 +19,6 @@ class ModelToXmlConverter
 
 public:
     ModelToXmlConverter(Wt::WStandardItemModel* model);
-    void validate();
 private:
     void convertXml();
     

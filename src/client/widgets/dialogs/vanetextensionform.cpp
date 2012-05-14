@@ -69,7 +69,7 @@ bool VanetExtensionForm::validate(std::vector< std::string >& messages)
     return form_->validate(messages);
 }
 
-Wt::WStandardItem* VanetExtensionForm::treeNode(std::vector< Node >& nodes)
+Wt::WStandardItem* VanetExtensionForm::treeNode(std::list< Node >& nodes)
 {
     return form_->treeNode(nodes);
 }

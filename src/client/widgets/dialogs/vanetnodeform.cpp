@@ -71,7 +71,7 @@ bool VanetNodeForm::validate(std::vector< std::string >& messages)
 
 }
 
-Wt::WStandardItem* VanetNodeForm::treeNode(std::vector< Node >& nodes)
+Wt::WStandardItem* VanetNodeForm::treeNode(std::list< Node >& nodes)
 {
     
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.node").arg(id_->valueText()));

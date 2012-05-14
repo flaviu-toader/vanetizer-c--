@@ -43,10 +43,7 @@ void ModelToXmlConverter::convertXml()
             Logger::entry("error") << "Bad any cast when getting data from item " << currentItem->text().toUTF8() << ". Exception message: " << e.what();
         }
     }
-}
-
-void ModelToXmlConverter::validate()
-{
+    
     doc_.save_file("test.xml");
 }
 

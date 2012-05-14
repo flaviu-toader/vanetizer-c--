@@ -27,7 +27,7 @@ void VanetSpModelDump::setPreselectedValues(const std::map< std::string, boost::
     setPreselectedLineValue("output=", values, output_);
 }
 
-Wt::WStandardItem* VanetSpModelDump::treeNode(vector< Node >& nodes)
+Wt::WStandardItem* VanetSpModelDump::treeNode(list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.spmodeldump"));
     result->setData(VanetSpatialModelDump);

@@ -1,7 +1,7 @@
 #ifndef GMSOUTPROPERTYCONVERTOR_H
 #define GMSOUTPROPERTYCONVERTOR_H
 
-#include <../../home/flaviu/projects/vanetizer-c--/src/xml/property/abstractpropertyconvertor.h>
+#include "xml/property/abstractpropertyconvertor.h"
 
 
 class GmsOutPropertyConvertor : public AbstractPropertyConvertor

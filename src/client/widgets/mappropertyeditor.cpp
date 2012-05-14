@@ -146,5 +146,4 @@ void MapPropertyEditor::itemClicked(const WModelIndex& clickedItem)
 void MapPropertyEditor::validateClicked()
 {
     ModelToXmlConverter modelToXml(model_);
-    modelToXml.validate();
 }

@@ -1,5 +1,6 @@
 
 #include <vector>
+#include <list>
 #include <utility>
 #include <string>
 #include <numeric>
@@ -100,13 +101,13 @@ void PropertyDialog::submit(DialogCode result)
             show();
             return;
         }
-        vector< Node > nodes;
+        list< Node > nodes;
         WStandardItem *newItem = form->treeNode(nodes);
-        root_.addChildren(nodes);
         // check if we are dealing really with a new item
         if(itemIsNew(newItem) && preselectedItem_ == 0)
         {
             model_->appendRow(newItem);
+            root_.addChildren(nodes);
         }
         else
         {

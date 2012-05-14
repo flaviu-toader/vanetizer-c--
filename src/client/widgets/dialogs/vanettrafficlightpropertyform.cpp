@@ -40,7 +40,7 @@ void VanetTrafficLightPropertyForm::setPreselectedValues(const std::map< std::st
     setPreselectedIntegerValue("step=", values, step_);
 }
 
-Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode(vector< Node >& nodes)
+Wt::WStandardItem* VanetTrafficLightPropertyForm::treeNode(list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.trlight"));
     result->setData(VanetTrafficLights);

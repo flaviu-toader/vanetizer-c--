@@ -38,7 +38,7 @@ void VanetTimeSimulationPropertyForm::setPreselectedValues(const map< string, bo
     setPreselectedDoubleValue("param=", values, param_);
 }
 
-Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode(vector< Node >& nodes)
+Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode(list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.timesim"));
     result->setData(VanetTimeSimulation);

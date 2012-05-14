@@ -21,7 +21,6 @@ set(wt_project_source
     client/widgets/mappropertyeditor.cpp
     client/mapmakerpage.cpp 
     client/navigationmenu.cpp
-    client/xmlhelper.cpp
     logger.cpp 
     main.cpp
 )
@@ -31,6 +30,7 @@ set(vanetxml_source
     xml/property/areapropertyconvertor.cpp
     xml/property/gmsoutpropertyconvertor.cpp
     xml/modeltoxmlconverter.cpp
+    xml/xmlhelper.cpp
 )
 include_directories(${cmake_source_dir})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)

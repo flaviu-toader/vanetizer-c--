@@ -17,7 +17,7 @@ public:
     VanetGmsOutPropertyForm(Wt::WContainerWidget* parent = 0);
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
     virtual bool validate(std::vector< std::string >& messages);
-    virtual Wt::WStandardItem* treeNode(std::vector< Node >& nodes);
+    virtual Wt::WStandardItem* treeNode(std::list< Node >& nodes);
 private:
     Wt::WDoubleSpinBox* step_;
     Wt::WLineEdit* outputFileName_;

@@ -12,7 +12,6 @@
 #include <Wt/WStandardItem>
 #include <Wt/WContainerWidget>
 
-#include "client/xmlhelper.h"
 #include "vanetgmsoutpropertyform.h"
 #include "logger.h"
 
@@ -57,7 +56,7 @@ bool VanetGmsOutPropertyForm::validate(std::vector< std::string >& messages)
     return false;
 }
 
-Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode(std::vector< Node >& nodes)
+Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode(std::list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem();
     result->setData(VanetGlomosimOutput);

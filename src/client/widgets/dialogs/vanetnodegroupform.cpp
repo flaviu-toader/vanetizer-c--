@@ -70,7 +70,7 @@ void VanetNodeGroupForm::setPreselectedValues(const std::map< std::string, boost
 
 }
 
-Wt::WStandardItem* VanetNodeGroupForm::treeNode(std::vector< Node >& nodes)
+Wt::WStandardItem* VanetNodeGroupForm::treeNode(std::list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.nodegroup").arg(id_->valueText()));
     result->setData(VanetNodeGroup);
