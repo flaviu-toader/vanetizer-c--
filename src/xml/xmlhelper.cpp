@@ -51,17 +51,26 @@ void Node::addChildren(const list< Node >& children)
     children_.insert(children_.end(), children.begin(), children.end());
 }
 
-void Node::replaceChild(const Node& o, const Node& n)
+void Node::addChild(const Node& n, list< Node >::iterator pos)
 {
-    list< Node >::iterator it;
-    for (it = children_.begin(); it != children_.end(); ++it) 
+    children_.insert(pos, n);
+}
+
+void Node::addChildren(const list< Node >& children, list< Node >::iterator pos)
+{
+    children_.insert(pos, children.begin(), children.end());
+}
+
+list< Node >::iterator Node::removeChild(const string& name)
+{
+    for (list< Node >::iterator it = children_.begin(); it != children_.end(); ++it)
     {
-        Node currentNode = *it;
-        if(o.name() == currentNode.name()) 
+        if(it->name() == name)
         {
-            
+            return children_.erase(it);
         }
     }
+    return children_.end();
 }
 
 

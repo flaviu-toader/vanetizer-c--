@@ -27,18 +27,33 @@ private:
 class Node
 {
 public:
+    //! Create new node with given string.
     Node(std::string name);
+    //! Add attribute to node.
     void addAttribute(const Attribute& a);
+    //! Get list of attributes.
     std::list< Attribute > attributes() const;
+    //! Add node n as child at the end of the list.
     void addChild(const Node& n);
+    //! Add node n as child at given position.
+    void addChild(const Node& n, std::list< Node >::iterator pos);
+    //! Add list of children nodes at the end of the children's list.
     void addChildren(const std::list< Node >& children);
-    void replaceChild(const Node& o, const Node& n);
-    void replaceChildren(const std::list< Node >& ov, const std::list< Node >& nv);
+    //! Add list of children nodes at given position.
+    void addChildren(const std::list< Node >& children, std::list< Node >::iterator pos);
+    //! Remove child given by name from the children's list and return the position.
+    std::list< Node >::iterator removeChild(const std::string& name);
+    //! Get list of children.
     std::list< Node > children() const;
+    //! Set the name of the node.
     void name(const std::string& n);
+    //! Get the name of the node.
     std::string name() const;
+    //! Set a value for the node (not mandatory).
     void value(const std::string& v);
+    //! Get value of this node.
     std::string value() const;
+    //! Check if this node has a value.
     bool hasValue() const;
 private:
     std::list< Attribute > attributes_;
