@@ -9,7 +9,7 @@
 
 #include "logger.h"
 #include "client/navigationmenu.h"
-#include "client/mapmakerpage.h"
+#include "client/configurationpage.h"
 
 class VanetizerApplication : public Wt::WApplication 
 {
@@ -37,7 +37,7 @@ VanetizerApplication::VanetizerApplication(const Wt::WEnvironment& environment, 
     mainLayout->addWidget(titlePanel, Wt::WBorderLayout::North);
     
     //Wt::WStackedWidget *contentsWidget = new Wt::WStackedWidget();
-    MapMakerPage* contentsWidget = new MapMakerPage;
+    ConfigurationPage* contentsWidget = new ConfigurationPage;
     mainLayout->addWidget(contentsWidget, Wt::WBorderLayout::Center);
     
     //NavigationMenu *navigation = new NavigationMenu(contentsWidget);

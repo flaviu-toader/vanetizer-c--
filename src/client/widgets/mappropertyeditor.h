@@ -29,7 +29,7 @@
 #include "client/widgets/dialogs/propertydialog.h"
 
 // forward declarations
-class MapMakerPage;
+class ConfigurationPage;
 namespace Wt {
     class WStandardItem;
     class WStandardItemModel;
@@ -50,7 +50,7 @@ public:
     /*!
      * This property editor constructor takes in a Wt::StandardItemModel as the model to be rendered using the treeview.
      */
-    MapPropertyEditor(MapMakerPage* mapmaker, Wt::WStandardItemModel* model);
+    MapPropertyEditor(Wt::WStandardItemModel* model, Node& node);
 
     //! Get the treeview.
     /*! 
@@ -70,15 +70,14 @@ private:
     void itemDoubleClicked(const Wt::WModelIndex &clickedItem);
     void itemClicked(const Wt::WModelIndex &clickedItem);
     void removeSelectedProperty();
-    void validateClicked();
 
-    Wt::WPushButton* addProperty_, * removeProperty_, * validate_, * save_;
+    Wt::WPushButton* addProperty_, * removeProperty_, * run_, * save_;
     Wt::WStandardItemModel* model_;
-    MapMakerPage* mapmaker_;
+    ConfigurationPage* mapmaker_;
     Wt::WStandardItem* selectedItem_;
     Wt::WTreeView* treeView_;
     PropertyDialog* pd_;
-    Node root_;
+    Node* root_;
 };
 
 #endif // MAPPROPERTYEDITOR_H_

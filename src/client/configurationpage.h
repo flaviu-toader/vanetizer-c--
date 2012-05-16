@@ -17,20 +17,32 @@
 */
 
 
-#include <Wt/WStackedWidget>
-#include <Wt/WMenu>
-#include <Wt/WText>
+#ifndef MAPMAKERPAGE_H
+#define MAPMAKERPAGE_H
 
-#include "navigationmenu.h"
-#include "client/configurationpage.h"
+#include <Wt/WContainerWidget>
+#include "xml/xmlhelper.h"
 
+class PaintBrushForm;
 
-NavigationMenu::NavigationMenu(Wt::WStackedWidget* contents, Wt::WContainerWidget* parent): WContainerWidget(parent)
+namespace Wt
 {
-    Wt::WMenu *menu =  new Wt::WMenu(contents, Wt::Vertical, this);
-    menu->setRenderAsList(true);
-    
-    menu->addItem(tr("navigationmenu.home"), new Wt::WText("Bla Bla Bla Bla"));
-    menu->addItem(tr("navigationmenu.mapmaker"), new ConfigurationPage());
+    class WComboBox;
+    class WTable;
 }
 
+class ConfigurationPage : public Wt::WContainerWidget
+{
+public:
+    ConfigurationPage(WContainerWidget* parent = 0);
+    
+private:
+    void mapComboChanged(int index);
+    
+    Wt::WContainerWidget* formContainer_;
+    Wt::WComboBox* mapCombo_;
+    PaintBrushForm* paintBrushForm_;
+    Node root_;
+};
+
+#endif // MAPMAKERPAGE_H

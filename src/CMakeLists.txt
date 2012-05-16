@@ -19,19 +19,21 @@ set(wt_project_source
     client/widgets/paintbrush.cpp 
     client/widgets/paintbrushform.cpp  
     client/widgets/mappropertyeditor.cpp
-    client/mapmakerpage.cpp 
+    client/configurationpage.cpp 
     client/navigationmenu.cpp
     logger.cpp 
     main.cpp
 )
 
 set(vanetxml_source 
-    xml/property/abstractpropertyconvertor.cpp
-    xml/property/areapropertyconvertor.cpp
-    xml/property/gmsoutpropertyconvertor.cpp
     xml/modeltoxmlconverter.cpp
     xml/xmlhelper.cpp
 )
+
+set(vanetserver_source 
+    server/vanetconfigurator.cpp
+)
+
 include_directories(${cmake_source_dir})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
@@ -47,11 +49,16 @@ file(COPY ../themes/ DESTINATION ${PROJECT_BINARY_DIR}/bin/resources/themes/)
 add_library(vanetXml ${vanetxml_source})
 target_link_libraries(vanetXml pugixml wt)
 
+add_library(vanetServer ${vanetserver_source})
+target_link_libraries(vanetServer pugixml wt vanetXml)
+
 add_executable(${wt_project_target} ${wt_project_source})
-target_link_libraries(${wt_project_target} wthttp wt boost_signals vanetXml)
+target_link_libraries(${wt_project_target} wthttp wt boost_signals vanetServer)
 
 
 add_subdirectory(client)
 add_subdirectory(xml)
-add_subdirectory(model)
 
+
+
+add_subdirectory(server)

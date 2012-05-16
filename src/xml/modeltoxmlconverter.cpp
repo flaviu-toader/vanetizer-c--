@@ -9,8 +9,6 @@
 #include "modeltoxmlconverter.h"
 #include "logger.h"
 #include "client/widgets/dialogs/abstractpropertyform.h"
-#include "xml/property/abstractpropertyconvertor.h"
-#include "xml/property/areapropertyconvertor.h"
 #include "xml/xmlhelper.h"
 
 using namespace Wt;
@@ -23,39 +21,10 @@ ModelToXmlConverter::ModelToXmlConverter(Node model) :
     root_ = doc_.append_child(model_.name().c_str());
 }
 
-void ModelToXmlConverter::convertXml()
+void ModelToXmlConverter::convert()
 {
-//     list< Node > children = model_.children();
-//     list< Node >::iterator it = children.begin();
-//     for (; it != children.end(); ++it)
-//     {
-//         xml_node newNode = root_.append_child(it->name().c_str());
-//         if (newNode.empty()) 
-//         {
-//             Logger::entry("info") << "Error when adding new xml node " << it->name() << ". Skipping node.";
-//             continue;
-//         }
-//         list< Attribute > attributes = it->attributes();
-//         list< Attribute >::iterator attrIt = attributes.begin();
-//         for (; attrIt != attributes.end(); ++attrIt)
-//         {
-//             xml_attribute attr = newNode.append_attribute(attrIt->name().c_str());
-//             if (attr.empty())
-//             {
-//                 Logger::entry("info") << "Error when adding new attribute " << attrIt->name() << " to node " << it->name() << ". Skipping attribute.";
-//                 continue;
-//             }
-//             attr.set_value(attrIt->value().c_str());
-//         }
-//         if (it->children().size() != 0)
-//         {
-//             
-//         }
-//     }
-
+    // make the first call to the recursive function
     buildXml(model_, root_);
-    
-    doc_.save_file("test.xml");
 }
 
 void ModelToXmlConverter::buildXml(const Node& node, xml_node& xnode)
@@ -77,10 +46,6 @@ void ModelToXmlConverter::buildXml(const Node& node, xml_node& xnode)
         {
             Logger::entry("info") << "Node " << it->name() << " has children. Appending to the children...";
             buildXml(*it, newNode);
-        } 
-        else 
-        {
-            Logger::entry("info") << "Node " << it->name() << " has no children! Boooo!";
         }
     }
     

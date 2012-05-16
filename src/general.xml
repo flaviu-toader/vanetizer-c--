@@ -9,6 +9,7 @@
     <message id='button.undo'>Undo</message>
     <message id='button.save'>Save</message>
     <message id='button.cancel'>Cancel</message>
+    <message id='button.run'>Run</message>
     <message id='constant.none'>None</message>
     <message id='constant.yes'>Yes</message>
     <message id='constant.no'>No</message>

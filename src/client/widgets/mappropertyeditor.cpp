@@ -23,18 +23,17 @@
 
 #include "mappropertyeditor.h"
 #include "logger.h"
-#include "client/mapmakerpage.h"
+#include "client/configurationpage.h"
 #include "client/widgets/dialogs/propertydialog.h"
 #include "client/widgets/dialogs/abstractpropertyform.h"
-#include "xml/modeltoxmlconverter.h"
+#include "server/vanetconfigurator.h"
 
 using namespace Wt;
 
-MapPropertyEditor::MapPropertyEditor(MapMakerPage* mapmaker, WStandardItemModel *model) : 
-    model_(model),
-    mapmaker_(mapmaker),
-    root_(Node("universe"))
+MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model, Node& node) : 
+    model_(model)
 {
+    root_ = &node;
     selectedItem_ = 0;
     WTable *mainTable = new WTable(this);
     new WText(tr("mappropertyeditor.title"), mainTable->elementAt(0,0));
@@ -81,13 +80,12 @@ MapPropertyEditor::MapPropertyEditor(MapMakerPage* mapmaker, WStandardItemModel 
     removeProperty_->setDisabled(true);
     removeProperty_->clicked().connect(this, &MapPropertyEditor::removeSelectedProperty);
 
-    validate_ = new WPushButton(tr("mappropertyeditor.button.validate"), buttonTable->elementAt(0, 2));
-    validate_->resize(120, 30);
-    validate_->clicked().connect(this, &MapPropertyEditor::validateClicked);
-    
-    save_ = new WPushButton(tr("button.save"), buttonTable->elementAt(0, 3));
+    save_ = new WPushButton(tr("button.save"), buttonTable->elementAt(0, 2));
     save_->resize(120, 30);
-    save_->setDisabled(true);
+    
+    run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 3));
+    run_->resize(120, 30);
+
 }
 
 void MapPropertyEditor::removeSelectedProperty()
@@ -105,7 +103,7 @@ void MapPropertyEditor::removeSelectedProperty()
 
 void MapPropertyEditor::showPropertyDialog()
 {
-    pd_ = new PropertyDialog(model_, root_);
+    pd_ = new PropertyDialog(model_, (*root_));
     pd_->show();
 }
 
@@ -125,7 +123,7 @@ void MapPropertyEditor::itemDoubleClicked(const WModelIndex& clickedItem)
     if (clickedItem.parent() == treeView_->rootIndex()) 
     {
         WStandardItem *item = model_->item(clickedItem.row(), clickedItem.column());
-        pd_ = new PropertyDialog(model_, root_);
+        pd_ = new PropertyDialog(model_, (*root_));
         pd_->setPreselectedProperty(item);
         pd_->show();
     }
@@ -142,10 +140,4 @@ void MapPropertyEditor::itemClicked(const WModelIndex& clickedItem)
     {
         removeProperty_->setDisabled(true);
     }
-}
-
-void MapPropertyEditor::validateClicked()
-{
-    ModelToXmlConverter modelToXml(root_);
-    modelToXml.convertXml();
 }
