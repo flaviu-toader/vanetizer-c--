@@ -36,8 +36,7 @@
 using namespace Wt;
 
 ConfigurationPage::ConfigurationPage(WContainerWidget* parent): 
-    WContainerWidget(parent),
-    root_(Node("universe"))
+    WContainerWidget(parent)
 {
     resize(Wt::WLength::Auto, Wt::WLength::Auto);
     
@@ -59,8 +58,8 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     
     ++row;
     Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
-    MapPropertyEditor *mpe = new MapPropertyEditor(model, root_);
-    table->elementAt(row, 0)->addWidget(mpe);
+    mpe_ = new MapPropertyEditor(this, model);
+    table->elementAt(row, 0)->addWidget(mpe_);
     table->elementAt(row, 0)->setRowSpan(2);
     table->elementAt(row, 0)->setPadding(25);
     
@@ -78,5 +77,11 @@ void ConfigurationPage::mapComboChanged(int index)
         default:
             formContainer_->clear();
     }
+}
+
+void ConfigurationPage::saveClicked()
+{
+    VanetConfigurator cfg(mpe_->getModelNode());
+    cfg.save();
 }
 

@@ -15,6 +15,7 @@ class VanetConfigurator
 public:
     VanetConfigurator(const Node& modelNode);
     
+    void save();
 private:
     
     pugi::xml_document doc_;

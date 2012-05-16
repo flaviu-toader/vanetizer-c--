@@ -22,9 +22,10 @@
 
 #include <Wt/WContainerWidget>
 #include "xml/xmlhelper.h"
+#include "server/vanetconfigurator.h"
 
 class PaintBrushForm;
-
+class MapPropertyEditor;
 namespace Wt
 {
     class WComboBox;
@@ -36,13 +37,14 @@ class ConfigurationPage : public Wt::WContainerWidget
 public:
     ConfigurationPage(WContainerWidget* parent = 0);
     
+    void saveClicked();
 private:
     void mapComboChanged(int index);
     
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;
     PaintBrushForm* paintBrushForm_;
-    Node root_;
+    MapPropertyEditor* mpe_;
 };
 
 #endif // MAPMAKERPAGE_H

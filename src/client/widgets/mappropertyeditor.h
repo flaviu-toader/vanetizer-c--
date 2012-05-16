@@ -50,13 +50,15 @@ public:
     /*!
      * This property editor constructor takes in a Wt::StandardItemModel as the model to be rendered using the treeview.
      */
-    MapPropertyEditor(Wt::WStandardItemModel* model, Node& node);
+    MapPropertyEditor(ConfigurationPage* page, Wt::WStandardItemModel* model);
 
     //! Get the treeview.
     /*! 
      * Returns the treeview used in this property editor.
      */
     Wt::WTreeView *getTreeView() const { return treeView_; }
+    
+    Node getModelNode() const { return root_; }
 
     //! Static method that generates the model for our map property editor.
     /*!
@@ -77,7 +79,7 @@ private:
     Wt::WStandardItem* selectedItem_;
     Wt::WTreeView* treeView_;
     PropertyDialog* pd_;
-    Node* root_;
+    Node root_;
 };
 
 #endif // MAPPROPERTYEDITOR_H_

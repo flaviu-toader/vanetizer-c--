@@ -21,10 +21,13 @@ ModelToXmlConverter::ModelToXmlConverter(Node model) :
     root_ = doc_.append_child(model_.name().c_str());
 }
 
-void ModelToXmlConverter::convert()
+string ModelToXmlConverter::convert()
 {
     // make the first call to the recursive function
     buildXml(model_, root_);
+    stringstream ss;
+    doc_.save(ss);
+    return ss.str();
 }
 
 void ModelToXmlConverter::buildXml(const Node& node, xml_node& xnode)

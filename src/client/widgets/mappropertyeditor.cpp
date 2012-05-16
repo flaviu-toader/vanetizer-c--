@@ -30,10 +30,10 @@
 
 using namespace Wt;
 
-MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model, Node& node) : 
-    model_(model)
+MapPropertyEditor::MapPropertyEditor(ConfigurationPage* page, WStandardItemModel *model) : 
+    model_(model),
+    root_(Node("universe"))
 {
-    root_ = &node;
     selectedItem_ = 0;
     WTable *mainTable = new WTable(this);
     new WText(tr("mappropertyeditor.title"), mainTable->elementAt(0,0));
@@ -81,6 +81,7 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel *model, Node& node) :
     removeProperty_->clicked().connect(this, &MapPropertyEditor::removeSelectedProperty);
 
     save_ = new WPushButton(tr("button.save"), buttonTable->elementAt(0, 2));
+    save_->clicked().connect(page, &ConfigurationPage::saveClicked);
     save_->resize(120, 30);
     
     run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 3));
@@ -103,7 +104,7 @@ void MapPropertyEditor::removeSelectedProperty()
 
 void MapPropertyEditor::showPropertyDialog()
 {
-    pd_ = new PropertyDialog(model_, (*root_));
+    pd_ = new PropertyDialog(model_, root_);
     pd_->show();
 }
 
@@ -123,7 +124,7 @@ void MapPropertyEditor::itemDoubleClicked(const WModelIndex& clickedItem)
     if (clickedItem.parent() == treeView_->rootIndex()) 
     {
         WStandardItem *item = model_->item(clickedItem.row(), clickedItem.column());
-        pd_ = new PropertyDialog(model_, (*root_));
+        pd_ = new PropertyDialog(model_, root_);
         pd_->setPreselectedProperty(item);
         pd_->show();
     }

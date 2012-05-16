@@ -24,10 +24,8 @@ public:
      * Performs the actual conversion to VanetMobiSim-readable xml. 
      * CAUTION! The xml is not yet validated. It contains the settings for both VanetMobiSim and GloMoSim.
      */
-    void convert();
+    std::string convert();
     
-    //! Get the converted xml document as a pugi::xml_document object.
-    pugi::xml_document document();
 private:
     void buildXml(const Node& node, pugi::xml_node& xnode);
     pugi::xml_node appendNode(const Node& node, pugi::xml_node& xnode);
