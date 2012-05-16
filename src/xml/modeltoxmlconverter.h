@@ -2,6 +2,7 @@
 #define MODELTOXMLCONVERTER_H
 
 #include <pugixml/pugixml.hpp>
+#include "xml/xmlhelper.h"
 
 namespace Wt
 {
@@ -18,11 +19,13 @@ class ModelToXmlConverter
 {
 
 public:
-    ModelToXmlConverter(Wt::WStandardItemModel* model);
-private:
+    ModelToXmlConverter(Node model);
     void convertXml();
+private:
+    void buildXml(const Node& node, pugi::xml_node& xnode);
+    pugi::xml_node appendNode(const Node& node, pugi::xml_node& xnode);
     
-    Wt::WStandardItemModel* model_;
+    Node model_;
     pugi::xml_document doc_;
     pugi::xml_node root_;
 };

@@ -25,6 +25,7 @@
 #include <boost/any.hpp>
 #include <map>
 
+#include "xml/xmlhelper.h"
 #include "client/widgets/dialogs/propertydialog.h"
 
 // forward declarations
@@ -77,6 +78,7 @@ private:
     Wt::WStandardItem* selectedItem_;
     Wt::WTreeView* treeView_;
     PropertyDialog* pd_;
+    Node root_;
 };
 
 #endif // MAPPROPERTYEDITOR_H_

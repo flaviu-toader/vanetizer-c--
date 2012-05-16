@@ -32,8 +32,9 @@ using namespace Wt;
 
 MapPropertyEditor::MapPropertyEditor(MapMakerPage* mapmaker, WStandardItemModel *model) : 
     model_(model),
-    mapmaker_(mapmaker)
-{    
+    mapmaker_(mapmaker),
+    root_(Node("universe"))
+{
     selectedItem_ = 0;
     WTable *mainTable = new WTable(this);
     new WText(tr("mappropertyeditor.title"), mainTable->elementAt(0,0));
@@ -104,7 +105,7 @@ void MapPropertyEditor::removeSelectedProperty()
 
 void MapPropertyEditor::showPropertyDialog()
 {
-    pd_ = new PropertyDialog(model_);
+    pd_ = new PropertyDialog(model_, root_);
     pd_->show();
 }
 
@@ -124,7 +125,7 @@ void MapPropertyEditor::itemDoubleClicked(const WModelIndex& clickedItem)
     if (clickedItem.parent() == treeView_->rootIndex()) 
     {
         WStandardItem *item = model_->item(clickedItem.row(), clickedItem.column());
-        pd_ = new PropertyDialog(model_);
+        pd_ = new PropertyDialog(model_, root_);
         pd_->setPreselectedProperty(item);
         pd_->show();
     }
@@ -145,5 +146,6 @@ void MapPropertyEditor::itemClicked(const WModelIndex& clickedItem)
 
 void MapPropertyEditor::validateClicked()
 {
-    ModelToXmlConverter modelToXml(model_);
+    ModelToXmlConverter modelToXml(root_);
+    modelToXml.convertXml();
 }

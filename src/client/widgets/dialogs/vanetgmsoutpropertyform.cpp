@@ -67,7 +67,6 @@ Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode(std::list< Node >& nodes)
     extensionNode.addAttribute(extensionClass);
     Attribute output = Attribute("output", outputFileName_->valueText().toUTF8());
     extensionNode.addAttribute(output);
-    nodes.push_back(extensionNode);
     result->appendRow(propertyRow(string("output="), tr("mappropertyeditor.group.gmsout.output").toUTF8(), outputFileName_->valueText().toUTF8()));
     
     stringstream ss;
@@ -75,9 +74,9 @@ Wt::WStandardItem* VanetGmsOutPropertyForm::treeNode(std::list< Node >& nodes)
     ss << std::fixed << step_->value();
     Node stepNode = Node("step");
     stepNode.value(ss.str());
-    nodes.push_back(stepNode);
+    extensionNode.addChild(stepNode);
     result->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.gmsout.step").toUTF8(), ss.str()));
-    
+    nodes.push_back(extensionNode);
     return result;
 }
 

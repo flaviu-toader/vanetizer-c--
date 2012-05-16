@@ -35,10 +35,10 @@
 using namespace Wt;
 using namespace std;
 
-PropertyDialog::PropertyDialog(WStandardItemModel *model) :
-    model_(model),
-    root_(Node("universe"))
+PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
+    model_(model)
 {
+    root_ = &root;
     WTable *table = new WTable(this->contents());
     int row = 0;
 
@@ -107,7 +107,7 @@ void PropertyDialog::submit(DialogCode result)
         if(itemIsNew(newItem) && preselectedItem_ == 0)
         {
             model_->appendRow(newItem);
-            root_.addChildren(nodes);
+            root_->addChildren(nodes);
         }
         else
         {
@@ -123,11 +123,11 @@ void PropertyDialog::submit(DialogCode result)
                         string currentName = currentItem->text().toUTF8();
                         if(currentName.find("=") == string::npos) 
                         {
-                            it = root_.removeChild(currentName);
+                            it = root_->removeChild(currentName);
                         }
                     }
                 }
-                root_.addChildren(nodes, it);
+                root_->addChildren(nodes, it);
                 WModelIndex ix = model_->indexFromItem(preselectedItem_);
                 model_->itemFromIndex(ix)->removeRows(0, preselectedItem_->rowCount());
                 for (int i = 0; i < newItem->rowCount(); i++)

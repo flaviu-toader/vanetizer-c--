@@ -16,7 +16,7 @@ namespace Wt {
 class PropertyDialog : public Wt::WDialog
 {
 public:
-    PropertyDialog(Wt::WStandardItemModel *model);
+    PropertyDialog(Wt::WStandardItemModel* model, Node& root);
     void setPreselectedProperty(Wt::WStandardItem *rootItem);
 
 private:
@@ -25,7 +25,7 @@ private:
     void comboChanged(int itemIndex);
     bool itemIsNew(Wt::WStandardItem* item);
     
-    Node root_;
+    Node* root_;
     Wt::WStandardItemModel* model_;
     Wt::WStandardItem* preselectedItem_;
     Wt::WContainerWidget* formContainer_;
