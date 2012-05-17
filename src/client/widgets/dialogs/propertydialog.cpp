@@ -30,6 +30,7 @@
 #include "client/widgets/dialogs/vanetextensionform.h"
 #include "client/widgets/dialogs/vanetnodegroupform.h"
 #include "client/widgets/dialogs/vanetnodeform.h"
+#include "client/widgets/dialogs/vanetroutingprotocolpropertyform.h"
 #include "logger.h"
 
 using namespace Wt;
@@ -49,6 +50,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.routingprotocol"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.extension"));
 
     mainComboBox_->activated().connect(this, &PropertyDialog::comboChanged);
@@ -78,7 +80,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
 void PropertyDialog::setPreselectedProperty(WStandardItem *rootItem)
 {
     VanetProperty currentIndex = boost::any_cast<VanetProperty>(rootItem->data());
-    if ((int) currentIndex > 6)
+    if ((int) currentIndex > 7)
     {
         currentIndex = VanetGlomosimOutput;
     }
@@ -207,6 +209,8 @@ void PropertyDialog::comboChanged(int itemIndex)
         form = new VanetNodeGroupForm;
         break;
     case 6:
+        form = new VanetRoutingProtocolPropertyForm;
+    case 7:
         form = new VanetExtensionForm;
         break;
     default:

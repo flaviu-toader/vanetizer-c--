@@ -196,6 +196,28 @@ Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode(std::list< Node >& no
     extNode.addChild(reflectDirsNode);
     
     nodes.push_back(extNode);
+    
+    // Default values for Position Generator and Trip Generator.
+    Node posGenNode("extension");
+    Attribute pgNameAttr("name", "PosGen");
+    posGenNode.addAttribute(pgNameAttr);
+    Attribute pgClass("class", "de.uni_stuttgart.informatik.canu.tripmodel.generators.RandomInitialPositionGenerator");
+    posGenNode.addAttribute(pgClass);
+    nodes.push_back(posGenNode);
+    
+    Node tripGenNode("extension");
+    Attribute tgNameAttr("name", "TripGen");
+    tripGenNode.addAttribute(tgNameAttr);
+    Attribute tgClass("class", "de.uni_stuttgart.informatik.canu.tripmodel.generators.RandomTripGenerator");
+    tripGenNode.addAttribute(tgClass);
+    tripGenNode.addChild(reflectDirsNode);
+    Node tgMinStay("minstay");
+    tgMinStay.value("5.0");
+    tripGenNode.addChild(tgMinStay);
+    Node tgMaxStay("maxstay");
+    tgMaxStay.value("30.0");
+    tripGenNode.addChild(tgMaxStay);
+    nodes.push_back(tripGenNode);
     return result;
 }
 

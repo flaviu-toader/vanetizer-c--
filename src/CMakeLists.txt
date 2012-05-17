@@ -7,6 +7,7 @@ set(wt_project_source
     client/widgets/dialogs/vanetsteppropertyform.cpp 
     client/widgets/dialogs/vanetseedpropertyform.cpp 
     client/widgets/dialogs/vanetextensionform.cpp 
+    client/widgets/dialogs/vanetroutingprotocolpropertyform.cpp 
     client/widgets/dialogs/vanetgmsoutpropertyform.cpp
     client/widgets/dialogs/vanetspatialmodelpropertyform.cpp
     client/widgets/dialogs/vanetspmodeldump.cpp
@@ -31,6 +32,8 @@ set(vanetxml_source
 )
 
 set(vanetserver_source 
+    server/runners/gmsconfiguration.cpp 
+    server/runners/vmsconfiguration.cpp 
     server/vanetconfigurator.cpp
 )
 

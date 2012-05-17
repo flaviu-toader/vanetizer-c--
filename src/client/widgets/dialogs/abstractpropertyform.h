@@ -20,16 +20,17 @@ enum VanetProperty
     VanetSeed,                  // 3
     VanetNode,                  // 4
     VanetNodeGroup,             // 5
+    VanetRoutingProtocol,       // 6
     // extensions properties 
-    VanetGlomosimOutput,        // 6
-    VanetTimeSimulation,        // 7
-    VanetSpatialModel,          // 8
-    VanetTrafficLights,         // 9
-    VanetSpatialModelDump,      // 10
-    VanetMobilityTrace,         // 11
-    VanetGDFWriter,             // 12
-    VanetGDFReader,             // 13
-    VanetTIGERReader            // 14
+    VanetGlomosimOutput,        // 7
+    VanetTimeSimulation,        // 8
+    VanetSpatialModel,          // 9
+    VanetTrafficLights,         // 10
+    VanetSpatialModelDump,      // 11
+    VanetMobilityTrace,         // 12
+    VanetGDFWriter,             // 13
+    VanetGDFReader,             // 14
+    VanetTIGERReader            // 15
     // end extension properties
 };
 

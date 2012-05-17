@@ -79,6 +79,8 @@
     <message id='mappropertyeditor.group.nodegroup.nodes'>Number of nodes</message>
     <message id='mappropertyeditor.group.node'>Node {1}</message>
     <message id='mappropertyeditor.group.node.id'>Node id</message>
+    <message id='mappropertyeditor.group.glomosim'>GloMoSim Routing Protocol</message>
+    <message id='mappropertyeditor.group.glomosim.routingprotocol'>Routing protocol</message>
     <!-- /Map property tree -->
     
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
@@ -92,6 +94,7 @@
     <message id='propertydialog.vanet.combobox.extension'>Extension</message>
     <message id='propertydialog.vanet.combobox.node'>Node</message>
     <message id='propertydialog.vanet.combobox.nodegroup'>Node group</message>
+    <message id='propertydialog.vanet.combobox.routingprotocol'>Routing protocol</message>
     
     <message id='propertydialog.error.propertyexists'><p>The property "{1}" already exists in the tree.</p></message>
     
@@ -130,6 +133,12 @@
     <message id='vanet.property.form.trlight.error.step'><p>Provided time interval between traffic light changes must be between 180 and 10 seconds (in ms).</p></message>
     <message id='vanet.property.form.spmodeldump.output'>Output file: </message>
     <message id='vanet.property.form.spmodeldump.error.output'><p>Output filename should be between 5 and 15 characters long.</p></message>
+    <message id='vanet.property.form.routing.combo'>Routing protocol: </message>
+    <message id='vanet.property.form.routing.combo.aodv'>AODV</message>
+    <message id='vanet.property.form.routing.combo.bf'>Bellman-Ford</message>
+    <message id='vanet.property.form.routing.combo.dsr'>Dynamic Source Routing</message>
+    <message id='vanet.property.form.routing.combo.lar'>LAR1</message>
+    <message id='vanet.property.form.routing.combo.wrp'>WRP</message>
     <message id='vanet.property.form.mobility.combo'>Mobility model: </message>
     <message id='vanet.property.form.mobility.combo.lc'>Lane changing</message>
     <message id='vanet.property.form.mobility.combo.im'>Intersection management</message>
@@ -157,5 +166,12 @@
     <message id='vanet.property.form.node.id'>Node id: </message>
     <message id='vanet.property.form.node.error.idlength'><p>The id of the node is not properly assigned.</p></message>
     <!-- /Forms subsection -->
+    
+    <!-- Business validation messages -->
+    <message id='business.validation.error.nospatialmodel'><p>ERROR: There was no Spatial Model extension defined.</p></message>
+    <message id='business.validation.error.noroutingprotocol'><p>ERROR: There was no routing protocol selected.</p></message>
+    <message id='business.validation.error.nogmsout'><p>ERROR: There was no GloMoSim output property defined.</p></message>
+    <message id='business.validation.error.nonodes'><p>ERROR: There were no nodes or nodegroups defined.</p></message>
+    <!-- /Business validation messages -->
     <!-- /Map Creation Tool section -->
 </messages>

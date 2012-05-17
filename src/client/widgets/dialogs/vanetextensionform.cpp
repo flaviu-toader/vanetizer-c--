@@ -57,7 +57,7 @@ void VanetExtensionForm::setPreselectedValues(const std::map< std::string, boost
 
 void VanetExtensionForm::setPreselectedExtension(WStandardItem* rootItem)
 {
-    int currentIndex = (int)boost::any_cast<VanetProperty>(rootItem->data()) - 6;
+    int currentIndex = (int)boost::any_cast<VanetProperty>(rootItem->data()) - 7;
     Logger::entry("info") << "Current index for extensions: " << currentIndex;
     extensionComboBox_->setCurrentIndex(currentIndex);
     preselectedExtensionItem_ = rootItem;
