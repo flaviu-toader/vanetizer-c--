@@ -16,6 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <vector>
+#include <list>
+#include <functional>
+#include <numeric>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WPushButton>
@@ -79,9 +83,58 @@ void ConfigurationPage::mapComboChanged(int index)
     }
 }
 
+bool ConfigurationPage::validate(VanetConfigurator& cfg)
+{
+    Node root = mpe_->getModelNode();
+    if (mapCombo_->currentIndex() == 1) 
+    {
+        std::pair< int, int > dims = getDims(root);
+        Node userGraph = paintBrushForm_->saveImage(dims.first, dims.second);
+        root.addChild(userGraph);
+    }
+    cfg.modelNode(root);
+    std::vector< WString > messages;
+    if(cfg.validate(messages)) 
+    {
+        return true;
+    }
+    else
+    {
+       if (!messages.empty())
+       {
+           WMessageBox::show(tr("application.error"), std::accumulate(messages.begin(), messages.end(), WString("")), Ok);
+       }
+    }
+    return false;
+}
+
+
 void ConfigurationPage::saveClicked()
 {
-    VanetConfigurator cfg(mpe_->getModelNode());
-    cfg.save();
+    VanetConfigurator cfg;
+    if (validate(cfg))
+    {
+        cfg.save();
+    }
+    
 }
+
+std::pair< int, int > ConfigurationPage::getDims(Node n)
+{
+    std::pair< int, int > result = std::make_pair< int, int >(0, 0);
+    // we know nodes 'dimx' and 'dimy' should be on the first level, so we won't go any deeper.
+    std::list< Node > children = n.children();
+    std::list< Node >::iterator it = children.begin();
+    for (; it != children.end(); ++it)
+    {
+        if (it->name() == std::string("dimx"))
+            result.first = boost::lexical_cast<int>(std::string(it->value()));
+        if (it->name() == std::string("dimy"))
+            result.second = boost::lexical_cast<int>(std::string(it->value()));
+        if (result.first != 0 && result.second != 0)
+            break;
+    }
+    return result;
+}
+
 

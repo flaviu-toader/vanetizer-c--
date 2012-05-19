@@ -79,8 +79,9 @@
     <message id='mappropertyeditor.group.nodegroup.nodes'>Number of nodes</message>
     <message id='mappropertyeditor.group.node'>Node {1}</message>
     <message id='mappropertyeditor.group.node.id'>Node id</message>
-    <message id='mappropertyeditor.group.glomosim'>GloMoSim Routing Protocol</message>
+    <message id='mappropertyeditor.group.glomosim'>GloMoSim Properties</message>
     <message id='mappropertyeditor.group.glomosim.routingprotocol'>Routing protocol</message>
+    <message id='mappropertyeditor.group.glomosim.nodesnumber'>Number of GloMoSim simulated nodes</message>
     <!-- /Map property tree -->
     
     <message id='mappropertyeditor.button.addproperty'>Add property...</message>
@@ -94,7 +95,7 @@
     <message id='propertydialog.vanet.combobox.extension'>Extension</message>
     <message id='propertydialog.vanet.combobox.node'>Node</message>
     <message id='propertydialog.vanet.combobox.nodegroup'>Node group</message>
-    <message id='propertydialog.vanet.combobox.routingprotocol'>Routing protocol</message>
+    <message id='propertydialog.vanet.combobox.glomosim'>GloMoSim properties</message>
     
     <message id='propertydialog.error.propertyexists'><p>The property "{1}" already exists in the tree.</p></message>
     
@@ -139,6 +140,7 @@
     <message id='vanet.property.form.routing.combo.dsr'>Dynamic Source Routing</message>
     <message id='vanet.property.form.routing.combo.lar'>LAR1</message>
     <message id='vanet.property.form.routing.combo.wrp'>WRP</message>
+    <message id='vanet.property.form.routing.nodescount'>Number of simulated nodes</message>
     <message id='vanet.property.form.mobility.combo'>Mobility model: </message>
     <message id='vanet.property.form.mobility.combo.lc'>Lane changing</message>
     <message id='vanet.property.form.mobility.combo.im'>Intersection management</message>
@@ -168,10 +170,14 @@
     <!-- /Forms subsection -->
     
     <!-- Business validation messages -->
-    <message id='business.validation.error.nospatialmodel'><p>ERROR: There was no Spatial Model extension defined.</p></message>
-    <message id='business.validation.error.noroutingprotocol'><p>ERROR: There was no routing protocol selected.</p></message>
-    <message id='business.validation.error.nogmsout'><p>ERROR: There was no GloMoSim output property defined.</p></message>
-    <message id='business.validation.error.nonodes'><p>ERROR: There were no nodes or nodegroups defined.</p></message>
+    <message id='business.validation.error.nospatialmodel'><p>There was no Spatial Model extension defined.</p></message>
+    <message id='business.validation.error.noroutingprotocol'><p>There was no routing protocol selected.</p></message>
+    <message id='business.validation.error.nogmsout'><p>There was no GloMoSim output property defined.</p></message>
+    <message id='business.validation.error.nonodes'><p>There were no nodes or nodegroups defined.</p></message>
+    <message id='business.validation.error.notimesim'><p>There was no total time duration defined for the simulation.</p></message>
+    <message id='business.validation.error.nodimx'><p>There was no map width defined.</p></message>
+    <message id='business.validation.error.nodimy'><p>There was no map height defined.</p></message>
+    <message id='business.validation.error.badcount'><p>For WRP the GloMoSim node count must be under 100.</p></message>
     <!-- /Business validation messages -->
     <!-- /Map Creation Tool section -->
 </messages>

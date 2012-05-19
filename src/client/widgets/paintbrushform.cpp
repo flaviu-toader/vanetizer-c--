@@ -70,3 +70,8 @@ void PaintBrushForm::speedChanged(int newSpeed)
     paintbrush_->setCurrentSpeed(newSpeed);
 }
 
+Node PaintBrushForm::saveImage(int dimX, int dimY)
+{
+    return paintbrush_->saveImage(dimX, dimY);
+}
+

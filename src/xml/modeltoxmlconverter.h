@@ -1,7 +1,7 @@
 #ifndef MODELTOXMLCONVERTER_H
 #define MODELTOXMLCONVERTER_H
 
-#include <pugixml/pugixml.hpp>
+#include <pugixml.hpp>
 #include "xml/xmlhelper.h"
 
 namespace Wt

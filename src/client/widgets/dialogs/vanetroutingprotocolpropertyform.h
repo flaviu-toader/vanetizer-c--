@@ -22,6 +22,7 @@ private:
     int getIndexForText(const std::string& text);
     
     Wt::WComboBox* routingCombo_;
+    Wt::WSpinBox* nodesCount_;
 };
 
 #endif // VANETROUTINGPROTOCOLPROPERTYFORM_H

@@ -50,7 +50,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.routingprotocol"));
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.glomosim"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.extension"));
 
     mainComboBox_->activated().connect(this, &PropertyDialog::comboChanged);
@@ -210,6 +210,7 @@ void PropertyDialog::comboChanged(int itemIndex)
         break;
     case 6:
         form = new VanetRoutingProtocolPropertyForm;
+        break;
     case 7:
         form = new VanetExtensionForm;
         break;

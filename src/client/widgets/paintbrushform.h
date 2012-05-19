@@ -4,6 +4,7 @@
 #include <vector>
 #include <Wt/WTable>
 #include "client/widgets/paintbrush.h"
+#include <xml/xmlhelper.h>
 
 namespace Wt 
 {
@@ -15,7 +16,7 @@ class PaintBrushForm : public Wt::WTable
 
 public:
     PaintBrushForm(Wt::WContainerWidget* parent = 0);
-    std::vector<EdgeType> edges();
+    Node saveImage(int dimX, int dimY);
 private: 
     void speedChanged(int newSpeed);
     

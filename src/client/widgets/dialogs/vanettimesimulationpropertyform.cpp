@@ -44,7 +44,7 @@ Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode(list< Node >& nodes
     result->setData(VanetTimeSimulation);
     
     Node n("extension");
-    Attribute c("class", "de.uni_stuttgart.informatik.canu.spatialmodel.simulations.TimeSimulation");
+    Attribute c("class", "de.uni_stuttgart.informatik.canu.mobisim.simulations.TimeSimulation");
     n.addAttribute(c);
     
     stringstream ss;

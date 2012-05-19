@@ -26,14 +26,30 @@
 #include <Wt/WEvent>
 
 #include <vector>
+#include <xml/xmlhelper.h>
 
 using namespace Wt;
 
-typedef std::pair<WPainterPath, int> EdgeType;
+typedef std::pair<WPainterPath, int> ActionType;
+
+struct Vertex 
+{
+    int id;
+    int x;
+    int y;
+};
+
+struct Edge
+{
+    int v1;
+    int v2;
+    int speed;
+};
 
 class PaintBrush : public WPaintedWidget
 {
 public:
+    
     PaintBrush(int width, int height, WContainerWidget *parent = 0);
     
     void clear() 
@@ -55,20 +71,24 @@ public:
         currentSpeed_ = speed;
     }
     
-    std::vector<EdgeType> edges();
-    
     void undoLastAction();
     
-    void saveImage();
+    Node saveImage(int dimX, int dimY);
 protected:
     virtual void paintEvent(WPaintDevice* paintDevice);
     
 private:
+    void transformVertices(int dimX, int dimY);
+    std::list< Node > vertexNodes();
+    std::list< Node > edgeNodes();
+    
     WPainterPath path_;
     WColor color_;
     int currentSpeed_;
     int interactionCount_;
-    std::vector<EdgeType> actions_;
+    std::vector< WPainterPath > actions_;
+    std::list< Vertex > vertexList_;
+    std::list< Edge > edgeList_;
     bool undo_;
     
     void mouseDown(const WMouseEvent& e); 

@@ -12,6 +12,7 @@
 #include "logger.h"
 #include "vanetareapropertyform.h"
 #include "client/widgets/dialogs/abstractpropertyform.h"
+#include "client/widgets/paintbrush.h"
 
 using namespace Wt;
 

@@ -40,6 +40,8 @@ public:
     void saveClicked();
 private:
     void mapComboChanged(int index);
+    bool validate(VanetConfigurator& cfg);
+    std::pair< int, int > getDims(Node n);
     
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;

@@ -2,7 +2,7 @@
 #define VANETCONFIGURATOR_H
 
 #include <vector>
-#include <pugixml/pugixml.hpp>
+#include <pugixml.hpp>
 
 #include "xml/xmlhelper.h"
 #include "server/runners/gmsconfiguration.h"
@@ -21,7 +21,9 @@ namespace Wt
 class VanetConfigurator
 {
 public:
-    VanetConfigurator(const Node& modelNode);
+    VanetConfigurator();
+    
+    void modelNode(const Node& modelNode);
     
     void save();
     
@@ -29,9 +31,58 @@ public:
     bool validate(std::vector< Wt::WString >& validationMessages);
 private:
     
+    struct routingNodePredicate
+    {
+        bool operator()(pugi::xml_node node)
+        {
+            return std::string(node.name()) == std::string("routingprotocol");
+        }
+    };
+    
+    struct nodesPredicate
+    {
+        bool operator()(pugi::xml_node node)
+        {
+            return std::string(node.name()) == std::string("nodegroup") || 
+                std::string(node.name()) == std::string("node");
+        }
+    };
+    
+    struct dimxPredicate
+    {
+        bool operator()(pugi::xml_node node)
+        {
+            return std::string(node.name()) == std::string("dimx");
+        }
+    };
+    
+    struct dimyPredicate
+    {
+        bool operator()(pugi::xml_node node)
+        {
+            return std::string(node.name()) == std::string("dimy");
+        }
+    };
+    
+    struct nodeCountPredicate
+    {
+        bool operator()(pugi::xml_node node)
+        {
+            return std::string(node.name()) == std::string("number_of_nodes");
+        }
+    };
+    
+    /*!
+     * This method is responsible with creating the separate configurations for the simulators.
+     * It reorders the xml for VanetMobiSim so that it is valid, removes the GloMoSim settings
+     * from it and populates the Gms and Vms configuration objects.
+     */
+    void fillConfiguration();
+    
     pugi::xml_document doc_;
     VmsConfiguration vanetMobiSimCfg_;
     GmsConfiguration gloMoSimCfg_;
+    bool isValid_;
 };
 
 #endif // VANETCONFIGURATOR_H

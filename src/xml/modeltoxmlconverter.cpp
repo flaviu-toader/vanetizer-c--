@@ -1,7 +1,7 @@
 #include <string>
 #include <list>
 #include <boost/any.hpp>
-#include <pugixml/pugixml.hpp>
+#include <pugixml.hpp>
 
 #include <Wt/WStandardItemModel>
 #include <Wt/WStandardItem>

@@ -20,7 +20,7 @@ enum VanetProperty
     VanetSeed,                  // 3
     VanetNode,                  // 4
     VanetNodeGroup,             // 5
-    VanetRoutingProtocol,       // 6
+    VanetGlomoSimProperties,    // 6
     // extensions properties 
     VanetGlomosimOutput,        // 7
     VanetTimeSimulation,        // 8
