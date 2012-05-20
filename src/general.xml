@@ -169,6 +169,13 @@
     <message id='vanet.property.form.node.error.idlength'><p>The id of the node is not properly assigned.</p></message>
     <!-- /Forms subsection -->
     
+    <!-- Open saved configuration dialog -->
+    <message id='vanet.configuration.dialog.creationdate'>Creation Date</message>
+    <message id='vanet.configuration.dialog.name'>Name</message>
+    <!-- /Open saved configuration dialog -->
+    
+    <!-- /Map Creation Tool section -->
+    
     <!-- Business validation messages -->
     <message id='business.validation.error.nospatialmodel'><p>There was no Spatial Model extension defined.</p></message>
     <message id='business.validation.error.noroutingprotocol'><p>There was no routing protocol selected.</p></message>
@@ -179,5 +186,4 @@
     <message id='business.validation.error.nodimy'><p>There was no map height defined.</p></message>
     <message id='business.validation.error.badcount'><p>For WRP the GloMoSim node count must be under 100.</p></message>
     <!-- /Business validation messages -->
-    <!-- /Map Creation Tool section -->
 </messages>

@@ -42,6 +42,10 @@ private:
     void mapComboChanged(int index);
     bool validate(VanetConfigurator& cfg);
     std::pair< int, int > getDims(Node n);
+    //! Generate a random xml Node with some default values.
+    Node getRandomNode();
+    //! To be used within getRandomNode to get cluster nodes.
+    Node getClusterNode(std::string idAttr, std::string density, std::string ratio, std::string speed);
     
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;

@@ -92,6 +92,11 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
         Node userGraph = paintBrushForm_->saveImage(dims.first, dims.second);
         root.addChild(userGraph);
     }
+    else
+    {
+        Node randomGraph = getRandomNode();
+        root.addChild(randomGraph);
+    }
     cfg.modelNode(root);
     std::vector< WString > messages;
     if(cfg.validate(messages)) 
@@ -137,4 +142,38 @@ std::pair< int, int > ConfigurationPage::getDims(Node n)
     return result;
 }
 
+Node ConfigurationPage::getRandomNode()
+{
+    Node result = Node("extension");
+    Attribute classAttr = Attribute("class", "eurecom.spacegraph.SpaceGraph");
+    result.addAttribute(classAttr);
+    Attribute clusterAttr = Attribute("cluster", "true");
+    result.addAttribute(clusterAttr);
+    Node clustersNode = Node("clusters");
+    Attribute densityAttr = Attribute("density", "0.000004");
+    clustersNode.addAttribute(densityAttr);
+    clustersNode.addChild(getClusterNode("downtown", "0.0002", "0.1", "9"));
+    clustersNode.addChild(getClusterNode("residential", "0.00005", "0.4", "5"));
+    clustersNode.addChild(getClusterNode("suburban", "0.00001", "0.5", "15"));
+    
+    result.addChild(clustersNode);
+    return result;
+}
+
+Node ConfigurationPage::getClusterNode(std::string idAttrVal, std::string density, std::string ratio, std::string speed)
+{
+    Node result = Node("cluster");
+    Attribute idAttr = Attribute("id", idAttrVal);
+    result.addAttribute(idAttr);
+    Node densityNode = Node("density");
+    densityNode.value(density);
+    Node ratioNode = Node("ratio");
+    ratioNode.value(ratio);
+    Node speedNode = Node("speed");
+    speedNode.value(speed);
+    result.addChild(densityNode);
+    result.addChild(ratioNode);
+    result.addChild(speedNode);
+    return result;
+}
 

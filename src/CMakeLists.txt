@@ -45,6 +45,9 @@ set(vanetserver_source
     server/runners/gmsconfiguration.cpp 
     server/runners/vmsconfiguration.cpp 
     server/vanetconfigurator.cpp
+    server/database/configurationentity.cpp 
+    server/database/configentryentity.cpp 
+    server/database/persistencemanager.cpp  
 )
 
 set(test_source
@@ -77,7 +80,7 @@ add_library(vanetXml ${vanetxml_source})
 target_link_libraries(vanetXml vanetUtil pugixml wt)
 
 add_library(vanetServer ${vanetserver_source})
-target_link_libraries(vanetServer vanetUtil pugixml wt vanetXml)
+target_link_libraries(vanetServer vanetUtil pugixml wt wtdbo wtdbosqlite3 vanetXml)
 
 add_executable(${wt_project_target} ${wt_project_source})
 target_link_libraries(${wt_project_target} wthttp wt boost_signals vanetUtil vanetServer)
