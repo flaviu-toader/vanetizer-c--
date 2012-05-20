@@ -52,8 +52,7 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
     
     Wt::WStandardItem* rootItem = 0;
     Wt::WStandardItem* item = 0;
-    dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it;
-    for (it = cfgPtr->children.begin(); it != cfgPtr->children.end(); ++it)
+    for (dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it = cfgPtr->children.begin(); it != cfgPtr->children.end(); ++it)
     {
         const ConfigEntryEntity* cfgEntry = it->get();
         if (!cfgEntry->propertyValue.is_initialized() &&
@@ -62,7 +61,7 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
         )
         {
             rootItem = new Wt::WStandardItem(cfgEntry->propertyName);
-            rootItem->setData((VanetProperty) cfgEntry->propertyType);
+            rootItem->setData((VanetProperty) cfgEntry->propertyType.get());
             model->appendRow(rootItem);
         } 
         else
@@ -72,9 +71,9 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
                 std::vector< Wt::WStandardItem* > propertyRow;
                 item = new Wt::WStandardItem(cfgEntry->propertyName);
                 propertyRow.push_back(item);
-                item = new Wt::WStandardItem(cfgEntry->propertyValue);
+                item = new Wt::WStandardItem(cfgEntry->propertyValue.get_value_or(std::string("")));
                 propertyRow.push_back(item);
-                item = new Wt::WStandardItem(cfgEntry->nodeId);
+                item = new Wt::WStandardItem(cfgEntry->nodeId.get_value_or(std::string("")));
                 rootItem->appendRow(propertyRow);
             }
         }
@@ -104,7 +103,7 @@ long long PersistenceManager::addConfigurationEntry(long long configId, ConfigEn
     
     dbo::ptr< ConfigurationEntity > parentConfiguration = session_.load< ConfigurationEntity >(configId);
     cfgEntry.configuration = parentConfiguration;
-    dbo::ptr< ConfigEntryEntity > cfgEntryPtr = session_.add(cfgEntry);
+    dbo::ptr< ConfigEntryEntity > cfgEntryPtr = session_.add(&cfgEntry);
     long long id = cfgEntryPtr.id();
     
     transaction.commit();
