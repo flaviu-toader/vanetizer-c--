@@ -121,7 +121,7 @@ void PaintBrush::undoLastAction()
     }
 }
 
-Node PaintBrush::saveImage(int dimX, int dimY)
+Node PaintBrush::imageNode(int dimX, int dimY)
 {
     Node result("extension");
     Attribute cAttr("class", "eurecom.usergraph.UserGraph");
@@ -195,3 +195,22 @@ std::list< Node > PaintBrush::edgeNodes()
     }
     return result;
 }
+
+std::string PaintBrush::imageAsSvg()
+{
+    std::stringstream ss;
+    ss << "";
+    if (!actions_.empty())
+    {
+        Wt::WSvgImage imageDevice(this->width(), this->height());
+        WPainter painter(&imageDevice);
+        for (std::vector<WPainterPath>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
+        {
+            painter.drawPath(*it);
+        }
+        painter.end();
+        imageDevice.write(ss);
+    }
+    return ss.str();
+}
+

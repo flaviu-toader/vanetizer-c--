@@ -24,12 +24,14 @@
 #include "xml/xmlhelper.h"
 #include "server/vanetconfigurator.h"
 
+class ConfigurationDialog;
 class PaintBrushForm;
 class MapPropertyEditor;
 namespace Wt
 {
     class WComboBox;
     class WTable;
+    class WPushButton;
 }
 
 class ConfigurationPage : public Wt::WContainerWidget
@@ -41,6 +43,7 @@ public:
 private:
     void mapComboChanged(int index);
     bool validate(VanetConfigurator& cfg);
+    void openClicked();
     std::pair< int, int > getDims(Node n);
     //! Generate a random xml Node with some default values.
     Node getRandomNode();
@@ -49,8 +52,10 @@ private:
     
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;
+    Wt::WPushButton* save_, * run_, * open_;
     PaintBrushForm* paintBrushForm_;
     MapPropertyEditor* mpe_;
+    ConfigurationDialog* cfgDiag_;
 };
 
 #endif // MAPMAKERPAGE_H

@@ -3,6 +3,7 @@
 
 #include <Wt/Dbo/Session>
 #include <Wt/Dbo/QueryModel>
+#include <Wt/Dbo/backend/Sqlite3>
 
 class ConfigurationEntity;
 class ConfigEntryEntity;
@@ -28,15 +29,19 @@ public:
     Wt::WStandardItemModel* allEntries(long long configId);
     
     //! Create new configuration.
-    long long createConfiguration(const std::string& name);
+    long long createConfiguration(const std::string& name, const std::string& imageData);
     
     //! Add entry to configuration.
     long long addConfigurationEntry(long long int configId, ConfigEntryEntity& cfgEntry);
+    
+    //! Remove a configuration and all its entries.
+    void deleteConfiguration(long long configId);
     
 private:
     PersistenceManager();
     
     static PersistenceManager* instance_;
+    dbo::backend::Sqlite3 connection_;
     dbo::Session session_;
     
 };

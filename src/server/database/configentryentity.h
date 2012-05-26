@@ -42,10 +42,8 @@ public:
         dbo::field(a, nodeId, "node_id");
         
         // N to 1 relations
-        dbo::belongsTo(a, configuration, "config_id");
+        dbo::belongsTo(a, configuration, "config_id", dbo::OnDeleteCascade);
     }
 };
-
-const char* const ConfigEntryEntity::TABLENAME = "ConfigEntries";
 
 #endif // CONFIGENTRYDAO_H

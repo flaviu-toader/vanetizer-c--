@@ -29,7 +29,7 @@ PaintBrushForm::PaintBrushForm(WContainerWidget* parent) : WTable(parent)
     speed_ = new WSpinBox;
     l->setBuddy(speed_);
     hbx->addWidget(speed_);
-    speed_->setHeight(10);
+    speed_->setHeight(16);
     speed_->setWidth(40);
     speed_->setMaximum(180);
     speed_->setMinimum(30);
@@ -70,8 +70,13 @@ void PaintBrushForm::speedChanged(int newSpeed)
     paintbrush_->setCurrentSpeed(newSpeed);
 }
 
-Node PaintBrushForm::saveImage(int dimX, int dimY)
+Node PaintBrushForm::imageNode(int dimX, int dimY)
 {
-    return paintbrush_->saveImage(dimX, dimY);
+    return paintbrush_->imageNode(dimX, dimY);
+}
+
+string PaintBrushForm::imageAsSvg()
+{
+    return paintbrush_->imageAsSvg();
 }
 

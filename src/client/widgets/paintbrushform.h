@@ -16,7 +16,8 @@ class PaintBrushForm : public Wt::WTable
 
 public:
     PaintBrushForm(Wt::WContainerWidget* parent = 0);
-    Node saveImage(int dimX, int dimY);
+    Node imageNode(int dimX, int dimY);
+    std::string imageAsSvg();
 private: 
     void speedChanged(int newSpeed);
     

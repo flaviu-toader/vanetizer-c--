@@ -3,7 +3,6 @@
 #include <Wt/WDateTime>
 #include <Wt/WStandardItem>
 #include <Wt/WStandardItemModel>
-#include <Wt/Dbo/backend/Sqlite3>
 
 #include "server/database/configurationentity.h"
 #include "server/database/configentryentity.h"
@@ -11,16 +10,20 @@
 
 PersistenceManager* PersistenceManager::instance_ = 0;
 
-PersistenceManager::PersistenceManager()
+PersistenceManager::PersistenceManager() :
+    connection_("vanetizer.db")
 {
     Logger::entry("info") << "Initializing database session";
-    dbo::backend::Sqlite3 sqlite3("vanetizer.db");
-    session_.setConnection(sqlite3);
+    session_.setConnection(connection_);
     
     session_.mapClass< ConfigurationEntity >(ConfigurationEntity::TABLENAME);
     session_.mapClass< ConfigEntryEntity >(ConfigEntryEntity::TABLENAME);
     
-    session_.createTables();
+    try {
+        session_.createTables();
+    } catch (const dbo::Exception& e) {
+        Logger::entry("info") << "Problem creating tables. Probably they're already created. Exception: " << e.what();
+    }
 }
 
 PersistenceManager* PersistenceManager::instance()
@@ -34,15 +37,16 @@ Wt::Dbo::QueryModel< dbo::ptr< ConfigurationEntity > >* PersistenceManager::allC
 {
     dbo::QueryModel< dbo::ptr< ConfigurationEntity > >* model = new dbo::QueryModel< dbo::ptr< ConfigurationEntity > >();
     model->setQuery(session_.find< ConfigurationEntity >());
-    model->addColumn("id");
     model->addColumn("creation_date", Wt::WString::tr("vanet.configuration.dialog.creationdate"));
     model->addColumn("name", Wt::WString::tr("vanet.configuration.dialog.name"));
+    model->addColumn("id");
+    model->addColumn("graph");
     return model;
 }
 
 Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
 {
-    Wt::WStandardItemModel* model = new Wt::WStandardItemModel(0, 2);
+    Wt::WStandardItemModel* model = new Wt::WStandardItemModel(0, 3);
     model->setHeaderData(0, Wt::Horizontal, Wt::WString::tr("mappropertyeditor.header.propertyname").toUTF8());
     model->setHeaderData(1, Wt::Horizontal, Wt::WString::tr("mappropertyeditor.header.propertyvalue").toUTF8());
     
@@ -82,31 +86,44 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
     return model;
 }
 
-long long PersistenceManager::createConfiguration(const std::string& name)
+long long PersistenceManager::createConfiguration(const std::string& name, const std::string& imageData)
 {
+    Logger::entry("info") << "Creating new configuration " << name;
     dbo::Transaction transaction(session_);
     
     ConfigurationEntity* cfg = new ConfigurationEntity;
     cfg->name = name;
+    cfg->graph = imageData;
     cfg->creationDate = Wt::WDateTime::fromPosixTime(boost::posix_time::second_clock::local_time());
     dbo::ptr< ConfigurationEntity > cfgPtr = session_.add(cfg);
-    long long id = cfgPtr.id();
-    
     transaction.commit();
+    long long id = cfgPtr.id();
     
     return id;
 }
 
 long long PersistenceManager::addConfigurationEntry(long long configId, ConfigEntryEntity& cfgEntry)
 {
+    Logger::entry("info") << "Adding a new configuration entry: " << cfgEntry.propertyName;
     dbo::Transaction transaction(session_);
     
     dbo::ptr< ConfigurationEntity > parentConfiguration = session_.load< ConfigurationEntity >(configId);
     cfgEntry.configuration = parentConfiguration;
     dbo::ptr< ConfigEntryEntity > cfgEntryPtr = session_.add(&cfgEntry);
-    long long id = cfgEntryPtr.id();
     
     transaction.commit();
+    long long id = cfgEntryPtr.id();
     
     return id;
 }
+
+void PersistenceManager::deleteConfiguration(long long int configId)
+{
+    Logger::entry("info") << "Removing configuration with id " << configId;
+    
+    dbo::Transaction transaction(session_);
+    dbo::ptr< ConfigurationEntity > configEntity = session_.load< ConfigurationEntity >(configId);
+    configEntity.remove();
+    transaction.commit();
+}
+

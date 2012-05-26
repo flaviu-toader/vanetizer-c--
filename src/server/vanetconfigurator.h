@@ -11,6 +11,7 @@
 namespace Wt
 {
     class WString;
+    class WStandardItemModel;
 }
 
 //! Configuration responsible class.
@@ -21,11 +22,15 @@ namespace Wt
 class VanetConfigurator
 {
 public:
+    
+    //! Value of the graph field on the configuration entity in case it's a randomly generated map.
+    static const char* const RANDOM_MAP;
+    
     VanetConfigurator();
     
     void modelNode(const Node& modelNode);
     
-    void save();
+    void save(Wt::WStandardItemModel* model, const std::string& configurationName, const std::string& imageData);
     
     //! Performs the business validations. If these validations fail, it will fill the validationMessages parameter with all the error messages.
     bool validate(std::vector< Wt::WString >& validationMessages);
@@ -78,6 +83,9 @@ private:
      * from it and populates the Gms and Vms configuration objects.
      */
     void fillConfiguration();
+    
+    //! This method persists the given configuration.
+    void persistModel(Wt::WStandardItemModel* model, const std::string& configurationName, const std::string& imageData);
     
     pugi::xml_document doc_;
     VmsConfiguration vanetMobiSimCfg_;

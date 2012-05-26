@@ -10,6 +10,8 @@
     <message id='button.save'>Save</message>
     <message id='button.cancel'>Cancel</message>
     <message id='button.run'>Run</message>
+    <message id='button.ok'>Ok</message>
+    <message id='button.open'>Open</message>
     <message id='constant.none'>None</message>
     <message id='constant.yes'>Yes</message>
     <message id='constant.no'>No</message>
@@ -25,6 +27,10 @@
         <br/>a second time in a different place on the surface to set the end point of the edge.
         <br/>Each edge's speed can be configured with the spin box at the bottom.</p></message>
     <!-- /Paint brush form -->
+    
+    <message id='vanet.dialog.saveconfig.title'>Save configuration</message>
+    <message id='vanet.dialog.saveconfig.text'>Enter configuration name here</message>
+    
     <!-- Map property editor -->
     <message id='mappropertyeditor.title'>VANET map properties</message>
     <message id='mappropertyeditor.header.propertyname'>Property</message>
@@ -170,6 +176,8 @@
     <!-- /Forms subsection -->
     
     <!-- Open saved configuration dialog -->
+    <message id='vanet.configuration.dialog.title'>Open/Remove Configuration</message>
+    <message id='vanet.configuration.dialog.removebutton'>Remove Configuration</message>
     <message id='vanet.configuration.dialog.creationdate'>Creation Date</message>
     <message id='vanet.configuration.dialog.name'>Name</message>
     <!-- /Open saved configuration dialog -->

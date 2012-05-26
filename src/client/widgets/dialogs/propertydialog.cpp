@@ -40,7 +40,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     model_(model)
 {
     root_ = &root;
-    WTable *table = new WTable(this->contents());
+    WTable* table = new WTable(this->contents());
     int row = 0;
 
     mainComboBox_ = new WComboBox(table->elementAt(row, 0));

@@ -32,10 +32,17 @@
 #include <Wt/WComboBox>
 #include <Wt/WLabel>
 #include <Wt/WContainerWidget>
+#include <Wt/WDialog>
+#include <Wt/WLineEdit>
+#include <Wt/WBreak>
+#include <Wt/WLengthValidator>
+#include <Wt/WPushButton>
 
 #include "configurationpage.h"
 #include "client/widgets/paintbrushform.h"
 #include "client/widgets/mappropertyeditor.h"
+#include "widgets/dialogs/configurationdialog.h"
+#include <logger.h>
 
 using namespace Wt;
 
@@ -62,10 +69,25 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     
     ++row;
     Wt::WStandardItemModel *model = MapPropertyEditor::createModel(this);
-    mpe_ = new MapPropertyEditor(this, model);
+    mpe_ = new MapPropertyEditor(model);
     table->elementAt(row, 0)->addWidget(mpe_);
-    table->elementAt(row, 0)->setRowSpan(2);
+//     table->elementAt(row, 0)->setRowSpan(2);
     table->elementAt(row, 0)->setPadding(25);
+    
+    ++row;
+    WTable *buttonTable = new WTable(table->elementAt(row, 0));
+    table->elementAt(row, 0)->setContentAlignment(AlignCenter);
+    
+    save_ = new WPushButton(tr("button.save"), buttonTable->elementAt(0, 0));
+    save_->clicked().connect(this, &ConfigurationPage::saveClicked);
+    save_->resize(120, 30);
+    
+    run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 1));
+    run_->resize(120, 30);
+    
+    open_ = new WPushButton(tr("button.open"), buttonTable->elementAt(0, 2));
+    open_->clicked().connect(this, &ConfigurationPage::openClicked);
+    open_->resize(120, 30);
     
     setOverflow(OverflowAuto);
 }
@@ -89,7 +111,7 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
     if (mapCombo_->currentIndex() == 1) 
     {
         std::pair< int, int > dims = getDims(root);
-        Node userGraph = paintBrushForm_->saveImage(dims.first, dims.second);
+        Node userGraph = paintBrushForm_->imageNode(dims.first, dims.second);
         root.addChild(userGraph);
     }
     else
@@ -116,13 +138,43 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
 
 void ConfigurationPage::saveClicked()
 {
-    VanetConfigurator cfg;
-    if (validate(cfg))
+    WDialog* saveConfigDialog = new WDialog(tr("vanet.dialog.saveconfig.title"));
+    saveConfigDialog->setModal(true);
+    WLineEdit* le = new WLineEdit(tr("vanet.dialog.saveconfig.text"), saveConfigDialog->contents());
+    WLengthValidator* lv = new WLengthValidator(1, 15, le);
+    le->setValidator(lv);
+    le->setFocus();
+    new WBreak(saveConfigDialog->contents());
+    WPushButton* ok = new WPushButton(tr("button.ok"), saveConfigDialog->contents());
+    le->enterPressed().connect(saveConfigDialog, &WDialog::accept);
+    ok->clicked().connect(saveConfigDialog, &WDialog::accept);
+    WPushButton* cancel = new WPushButton(tr("button.cancel"), saveConfigDialog->contents());
+    le->escapePressed().connect(saveConfigDialog, &WDialog::reject);
+    cancel->clicked().connect(saveConfigDialog, &WDialog::reject);
+    
+    if (saveConfigDialog->exec() == WDialog::Accepted)
     {
-        cfg.save();
+        VanetConfigurator cfg;
+        if (validate(cfg))
+        {
+            Logger::entry("info") << "Persisting model with " << mpe_->getModel()->rowCount()  << " rows into configuration called " << le->text().toUTF8(); 
+            std::string imageData = VanetConfigurator::RANDOM_MAP;
+            if (mapCombo_->currentIndex() == 1) 
+            {
+                imageData = paintBrushForm_->imageAsSvg();
+            }
+            cfg.save(mpe_->getModel(), le->text().toUTF8(), imageData);
+        }
     }
     
 }
+
+void ConfigurationPage::openClicked()
+{
+    cfgDiag_ = new ConfigurationDialog();
+    cfgDiag_->show();
+}
+
 
 std::pair< int, int > ConfigurationPage::getDims(Node n)
 {

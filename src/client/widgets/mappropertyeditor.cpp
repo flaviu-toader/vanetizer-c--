@@ -30,7 +30,7 @@
 
 using namespace Wt;
 
-MapPropertyEditor::MapPropertyEditor(ConfigurationPage* page, WStandardItemModel *model) : 
+MapPropertyEditor::MapPropertyEditor(WStandardItemModel* model) : 
     model_(model),
     root_(Node("universe"))
 {
@@ -79,14 +79,6 @@ MapPropertyEditor::MapPropertyEditor(ConfigurationPage* page, WStandardItemModel
     removeProperty_->resize(120, 30);
     removeProperty_->setDisabled(true);
     removeProperty_->clicked().connect(this, &MapPropertyEditor::removeSelectedProperty);
-
-    save_ = new WPushButton(tr("button.save"), buttonTable->elementAt(0, 2));
-    save_->clicked().connect(page, &ConfigurationPage::saveClicked);
-    save_->resize(120, 30);
-    
-    run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 3));
-    run_->resize(120, 30);
-
 }
 
 void MapPropertyEditor::removeSelectedProperty()
@@ -111,7 +103,7 @@ void MapPropertyEditor::showPropertyDialog()
 
 WStandardItemModel* MapPropertyEditor::createModel(WObject *parent) 
 {
-    WStandardItemModel *result = new WStandardItemModel(0, 2, parent);
+    WStandardItemModel *result = new WStandardItemModel(0, 3, parent);
 
     result->setHeaderData(0, Horizontal, tr("mappropertyeditor.header.propertyname").toUTF8());
     result->setHeaderData(1, Horizontal, tr("mappropertyeditor.header.propertyvalue").toUTF8());
@@ -141,4 +133,9 @@ void MapPropertyEditor::itemClicked(const WModelIndex& clickedItem)
     {
         removeProperty_->setDisabled(true);
     }
+}
+
+WStandardItemModel* MapPropertyEditor::getModel()
+{
+    return model_;
 }

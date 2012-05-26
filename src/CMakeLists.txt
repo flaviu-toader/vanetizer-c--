@@ -25,6 +25,7 @@ set(wt_project_source
     client/widgets/dialogs/vanetnodegroupform.cpp 
     client/widgets/dialogs/vanetnodeform.cpp
     client/widgets/dialogs/propertydialog.cpp
+    client/widgets/dialogs/configurationdialog.cpp 
     client/widgets/paintbrush.cpp 
     client/widgets/paintbrushform.cpp  
     client/widgets/mappropertyeditor.cpp

@@ -73,7 +73,10 @@ public:
     
     void undoLastAction();
     
-    Node saveImage(int dimX, int dimY);
+    Node imageNode(int dimX, int dimY);
+    
+    //! Returns the painted svg image contents as string.
+    std::string imageAsSvg();
 protected:
     virtual void paintEvent(WPaintDevice* paintDevice);
     

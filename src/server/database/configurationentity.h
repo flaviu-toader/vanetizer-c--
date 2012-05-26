@@ -26,6 +26,9 @@ public:
     //! The configuration entries for this configuration.
     dbo::collection< dbo::ptr< ConfigEntryEntity > > children;
     
+    //! The graph field.
+    std::string graph;
+    
     //! Wt::Dbo persist method.
     template< class Action >
     void persist(Action& a)
@@ -33,12 +36,11 @@ public:
         // normal fields
         dbo::field(a, creationDate, "creation_date");
         dbo::field(a, name, "name");
+        dbo::field(a, graph, "graph");
         
         // 1 to N relations
         dbo::hasMany(a, children, dbo::ManyToOne);
     }
 };
-
-const char* const ConfigurationEntity::TABLENAME = "Configurations";
 
 #endif // DBOCONFIGURATION_H

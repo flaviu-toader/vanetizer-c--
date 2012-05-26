@@ -2,13 +2,20 @@
 #include <boost/lexical_cast.hpp>
 
 #include <Wt/WString>
+#include <Wt/WStandardItem>
+#include <Wt/WStandardItemModel>
 
 #include "vanetconfigurator.h"
+#include "server/database/persistencemanager.h"
+#include "server/database/configentryentity.h"
+#include "server/database/configurationentity.h"
 #include "xml/modeltoxmlconverter.h"
 #include "logger.h"
 
 using namespace std;
 using namespace pugi;
+
+const char* const VanetConfigurator::RANDOM_MAP = "__random__";
 
 VanetConfigurator::VanetConfigurator()
 {
@@ -27,6 +34,7 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
 {
     isValid_ = true;
     doc_.save_file("full.xml");
+    return isValid_;
     xml_node root = doc_.child("universe");
     // check for spatial model
     xml_node n = root.find_child_by_attribute("class", "de.uni_stuttgart.informatik.canu.spatialmodel.core.SpatialModel");
@@ -100,15 +108,16 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
     return isValid_;
 }
 
-void VanetConfigurator::save()
+void VanetConfigurator::save(Wt::WStandardItemModel* model, const string& configurationName, const string& imageData)
 {
     if (!isValid_) 
    {
         Logger::entry("error") << "The configuration is invalid. Cannot save!";
         return;
     }
-    fillConfiguration();
-    gloMoSimCfg_.toFile();
+    persistModel(model, configurationName, imageData);
+//     fillConfiguration();
+//     gloMoSimCfg_.toFile();
 //     doc_.save_file("scenario.xml");
 }
 
@@ -140,3 +149,51 @@ void VanetConfigurator::fillConfiguration()
     doc_.save_file("scenario.xml");
 }
 
+void VanetConfigurator::persistModel(Wt::WStandardItemModel* model, const string& configurationName, const string& imageData)
+{
+    long long configurationId = 0;
+    try {
+        configurationId = PersistenceManager::instance()->createConfiguration(configurationName, imageData);
+    } catch(const Wt::Dbo::Exception& e) {
+        Logger::entry("error") << "Error creating configuration! Exception: " << e.what();
+        return;
+    } catch(...) {
+        Logger::entry("error") << "Unknown exception occured while creating configuration!";
+        return;
+        
+    }
+    
+    Logger::entry("info") << "Model has " << model->rowCount() << " rows";
+    for (int ri = 0; ri < model->rowCount(); ri++)
+    {
+        ConfigEntryEntity* cfgEntry = new ConfigEntryEntity();
+        cfgEntry->propertyName = model->item(ri)->text().toUTF8();
+        cfgEntry->propertyType = boost::any_cast<VanetProperty>(model->item(ri)->data());
+        PersistenceManager::instance()->addConfigurationEntry(configurationId, *cfgEntry);
+        Wt::WStandardItem* currentRoot = model->item(ri);
+        for (int row = 0; row < currentRoot->rowCount(); row++)
+        {
+            cfgEntry = new ConfigEntryEntity();
+            for (int column = 0; column < currentRoot->columnCount(); column++)
+            {
+                string value = currentRoot->child(row, column)->text().toUTF8();
+                switch (column)
+                {
+                    case 0:
+                        cfgEntry->propertyName = value;
+                        break;
+                    case 1:
+                        cfgEntry->propertyValue = value;
+                        break;
+                    case 2:
+                        cfgEntry->nodeId = value;
+                        break;
+                    default:
+                        Logger::entry("error") << "VanetConfigurator::persistModel *** Column out of bounds!";
+                }
+                
+            }
+            PersistenceManager::instance()->addConfigurationEntry(configurationId, *cfgEntry);
+        }
+    }
+}

@@ -50,7 +50,7 @@ public:
     /*!
      * This property editor constructor takes in a Wt::StandardItemModel as the model to be rendered using the treeview.
      */
-    MapPropertyEditor(ConfigurationPage* page, Wt::WStandardItemModel* model);
+    MapPropertyEditor(Wt::WStandardItemModel* model);
 
     //! Get the treeview.
     /*! 
@@ -58,6 +58,7 @@ public:
      */
     Wt::WTreeView *getTreeView() const { return treeView_; }
     
+    //! Get the represented model as a tree of xmlhelper objects.
     Node getModelNode() const { return root_; }
 
     //! Static method that generates the model for our map property editor.
@@ -66,6 +67,9 @@ public:
      * for a VANET map.
      */
     static Wt::WStandardItemModel *createModel(WObject *parent);
+    
+    //! Get the actual model.
+    Wt::WStandardItemModel* getModel();
 
 private:
     void showPropertyDialog();
