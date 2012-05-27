@@ -51,7 +51,7 @@ MapPropertyEditor::MapPropertyEditor(WStandardItemModel* model) :
 
     treeView_->setAlternatingRowColors(true);
     treeView_->setRowHeight(25);
-    treeView_->setModel(model);
+    treeView_->setModel(model_);
     treeView_->setColumnWidth(0, WLength(285));
     treeView_->setColumnAlignment(0, AlignLeft);
     treeView_->setColumnWidth(1, WLength(285));
@@ -138,4 +138,10 @@ void MapPropertyEditor::itemClicked(const WModelIndex& clickedItem)
 WStandardItemModel* MapPropertyEditor::getModel()
 {
     return model_;
+}
+
+void MapPropertyEditor::setModel(WStandardItemModel* newModel)
+{
+    model_ = newModel;
+    treeView_->setModel(model_);
 }

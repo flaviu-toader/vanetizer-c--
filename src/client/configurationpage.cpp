@@ -171,7 +171,7 @@ void ConfigurationPage::saveClicked()
 
 void ConfigurationPage::openClicked()
 {
-    cfgDiag_ = new ConfigurationDialog();
+    cfgDiag_ = new ConfigurationDialog(mpe_);
     cfgDiag_->show();
 }
 

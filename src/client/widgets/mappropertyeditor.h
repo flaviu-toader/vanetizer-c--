@@ -70,6 +70,9 @@ public:
     
     //! Get the actual model.
     Wt::WStandardItemModel* getModel();
+    
+    //! Set the actual model.
+    void setModel(Wt::WStandardItemModel* newModel);
 
 private:
     void showPropertyDialog();

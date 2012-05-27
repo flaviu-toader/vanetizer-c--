@@ -3,6 +3,7 @@
 
 #include <Wt/WDialog>
 
+class MapPropertyEditor;
 namespace Wt {
     class WTableView;
     class WPushButton;
@@ -12,16 +13,17 @@ namespace Wt {
 class ConfigurationDialog : public Wt::WDialog
 {
 public:
-    ConfigurationDialog();
+    ConfigurationDialog(MapPropertyEditor* mapEditor);
 private:
     void submit(Wt::WDialog::DialogCode result);
     void removeClicked();
-    void itemClicked();
+    void itemClicked(const Wt::WModelIndex& clickedItem);
     
     Wt::WTableView* configList_;
-    Wt::WPushButton* removeConfig_;
+    Wt::WPushButton* removeButton_;
     Wt::WPushButton* okButton_;
     long long selectedConfig_;
+    MapPropertyEditor* currentMpe_;
 };
 
 #endif // CONFIGURATIONDIALOG_H

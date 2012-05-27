@@ -54,8 +54,12 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
     
     dbo::ptr< ConfigurationEntity > cfgPtr = session_.load< ConfigurationEntity >(configId);    
     
+    transaction.commit();
+    
     Wt::WStandardItem* rootItem = 0;
     Wt::WStandardItem* item = 0;
+    dbo::Transaction tx(session_);
+    // TODO: syntax error because of this??
     for (dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it = cfgPtr->children.begin(); it != cfgPtr->children.end(); ++it)
     {
         const ConfigEntryEntity* cfgEntry = it->get();
@@ -82,7 +86,7 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
             }
         }
     }
-    transaction.commit();
+    tx.commit();
     return model;
 }
 
