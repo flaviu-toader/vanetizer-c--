@@ -50,26 +50,29 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
     model->setHeaderData(0, Wt::Horizontal, Wt::WString::tr("mappropertyeditor.header.propertyname").toUTF8());
     model->setHeaderData(1, Wt::Horizontal, Wt::WString::tr("mappropertyeditor.header.propertyvalue").toUTF8());
     
-    dbo::Transaction transaction(session_);
-    
-    dbo::ptr< ConfigurationEntity > cfgPtr = session_.load< ConfigurationEntity >(configId);    
-    
-    transaction.commit();
+//     dbo::Transaction transaction(session_);
+//     
+//     dbo::ptr< ConfigurationEntity > cfgPtr = session_.load< ConfigurationEntity >(configId);    
+//     
+//     transaction.commit();
     
     Wt::WStandardItem* rootItem = 0;
     Wt::WStandardItem* item = 0;
     dbo::Transaction tx(session_);
-    // TODO: syntax error because of this??
-    for (dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it = cfgPtr->children.begin(); it != cfgPtr->children.end(); ++it)
+    
+    dbo::collection< dbo::ptr< ConfigEntryEntity > > children = 
+        session_.find< ConfigEntryEntity >().where("config_id_id = ?").bind(configId).resultList();
+    
+    for (dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it = children.begin(); it != children.end(); ++it)
     {
-        const ConfigEntryEntity* cfgEntry = it->get();
-        if (!cfgEntry->propertyValue.is_initialized() &&
-            cfgEntry->propertyType.is_initialized() &&
-            !cfgEntry->nodeId.is_initialized()
+//         const ConfigEntryEntity* cfgEntry = it;
+        if (!(*it)->propertyValue.is_initialized() &&
+            (*it)->propertyType.is_initialized() &&
+            !(*it)->nodeId.is_initialized()
         )
         {
-            rootItem = new Wt::WStandardItem(cfgEntry->propertyName);
-            rootItem->setData((VanetProperty) cfgEntry->propertyType.get());
+            rootItem = new Wt::WStandardItem((*it)->propertyName);
+            rootItem->setData((VanetProperty) (*it)->propertyType.get());
             model->appendRow(rootItem);
         } 
         else
@@ -77,11 +80,11 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
             if (rootItem)
             {
                 std::vector< Wt::WStandardItem* > propertyRow;
-                item = new Wt::WStandardItem(cfgEntry->propertyName);
+                item = new Wt::WStandardItem((*it)->propertyName);
                 propertyRow.push_back(item);
-                item = new Wt::WStandardItem(cfgEntry->propertyValue.get_value_or(std::string("")));
+                item = new Wt::WStandardItem((*it)->propertyValue.get_value_or(std::string("")));
                 propertyRow.push_back(item);
-                item = new Wt::WStandardItem(cfgEntry->nodeId.get_value_or(std::string("")));
+                item = new Wt::WStandardItem((*it)->nodeId.get_value_or(std::string("")));
                 rootItem->appendRow(propertyRow);
             }
         }
