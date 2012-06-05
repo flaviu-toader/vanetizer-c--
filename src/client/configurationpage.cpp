@@ -82,10 +82,12 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     save_->clicked().connect(this, &ConfigurationPage::saveClicked);
     save_->resize(120, 30);
     
-    run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 1));
+    update_ = new WPushButton(tr("button.update"), buttonTable->elementAt(0, 1));
+    
+    run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 2));
     run_->resize(120, 30);
     
-    open_ = new WPushButton(tr("button.open"), buttonTable->elementAt(0, 2));
+    open_ = new WPushButton(tr("button.open"), buttonTable->elementAt(0, 3));
     open_->clicked().connect(this, &ConfigurationPage::openClicked);
     open_->resize(120, 30);
     

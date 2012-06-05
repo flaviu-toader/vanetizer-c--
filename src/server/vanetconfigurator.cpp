@@ -34,6 +34,7 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
 {
     isValid_ = true;
     doc_.save_file("full.xml");
+    // TODO: Remove this return after done testing!
     return isValid_;
     xml_node root = doc_.child("universe");
     // check for spatial model

@@ -52,7 +52,7 @@ private:
     
     Wt::WContainerWidget* formContainer_;
     Wt::WComboBox* mapCombo_;
-    Wt::WPushButton* save_, * run_, * open_;
+    Wt::WPushButton* save_, * run_, * open_, * update_;
     PaintBrushForm* paintBrushForm_;
     MapPropertyEditor* mpe_;
     ConfigurationDialog* cfgDiag_;

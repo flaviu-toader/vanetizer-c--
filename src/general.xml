@@ -12,6 +12,7 @@
     <message id='button.run'>Run</message>
     <message id='button.ok'>Ok</message>
     <message id='button.open'>Open</message>
+    <message id='button.update'>Update</message>
     <message id='constant.none'>None</message>
     <message id='constant.yes'>Yes</message>
     <message id='constant.no'>No</message>
