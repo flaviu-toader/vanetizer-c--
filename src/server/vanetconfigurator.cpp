@@ -109,18 +109,32 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
     return isValid_;
 }
 
-void VanetConfigurator::save(Wt::WStandardItemModel* model, const string& configurationName, const string& imageData)
+long long VanetConfigurator::save(Wt::WStandardItemModel* model, const string& configurationName, const string& imageData)
 {
     if (!isValid_) 
-   {
+    {
         Logger::entry("error") << "The configuration is invalid. Cannot save!";
-        return;
+        return 0;
     }
-    persistModel(model, configurationName, imageData);
+    
+    return persistModel(model, createConfiguration(configurationName, imageData));
 //     fillConfiguration();
 //     gloMoSimCfg_.toFile();
 //     doc_.save_file("scenario.xml");
 }
+
+void VanetConfigurator::update(Wt::WStandardItemModel* model, long long int configId, const string& imageData)
+{
+    if (!isValid_)
+    {
+        Logger::entry("error") << "The configuration is invalid. Cannot update!";
+        return;
+    }
+    PersistenceManager::instance()->clearConfiguration(configId);
+    PersistenceManager::instance()->updateImageData(configId, imageData);
+    persistModel(model, configId);
+}
+
 
 void VanetConfigurator::fillConfiguration()
 {
@@ -150,20 +164,24 @@ void VanetConfigurator::fillConfiguration()
     doc_.save_file("scenario.xml");
 }
 
-void VanetConfigurator::persistModel(Wt::WStandardItemModel* model, const string& configurationName, const string& imageData)
+long long int VanetConfigurator::createConfiguration(const string& configurationName, const string& imageData)
 {
     long long configurationId = 0;
     try {
         configurationId = PersistenceManager::instance()->createConfiguration(configurationName, imageData);
     } catch(const Wt::Dbo::Exception& e) {
         Logger::entry("error") << "Error creating configuration! Exception: " << e.what();
-        return;
+        return configurationId;
     } catch(...) {
         Logger::entry("error") << "Unknown exception occured while creating configuration!";
-        return;
-        
+        return configurationId;
     }
-    
+    return configurationId;
+}
+
+
+long long VanetConfigurator::persistModel(Wt::WStandardItemModel* model, long long int configurationId)
+{
     Logger::entry("info") << "Model has " << model->rowCount() << " rows";
     for (int ri = 0; ri < model->rowCount(); ri++)
     {
@@ -197,4 +215,5 @@ void VanetConfigurator::persistModel(Wt::WStandardItemModel* model, const string
             PersistenceManager::instance()->addConfigurationEntry(configurationId, *cfgEntry);
         }
     }
+    return configurationId;
 }

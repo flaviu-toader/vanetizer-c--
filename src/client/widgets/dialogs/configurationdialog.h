@@ -14,6 +14,8 @@ class ConfigurationDialog : public Wt::WDialog
 {
 public:
     ConfigurationDialog(MapPropertyEditor* mapEditor);
+    //! Get the selected configuration id.
+    long long selectedConfig();
 private:
     void submit(Wt::WDialog::DialogCode result);
     void removeClicked();

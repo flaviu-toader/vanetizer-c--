@@ -47,7 +47,8 @@
 using namespace Wt;
 
 ConfigurationPage::ConfigurationPage(WContainerWidget* parent): 
-    WContainerWidget(parent)
+    WContainerWidget(parent),
+    currentConfigId_(0)
 {
     resize(Wt::WLength::Auto, Wt::WLength::Auto);
     
@@ -83,6 +84,8 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     save_->resize(120, 30);
     
     update_ = new WPushButton(tr("button.update"), buttonTable->elementAt(0, 1));
+    update_->setDisabled(true);
+    update_->resize(120, 30);
     
     run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 2));
     run_->resize(120, 30);
@@ -156,25 +159,59 @@ void ConfigurationPage::saveClicked()
     
     if (saveConfigDialog->exec() == WDialog::Accepted)
     {
-        VanetConfigurator cfg;
-        if (validate(cfg))
-        {
-            Logger::entry("info") << "Persisting model with " << mpe_->getModel()->rowCount()  << " rows into configuration called " << le->text().toUTF8(); 
-            std::string imageData = VanetConfigurator::RANDOM_MAP;
-            if (mapCombo_->currentIndex() == 1) 
-            {
-                imageData = paintBrushForm_->imageAsSvg();
-            }
-            cfg.save(mpe_->getModel(), le->text().toUTF8(), imageData);
-        }
+        saveOrUpdate(le->text().toUTF8());
     }
     
 }
+
+void ConfigurationPage::updateClicked()
+{
+    if (currentConfigId_ != 0)
+    {
+        saveOrUpdate("");
+    }
+}
+
+
+void ConfigurationPage::saveOrUpdate(std::string configName)
+{
+    bool toSave = !configName.empty();
+    VanetConfigurator cfg;
+    if (validate(cfg))
+    {
+        Logger::entry("info") << ((toSave) ? "Saving " : "Updating ") << "configuration with " << mpe_->getModel()->rowCount() << " rows.";
+        std::string imageData = VanetConfigurator::RANDOM_MAP;
+        if (mapCombo_->currentIndex() == 1)
+        {
+            imageData = paintBrushForm_->imageAsSvg();
+        }
+        if (toSave)
+        {
+            currentConfigId_ = cfg.save(mpe_->getModel(), configName, imageData);
+            if (currentConfigId_ != 0) update_->setDisabled(false);
+        }
+        else
+        {
+            //TODO implement configuration update functionality
+        }
+    }
+}
+
 
 void ConfigurationPage::openClicked()
 {
     cfgDiag_ = new ConfigurationDialog(mpe_);
     cfgDiag_->show();
+    cfgDiag_->finished().connect(this, &ConfigurationPage::configChanged);
+}
+
+void ConfigurationPage::configChanged(WDialog::DialogCode result)
+{
+    if (result == WDialog::Accepted)
+    {
+        currentConfigId_ = cfgDiag_->selectedConfig();
+        if (currentConfigId_ != 0) update_->setDisabled(false);
+    }
 }
 
 

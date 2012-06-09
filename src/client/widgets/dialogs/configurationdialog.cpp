@@ -97,3 +97,8 @@ void ConfigurationDialog::submit(WDialog::DialogCode result)
     }
 }
 
+long long int ConfigurationDialog::selectedConfig()
+{
+    return selectedConfig_;
+}
+

@@ -134,3 +134,22 @@ void PersistenceManager::deleteConfiguration(long long int configId)
     transaction.commit();
 }
 
+void PersistenceManager::clearConfiguration(long long int configId)
+{
+    Logger::entry("info") << "Clearing entries for configuration with id " << configId;
+    
+    dbo::Transaction transaction(session_);
+    int entries = session_.query< int >(std::string("delete from ") + std::string(ConfigurationEntity::TABLENAME)).where("config_id_id = ?").bind(configId).resultValue();
+    transaction.commit();
+    Logger::entry("info") << "Removed " << entries << " configuration entries";
+}
+
+void PersistenceManager::updateImageData(long long int configId, const std::string& imageData)
+{
+    Logger::entry("info") << "Updating image data for the configuration with id " << configId;
+    dbo::Transaction transaction(session_);
+    dbo::ptr< ConfigurationEntity > config = session_.load< ConfigurationEntity >(configId);
+    config.modify()->graph = imageData;
+    transaction.commit();
+}
+

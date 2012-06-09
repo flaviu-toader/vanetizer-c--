@@ -21,6 +21,7 @@
 #define MAPMAKERPAGE_H
 
 #include <Wt/WContainerWidget>
+#include <Wt/WDialog>
 #include "xml/xmlhelper.h"
 #include "server/vanetconfigurator.h"
 
@@ -39,11 +40,15 @@ class ConfigurationPage : public Wt::WContainerWidget
 public:
     ConfigurationPage(WContainerWidget* parent = 0);
     
-    void saveClicked();
 private:
     void mapComboChanged(int index);
+    void saveClicked();
+    void updateClicked();
+    void saveOrUpdate(std::string configName);
     bool validate(VanetConfigurator& cfg);
     void openClicked();
+    void configChanged(Wt::WDialog::DialogCode result);
+    
     std::pair< int, int > getDims(Node n);
     //! Generate a random xml Node with some default values.
     Node getRandomNode();
@@ -56,6 +61,7 @@ private:
     PaintBrushForm* paintBrushForm_;
     MapPropertyEditor* mpe_;
     ConfigurationDialog* cfgDiag_;
+    long long int currentConfigId_;
 };
 
 #endif // MAPMAKERPAGE_H

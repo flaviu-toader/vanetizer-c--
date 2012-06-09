@@ -37,6 +37,11 @@ public:
     //! Remove a configuration and all its entries.
     void deleteConfiguration(long long configId);
     
+    //! Remove a configuration's entries.
+    void clearConfiguration(long long configId);
+    
+    void updateImageData(long long configId, const std::string& imageData);
+    
 private:
     PersistenceManager();
     

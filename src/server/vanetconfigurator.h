@@ -30,7 +30,9 @@ public:
     
     void modelNode(const Node& modelNode);
     
-    void save(Wt::WStandardItemModel* model, const std::string& configurationName, const std::string& imageData);
+    long long int save(Wt::WStandardItemModel* model, const std::string& configurationName, const std::string& imageData);
+    
+    void update(Wt::WStandardItemModel* model, long long int configId, const std::string& imageData);
     
     //! Performs the business validations. If these validations fail, it will fill the validationMessages parameter with all the error messages.
     bool validate(std::vector< Wt::WString >& validationMessages);
@@ -85,7 +87,9 @@ private:
     void fillConfiguration();
     
     //! This method persists the given configuration.
-    void persistModel(Wt::WStandardItemModel* model, const std::string& configurationName, const std::string& imageData);
+    long long int persistModel(Wt::WStandardItemModel* model, long long int configurationId);
+    
+    long long int createConfiguration(const std::string& configurationName, const std::string& imageData);
     
     pugi::xml_document doc_;
     VmsConfiguration vanetMobiSimCfg_;
