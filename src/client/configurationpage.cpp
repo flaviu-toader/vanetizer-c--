@@ -192,7 +192,7 @@ void ConfigurationPage::saveOrUpdate(std::string configName)
         }
         else
         {
-            //TODO implement configuration update functionality
+            cfg.update(mpe_->getModel(), currentConfigId_, imageData);
         }
     }
 }
