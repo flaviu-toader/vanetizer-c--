@@ -85,6 +85,7 @@ Wt::WStandardItemModel* PersistenceManager::allEntries(long long configId)
                 item = new Wt::WStandardItem((*it)->propertyValue.get_value_or(std::string("")));
                 propertyRow.push_back(item);
                 item = new Wt::WStandardItem((*it)->nodeId.get_value_or(std::string("")));
+                propertyRow.push_back(item);
                 rootItem->appendRow(propertyRow);
             }
         }
@@ -139,9 +140,15 @@ void PersistenceManager::clearConfiguration(long long int configId)
     Logger::entry("info") << "Clearing entries for configuration with id " << configId;
     
     dbo::Transaction transaction(session_);
-    int entries = session_.query< int >(std::string("delete from ") + std::string(ConfigurationEntity::TABLENAME)).where("config_id_id = ?").bind(configId).resultValue();
+    
+    dbo::collection< dbo::ptr< ConfigEntryEntity > > children = 
+        session_.find< ConfigEntryEntity >().where("config_id_id = ?").bind(configId).resultList();
+        
+    for (dbo::collection< dbo::ptr< ConfigEntryEntity > >::const_iterator it = children.begin(); it != children.end(); ++it)
+    {
+        (*it).remove();
+    }
     transaction.commit();
-    Logger::entry("info") << "Removed " << entries << " configuration entries";
 }
 
 void PersistenceManager::updateImageData(long long int configId, const std::string& imageData)

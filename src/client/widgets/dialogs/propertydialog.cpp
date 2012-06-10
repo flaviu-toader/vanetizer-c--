@@ -6,6 +6,7 @@
 #include <numeric>
 #include <map>
 #include <iostream>
+#include <typeinfo>
 #include <boost/cast.hpp>
 #include <boost/assign.hpp>
 #include <boost/any.hpp>
@@ -249,7 +250,8 @@ map< string, boost::any > PropertyDialog::getValuesMap()
                 Logger::entry("info") << "\tAdded preselected key for property: " << k << " and value: " << v;
             }
             continue;
-        } 
+        }
+
         WString key = preselectedItem_->child(row, 2)->text();
         WString value = preselectedItem_->child(row, 1)->text();
         values.insert(std::make_pair< std::string, boost::any >(key.toUTF8(), value.toUTF8()));

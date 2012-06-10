@@ -85,6 +85,7 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     
     update_ = new WPushButton(tr("button.update"), buttonTable->elementAt(0, 1));
     update_->setDisabled(true);
+    update_->clicked().connect(this, &ConfigurationPage::updateClicked);
     update_->resize(120, 30);
     
     run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 2));
