@@ -28,10 +28,14 @@
 #include "client/widgets/dialogs/vanetareapropertyform.h"
 #include "client/widgets/dialogs/vanetsteppropertyform.h"
 #include "client/widgets/dialogs/vanetseedpropertyform.h"
-#include "client/widgets/dialogs/vanetextensionform.h"
 #include "client/widgets/dialogs/vanetnodegroupform.h"
 #include "client/widgets/dialogs/vanetnodeform.h"
 #include "client/widgets/dialogs/vanetroutingprotocolpropertyform.h"
+#include "client/widgets/dialogs/vanetgmsoutpropertyform.h"
+#include "client/widgets/dialogs/vanettimesimulationpropertyform.h"
+#include "client/widgets/dialogs/vanetspatialmodelpropertyform.h"
+#include "client/widgets/dialogs/vanettrafficlightpropertyform.h"
+#include "client/widgets/dialogs/vanetspmodeldump.h"
 #include "logger.h"
 
 using namespace Wt;
@@ -47,12 +51,16 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_ = new WComboBox(table->elementAt(row, 0));
     mainComboBox_->addItem(tr("constant.none"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.area"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.step"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
+    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.timesimulation"));
+    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.spatialmodel"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.glomosim"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.extension"));
+    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.glomosimoutput"));
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.step"));
+    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.trafficlights"));
+    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.smdump"));
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
 
     mainComboBox_->activated().connect(this, &PropertyDialog::comboChanged);
 
@@ -81,10 +89,6 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
 void PropertyDialog::setPreselectedProperty(WStandardItem *rootItem)
 {
     VanetProperty currentIndex = boost::any_cast<VanetProperty>(rootItem->data());
-    if ((int) currentIndex > 7)
-    {
-        currentIndex = VanetGlomosimOutput;
-    }
     mainComboBox_->setCurrentIndex(currentIndex);
     mainComboBox_->setDisabled(true);
     preselectedItem_ = rootItem;
@@ -198,22 +202,34 @@ void PropertyDialog::comboChanged(int itemIndex)
         form = new VanetAreaPropertyForm;
         break;
     case 2:
-        form = new VanetStepPropertyForm;
+        form = new VanetTimeSimulationPropertyForm;
         break;
     case 3:
-        form = new VanetSeedPropertyForm;
+        form = new VanetSpatialModelPropertyForm;
         break;
     case 4:
-        form = new VanetNodeForm;
+        form = new VanetSeedPropertyForm;
         break;
     case 5:
-        form = new VanetNodeGroupForm;
+        form = new VanetNodeForm;
         break;
     case 6:
-        form = new VanetRoutingProtocolPropertyForm;
+        form = new VanetNodeGroupForm;
         break;
     case 7:
-        form = new VanetExtensionForm;
+        form = new VanetRoutingProtocolPropertyForm;
+        break;
+    case 8:
+        form = new VanetGmsOutPropertyForm;
+        break;
+    case 9:
+        form = new VanetStepPropertyForm;
+        break;
+    case 10:
+        form = new VanetTrafficLightPropertyForm;
+        break;
+    case 11:
+        form = new VanetSpModelDump;
         break;
     default:
         formContainer_->clear();

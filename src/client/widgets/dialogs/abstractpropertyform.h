@@ -16,15 +16,14 @@ enum VanetProperty
 {
     VanetNone,                  // 0
     VanetArea,                  // 1
-    VanetStep,                  // 2
-    VanetSeed,                  // 3
-    VanetNode,                  // 4
-    VanetNodeGroup,             // 5
-    VanetGlomoSimProperties,    // 6
-    // extensions properties 
-    VanetGlomosimOutput,        // 7
-    VanetTimeSimulation,        // 8
-    VanetSpatialModel,          // 9
+    VanetTimeSimulation,        // 2
+    VanetSpatialModel,          // 3
+    VanetSeed,                  // 4
+    VanetNode,                  // 5
+    VanetNodeGroup,             // 6
+    VanetGlomoSimProperties,    // 7
+    VanetGlomosimOutput,        // 8
+    VanetStep,                  // 9
     VanetTrafficLights,         // 10
     VanetSpatialModelDump,      // 11
     VanetMobilityTrace,         // 12
