@@ -33,6 +33,8 @@
 #include <Wt/WPointF>
 #include <Wt/WRectF>
 #include <Wt/WSvgImage>
+#include <Wt/WImage>
+#include <Wt/WContainerWidget>
 
 PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
 : WPaintedWidget(parent)
@@ -41,6 +43,7 @@ PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
     interactionCount_ = 0;
     undo_ = false;
     
+//     setPositionScheme(Absolute);
     resize(WLength(width), WLength(height));
     
     decorationStyle().setCursor("icons/pencil.cur", CrossCursor);
@@ -121,7 +124,7 @@ void PaintBrush::undoLastAction()
     }
 }
 
-Node PaintBrush::imageNode(int dimX, int dimY)
+Node PaintBrush::imageNode(int dimX, int dimY, bool transform)
 {
     Node result("extension");
     Attribute cAttr("class", "eurecom.usergraph.UserGraph");
@@ -135,30 +138,37 @@ Node PaintBrush::imageNode(int dimX, int dimY)
             Logger::entry("error") << "No area defined for the user graph.";
             return result;
         }
-        transformVertices(dimX, dimY);
-        result.addChildren(vertexNodes());
+        if (transform)
+            result.addChildren(vertexNodes(transformVertices(dimX, dimY)));
+        else
+            result.addChildren(vertexNodes(vertexList_));
         result.addChildren(edgeNodes());
     }
     return result;
 }
 
-void PaintBrush::transformVertices(int newDimX, int newDimY)
+std::list< Vertex > PaintBrush::transformVertices(int newDimX, int newDimY)
 {
+    std::list< Vertex > result;
     std::list< Vertex >::iterator it;
     int oldDimX = (int) this->width().value();
     int oldDimY = (int) this->height().value();
     for (it = vertexList_.begin(); it != vertexList_.end(); ++it)
     {
-        it->x = (int) ((newDimX * it->x) / oldDimX);
-        it->y = (int) ((newDimY * it->y) / oldDimY);
+        Vertex v;
+        v.id = it->id;
+        v.x = (int) ((newDimX * it->x) / oldDimX);
+        v.y = (int) ((newDimY * it->y) / oldDimY);
+        result.push_back(v);
     }
+    return result;
 }
 
-std::list< Node > PaintBrush::vertexNodes()
+std::list< Node > PaintBrush::vertexNodes(const std::list< Vertex >& vlist)
 {
     std::list< Node > result;
-    std::list< Vertex >::iterator it;
-    for (it = vertexList_.begin(); it != vertexList_.end(); ++it)
+    std::list< Vertex >::const_iterator it;
+    for (it = vlist.begin(); it != vlist.end(); ++it)
     {
         Node v("vertex");
         Node i("id");
@@ -196,21 +206,47 @@ std::list< Node > PaintBrush::edgeNodes()
     return result;
 }
 
-std::string PaintBrush::imageAsSvg()
-{
-    std::stringstream ss;
-    ss << "";
-    if (!actions_.empty())
-    {
-        Wt::WSvgImage imageDevice(this->width(), this->height());
-        WPainter painter(&imageDevice);
-        for (std::vector<WPainterPath>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
-        {
-            painter.drawPath(*it);
-        }
-        painter.end();
-        imageDevice.write(ss);
-    }
-    return ss.str();
-}
-
+// std::string PaintBrush::imageAsXml()
+// {
+// //     std::stringstream ss;
+// //     ss << "";
+// //     if (!actions_.empty())
+// //     {
+// //         Wt::WSvgImage imageDevice(this->width(), this->height());
+// //         WPainter painter(&imageDevice);
+// //         for (std::vector<WPainterPath>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
+// //         {
+// //             painter.drawPath(*it);
+// //         }
+// //         painter.end();
+// //         imageDevice.write(ss);
+// //     }
+// //     return ss.str();
+// }
+// 
+// void PaintBrush::(std::string img)
+// {
+//     if (!img.empty())
+//     {
+//         Logger::entry("info") << "Creating svg file...";
+//         std::string filename = "resources/test.svg";
+//         std::ofstream outfile(filename.c_str());
+//         outfile << img;
+//         outfile.close();
+// 
+//         Logger::entry("info") << "Painting to canvas...";
+//         
+//         WImage* img = new WImage(filename, static_cast< WContainerWidget* >(this->parent()));
+// //         img->setPositionScheme(Absolute);
+//         img->resize(this->width(), this->height());
+//         
+// //         WSvgImage imageDevice(this->width(), this->height(), this);
+// //         WRectF rect = WRectF(0, 0, this->width().value(), this->height().value());
+// //         imageDevice.drawImage(rect, filename, this->width().value(), this->height().value(), rect);
+// //         WPainter painter(&imageDevice);
+// //         painter.drawImage(0, 0, WPainter::Image(filename, this->width().value(), this->height().value()));
+// //         painter.end();
+// //         update(PaintUpdate);
+// //         imageDevice.done();
+//     }
+// }

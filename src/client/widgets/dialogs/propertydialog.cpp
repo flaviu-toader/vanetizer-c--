@@ -53,6 +53,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.area"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.timesimulation"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.spatialmodel"));
+    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.glomosim"));
@@ -60,7 +61,6 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.step"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.trafficlights"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.smdump"));
-    mainComboBox_->addItem(tr("propertydialog.vanet.combobox.seed"));
 
     mainComboBox_->activated().connect(this, &PropertyDialog::comboChanged);
 

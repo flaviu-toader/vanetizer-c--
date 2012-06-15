@@ -160,3 +160,13 @@ void PersistenceManager::updateImageData(long long int configId, const std::stri
     transaction.commit();
 }
 
+std::string PersistenceManager::imageData(long long int configId)
+{
+    Logger::entry("info") << "Getting image data for configuration with id " << configId;
+    dbo::Transaction transaction(session_);
+    dbo::ptr< ConfigurationEntity > config = session_.load< ConfigurationEntity >(configId);
+    std::string result = config->graph;
+    transaction.commit();
+    return result;
+}
+

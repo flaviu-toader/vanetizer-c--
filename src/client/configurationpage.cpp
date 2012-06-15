@@ -43,6 +43,7 @@
 #include "client/widgets/mappropertyeditor.h"
 #include "widgets/dialogs/configurationdialog.h"
 #include <logger.h>
+#include "server/database/persistencemanager.h"
 
 using namespace Wt;
 
@@ -103,7 +104,7 @@ void ConfigurationPage::mapComboChanged(int index)
     switch(index)
     {
         case 1:
-            formContainer_->clear();
+            formContainer_->removeWidget(paintBrushForm_);
             formContainer_->addWidget(paintBrushForm_);
             break;
         default:
@@ -184,7 +185,7 @@ void ConfigurationPage::saveOrUpdate(std::string configName)
         std::string imageData = VanetConfigurator::RANDOM_MAP;
         if (mapCombo_->currentIndex() == 1)
         {
-            imageData = paintBrushForm_->imageAsSvg();
+//             imageData = paintBrushForm_->imageAsSvg();
         }
         if (toSave)
         {
@@ -211,7 +212,20 @@ void ConfigurationPage::configChanged(WDialog::DialogCode result)
     if (result == WDialog::Accepted)
     {
         currentConfigId_ = cfgDiag_->selectedConfig();
-        if (currentConfigId_ != 0) update_->setDisabled(false);
+        if (currentConfigId_ != 0) {
+            update_->setDisabled(false);
+            std::string graph = PersistenceManager::instance()->imageData(currentConfigId_);;
+            int ix = -1;
+            if (graph == std::string(VanetConfigurator::RANDOM_MAP)) ix = 0;
+            else 
+            {
+                ix = 1;
+                //TODO: don't svg the image, rather xml it!
+//                 paintBrushForm_->imageAsSvg(graph);
+            }
+            mapCombo_->setCurrentIndex(ix);
+            mapComboChanged(ix);
+        }
     }
 }
 

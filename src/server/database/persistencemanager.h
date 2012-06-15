@@ -42,6 +42,9 @@ public:
     
     void updateImageData(long long configId, const std::string& imageData);
     
+    //! Get the image data for the given configuration id.
+    std::string imageData(long long configId);
+    
 private:
     PersistenceManager();
     

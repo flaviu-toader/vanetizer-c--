@@ -14,7 +14,6 @@ set(wt_project_source
     client/widgets/dialogs/vanetareapropertyform.cpp
     client/widgets/dialogs/vanetsteppropertyform.cpp 
     client/widgets/dialogs/vanetseedpropertyform.cpp 
-    client/widgets/dialogs/vanetextensionform.cpp 
     client/widgets/dialogs/vanetroutingprotocolpropertyform.cpp 
     client/widgets/dialogs/vanetgmsoutpropertyform.cpp
     client/widgets/dialogs/vanetspatialmodelpropertyform.cpp
@@ -51,9 +50,9 @@ set(vanetserver_source
     server/database/persistencemanager.cpp  
 )
 
-set(test_source
-    test/pugitest.cpp
-)
+#set(test_source
+#    test/pugitest.cpp
+#)
 
 include_directories(${cmake_source_dir})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
@@ -86,8 +85,8 @@ target_link_libraries(vanetServer vanetUtil pugixml wt wtdbo wtdbosqlite3 vanetX
 add_executable(${wt_project_target} ${wt_project_source})
 target_link_libraries(${wt_project_target} wthttp wt boost_signals vanetUtil vanetServer)
 
-add_executable(test ${test_source})
-target_link_libraries(test pugixml)
+#add_executable(test ${test_source})
+#target_link_libraries(test pugixml)
 
 add_subdirectory(client)
 add_subdirectory(xml)
@@ -95,4 +94,4 @@ add_subdirectory(xml)
 
 
 add_subdirectory(server)
-add_subdirectory(test)
+#add_subdirectory(test)

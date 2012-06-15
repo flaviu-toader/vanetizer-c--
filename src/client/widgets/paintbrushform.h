@@ -17,7 +17,10 @@ class PaintBrushForm : public Wt::WTable
 public:
     PaintBrushForm(Wt::WContainerWidget* parent = 0);
     Node imageNode(int dimX, int dimY);
-    std::string imageAsSvg();
+//     //! Get the image map as an svg string.
+//     std::string imageAsSvg();
+//     //! Set the image map from a string representing valid svg markup.
+//     void imageAsSvg(std::string img);
 private: 
     void speedChanged(int newSpeed);
     

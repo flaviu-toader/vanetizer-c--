@@ -19,7 +19,9 @@ PaintBrushForm::PaintBrushForm(WContainerWidget* parent) : WTable(parent)
     int row = 0;
     WLabel* l = new WLabel(tr("painbrushform.speed.intro")/*, elementAt(row, 0)*/);
     ++row;
-    paintbrush_ = new PaintBrush(640, 480, elementAt(row, 0));
+    WContainerWidget* canvasContainer = new WContainerWidget(elementAt(row, 0));
+    canvasContainer->setPositionScheme(Relative);
+    paintbrush_ = new PaintBrush(640, 480, canvasContainer);
     paintbrush_->decorationStyle().setBorder(WBorder(WBorder::Solid, WBorder::Medium, WColor(black)));
     
     ++row;
@@ -72,11 +74,15 @@ void PaintBrushForm::speedChanged(int newSpeed)
 
 Node PaintBrushForm::imageNode(int dimX, int dimY)
 {
-    return paintbrush_->imageNode(dimX, dimY);
+    return paintbrush_->imageNode(dimX, dimY, true);
 }
 
-string PaintBrushForm::imageAsSvg()
-{
-    return paintbrush_->imageAsSvg();
-}
-
+// string PaintBrushForm::imageAsSvg()
+// {
+//     return paintbrush_->imageAsXml();
+// }
+// 
+// void PaintBrushForm::imageAsSvg(string img)
+// {
+//     paintbrush_->imageAsSvg(img);
+// }

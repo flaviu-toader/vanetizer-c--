@@ -73,17 +73,15 @@ public:
     
     void undoLastAction();
     
-    Node imageNode(int dimX, int dimY);
-    
-    //! Returns the painted svg image contents as string.
-    std::string imageAsSvg();
+    Node imageNode(int dimX, int dimY, bool transform);
 protected:
     virtual void paintEvent(WPaintDevice* paintDevice);
     
 private:
-    void transformVertices(int dimX, int dimY);
-    std::list< Node > vertexNodes();
+    std::list< Vertex > transformVertices(int newDimX, int newDimY);
+    std::list< Node > vertexNodes(const std::list< Vertex >& vlist);
     std::list< Node > edgeNodes();
+    void mouseDown(const WMouseEvent& e);
     
     WPainterPath path_;
     WColor color_;
@@ -94,7 +92,6 @@ private:
     std::list< Edge > edgeList_;
     bool undo_;
     
-    void mouseDown(const WMouseEvent& e); 
 };
 
 #endif // PAINTBRUSH_H_
