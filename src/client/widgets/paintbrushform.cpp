@@ -72,17 +72,17 @@ void PaintBrushForm::speedChanged(int newSpeed)
     paintbrush_->setCurrentSpeed(newSpeed);
 }
 
-Node PaintBrushForm::imageNode(int dimX, int dimY)
+Node PaintBrushForm::transformedImageNode(int dimX, int dimY)
 {
     return paintbrush_->imageNode(dimX, dimY, true);
 }
 
-// string PaintBrushForm::imageAsSvg()
-// {
-//     return paintbrush_->imageAsXml();
-// }
-// 
-// void PaintBrushForm::imageAsSvg(string img)
-// {
-//     paintbrush_->imageAsSvg(img);
-// }
+Node PaintBrushForm::imageNode()
+{
+    return paintbrush_->imageNode(0, 0, false);
+}
+
+void PaintBrushForm::loadImage(const Node& root)
+{
+    paintbrush_->loadImage(root);
+}

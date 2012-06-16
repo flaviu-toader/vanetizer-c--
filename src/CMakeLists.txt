@@ -35,6 +35,7 @@ set(wt_project_source
 
 # Xml helper library
 set(vanetxml_source 
+    xml/xmltomodelconverter.cpp 
     xml/modeltoxmlconverter.cpp
     xml/xmlhelper.cpp
 )

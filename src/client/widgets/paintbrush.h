@@ -24,6 +24,7 @@
 #include <Wt/WPainterPath>
 #include <Wt/WColor>
 #include <Wt/WEvent>
+#include <Wt/WPainter>
 
 #include <vector>
 #include <xml/xmlhelper.h>
@@ -74,6 +75,8 @@ public:
     void undoLastAction();
     
     Node imageNode(int dimX, int dimY, bool transform);
+    
+    void loadImage(const Node& root);
 protected:
     virtual void paintEvent(WPaintDevice* paintDevice);
     
@@ -81,7 +84,11 @@ private:
     std::list< Vertex > transformVertices(int newDimX, int newDimY);
     std::list< Node > vertexNodes(const std::list< Vertex >& vlist);
     std::list< Node > edgeNodes();
+    Vertex extractVertex(const std::list< Node >& nodeList);
+    Edge extractEdge(const std::list< Node >& nodeList);
+    Vertex lookup(int id);
     void mouseDown(const WMouseEvent& e);
+    void drawActions(WPainter& painter);
     
     WPainterPath path_;
     WColor color_;

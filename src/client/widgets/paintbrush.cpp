@@ -1,17 +1,17 @@
 /*
  *    <one line to give the program's name and a brief idea of what it does.>
  *    Copyright (C) 2012  Flaviu Toader <email>
- * 
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
- * 
+ *
  *    This program is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
- * 
+ *
  *    You should have received a copy of the GNU General Public License
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,44 +37,57 @@
 #include <Wt/WContainerWidget>
 
 PaintBrush::PaintBrush(int width, int height, WContainerWidget *parent)
-: WPaintedWidget(parent)
+    : WPaintedWidget(parent)
 {
     setSelectable(false);
     interactionCount_ = 0;
     undo_ = false;
-    
+
 //     setPositionScheme(Absolute);
     resize(WLength(width), WLength(height));
-    
+
     decorationStyle().setCursor("icons/pencil.cur", CrossCursor);
-    
+
     mouseWentDown().connect(this, &PaintBrush::mouseDown);
-    
+
     color_ = WColor(black);
-    
+
     // setPreferredMethod(InlineSvgVml);
 }
+
+void PaintBrush::drawActions(WPainter& painter)
+{
+    for(std::vector< WPainterPath >::iterator it = actions_.begin(); it != actions_.end(); ++it)
+    {
+        WPainterPath p = *it;
+        painter.drawPath(p);
+    }
+
+}
+
 
 void PaintBrush::paintEvent(WPaintDevice *paintDevice)
 {
     WPainter painter(paintDevice);
     painter.setRenderHint(WPainter::Antialiasing);
-    
+
     WPen pen;
     pen.setWidth(3);
     pen.setColor(color_);
     painter.setPen(pen);
-    if (!undo_) 
+    
+    if (interactionCount_ == 0 && !actions_.empty()) {
+        drawActions(painter);
+        interactionCount_ = vertexList_.size();
+    }
+    
+    if (!undo_)
     {
         painter.drawPath(path_);
-    } 
-    else 
+    }
+    else
     {
-        for(std::vector< WPainterPath >::iterator it = actions_.begin(); it != actions_.end(); ++it) 
-        {
-            WPainterPath p = *it;
-            painter.drawPath(p);
-        }
+        drawActions(painter);
         undo_ = false;
         update(PaintUpdate);
     }
@@ -115,7 +128,7 @@ void PaintBrush::mouseDown(const WMouseEvent& e)
 
 void PaintBrush::undoLastAction()
 {
-    if (!actions_.empty()) 
+    if (!actions_.empty())
     {
         Logger::entry("info") << "User undid one action.";
         actions_.pop_back();
@@ -131,13 +144,8 @@ Node PaintBrush::imageNode(int dimX, int dimY, bool transform)
     result.addAttribute(cAttr);
     Logger::entry("info") << "dimX = " << dimX;
     Logger::entry("info") << "dimY = " << dimY;
-    if (!actions_.empty()) 
+    if (!actions_.empty())
     {
-        if (dimX == 0 || dimY == 0)
-        {
-            Logger::entry("error") << "No area defined for the user graph.";
-            return result;
-        }
         if (transform)
             result.addChildren(vertexNodes(transformVertices(dimX, dimY)));
         else
@@ -206,47 +214,125 @@ std::list< Node > PaintBrush::edgeNodes()
     return result;
 }
 
-// std::string PaintBrush::imageAsXml()
-// {
-// //     std::stringstream ss;
-// //     ss << "";
-// //     if (!actions_.empty())
-// //     {
-// //         Wt::WSvgImage imageDevice(this->width(), this->height());
-// //         WPainter painter(&imageDevice);
-// //         for (std::vector<WPainterPath>::iterator it = actions_.begin(); it != actions_.end(); ++it) 
-// //         {
-// //             painter.drawPath(*it);
-// //         }
-// //         painter.end();
-// //         imageDevice.write(ss);
-// //     }
-// //     return ss.str();
-// }
-// 
-// void PaintBrush::(std::string img)
-// {
-//     if (!img.empty())
-//     {
-//         Logger::entry("info") << "Creating svg file...";
-//         std::string filename = "resources/test.svg";
-//         std::ofstream outfile(filename.c_str());
-//         outfile << img;
-//         outfile.close();
-// 
-//         Logger::entry("info") << "Painting to canvas...";
-//         
-//         WImage* img = new WImage(filename, static_cast< WContainerWidget* >(this->parent()));
-// //         img->setPositionScheme(Absolute);
-//         img->resize(this->width(), this->height());
-//         
-// //         WSvgImage imageDevice(this->width(), this->height(), this);
-// //         WRectF rect = WRectF(0, 0, this->width().value(), this->height().value());
-// //         imageDevice.drawImage(rect, filename, this->width().value(), this->height().value(), rect);
-// //         WPainter painter(&imageDevice);
-// //         painter.drawImage(0, 0, WPainter::Image(filename, this->width().value(), this->height().value()));
-// //         painter.end();
-// //         update(PaintUpdate);
-// //         imageDevice.done();
-//     }
-// }
+void PaintBrush::loadImage(const Node& root)
+{
+    update();
+    interactionCount_ = 0;
+    actions_.clear();
+    vertexList_.clear();
+    edgeList_.clear();
+    std::list< Node > children = root.children();
+    std::list< Node >::iterator it;
+    for (it = children.begin(); it != children.end(); ++it)
+    {
+        if (it->name() == "vertex") vertexList_.push_back(extractVertex(it->children()));
+        if (it->name() == "edge") edgeList_.push_back(extractEdge(it->children()));
+    }
+
+    // now iterate the edges and update the image.
+    std::list< Edge >::iterator eit;
+    for (eit = edgeList_.begin(); eit != edgeList_.end(); ++eit)
+    {
+        Vertex v1 = lookup(eit->v1);
+        path_ = WPainterPath(WPointF(v1.x, v1.y));
+        path_.addRect(v1.x, v1.y, 1, 1);
+        Vertex v2 = lookup(eit->v2);
+        path_.lineTo(v2.x, v2.y);
+        path_.addRect(v2.x, v2.y, 1, 1);
+        actions_.push_back(path_);
+    }
+    update(PaintUpdate);
+}
+
+Vertex PaintBrush::extractVertex(const std::list< Node >& nodeList)
+{
+    Vertex v;
+    for (std::list< Node >::const_iterator vit = nodeList.begin(); vit != nodeList.end(); ++vit)
+    {
+        if (vit->name() == "id")
+        {
+            try {
+                v.id = boost::lexical_cast<int>(vit->value());
+            } catch (boost::bad_lexical_cast const&) {
+                Logger::entry("error") << "Bad string for vertex id: " << vit->value();
+                // throwing a std::exception or its derivatives will restart the application, which is what we want if the string's bad.
+                throw std::exception();
+            }
+        }
+        if (vit->name() == "x")
+        {
+            try {
+                v.x = boost::lexical_cast< int >(vit->value());
+            } catch (boost::bad_lexical_cast const&) {
+                Logger::entry("error") << "Bad string for vertex x coordinate: " << vit->value();
+                throw std::exception();
+            }
+        }
+        if (vit->name() == "y")
+        {
+            try {
+                v.y = boost::lexical_cast< int >(vit->value());
+            } catch (boost::bad_lexical_cast const&) {
+                Logger::entry("error") << "Bad string for vertex y coordinate: " << vit->value();
+                throw std::exception();
+            }
+        }
+    }
+    return v;
+}
+
+Edge PaintBrush::extractEdge(const std::list< Node >& nodeList)
+{
+    Edge e;
+    for (std::list< Node >::const_iterator eit = nodeList.begin(); eit != nodeList.end(); ++eit)
+    {
+        if (eit->name() == "v1")
+        {
+            try {
+                e.v1 = boost::lexical_cast< int >(eit->value());
+            } catch (boost::bad_lexical_cast const &) {
+                Logger::entry("error") << "Bad string for edge's initial vertex id: " << eit->value();
+                throw std::exception();
+            }
+        }
+        if (eit->name() == "v2")
+        {
+            try {
+                e.v2 = boost::lexical_cast< int >(eit->value());
+            } catch (boost::bad_lexical_cast const &) {
+                Logger::entry("error") << "Bad string for edge's terminal vertex id: " << eit->value();
+                throw std::exception();
+            }
+        }
+        if (eit->name() == "speed")
+        {
+            try {
+                e.speed = boost::lexical_cast< int >(eit->value());
+            } catch (boost::bad_lexical_cast const &) {
+                Logger::entry("error") << "Bad string for edge's speed: " << eit->value();
+                throw std::exception();
+            }
+        }
+    }
+    return e;
+}
+
+Vertex PaintBrush::lookup(int id)
+{
+    std::list< Vertex >::iterator it;
+    for (it = vertexList_.begin(); it != vertexList_.end(); ++it)
+    {
+        if (it->id == id)
+            return (*it);
+    }
+    // if we are here, we are going to have a bad time.
+    Logger::entry("error") << "The vertex lookup failed!";
+    Vertex v;
+    v.id = -1;
+    v.x = -1;
+    v.y = -1;
+    return v;
+}
+
+
+

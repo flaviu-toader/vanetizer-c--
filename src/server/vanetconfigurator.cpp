@@ -22,10 +22,15 @@ VanetConfigurator::VanetConfigurator()
     isValid_ = false;
 }
 
+string VanetConfigurator::xmlString(const Node& node)
+{
+    ModelToXmlConverter converter(node);
+    return converter.convert();
+}
+
 void VanetConfigurator::modelNode(const Node& modelNode)
 {
-    ModelToXmlConverter converter(modelNode);
-    string xml = converter.convert();
+    string xml = xmlString(modelNode);
     doc_.load(xml.c_str());
 }
 

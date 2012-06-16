@@ -44,6 +44,7 @@
 #include "widgets/dialogs/configurationdialog.h"
 #include <logger.h>
 #include "server/database/persistencemanager.h"
+#include <xml/xmltomodelconverter.h>
 
 using namespace Wt;
 
@@ -118,7 +119,7 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
     if (mapCombo_->currentIndex() == 1) 
     {
         std::pair< int, int > dims = getDims(root);
-        Node userGraph = paintBrushForm_->imageNode(dims.first, dims.second);
+        Node userGraph = paintBrushForm_->transformedImageNode(dims.first, dims.second);
         root.addChild(userGraph);
     }
     else
@@ -185,7 +186,7 @@ void ConfigurationPage::saveOrUpdate(std::string configName)
         std::string imageData = VanetConfigurator::RANDOM_MAP;
         if (mapCombo_->currentIndex() == 1)
         {
-//             imageData = paintBrushForm_->imageAsSvg();
+            imageData = cfg.xmlString(paintBrushForm_->imageNode());
         }
         if (toSave)
         {
@@ -214,14 +215,14 @@ void ConfigurationPage::configChanged(WDialog::DialogCode result)
         currentConfigId_ = cfgDiag_->selectedConfig();
         if (currentConfigId_ != 0) {
             update_->setDisabled(false);
-            std::string graph = PersistenceManager::instance()->imageData(currentConfigId_);;
+            std::string graph = PersistenceManager::instance()->imageData(currentConfigId_);
+            Node imgNode = XmlToModelConverter::imageNode(graph);
             int ix = -1;
             if (graph == std::string(VanetConfigurator::RANDOM_MAP)) ix = 0;
             else 
             {
                 ix = 1;
-                //TODO: don't svg the image, rather xml it!
-//                 paintBrushForm_->imageAsSvg(graph);
+                paintBrushForm_->loadImage(imgNode);
             }
             mapCombo_->setCurrentIndex(ix);
             mapComboChanged(ix);
