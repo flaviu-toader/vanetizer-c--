@@ -40,6 +40,19 @@ void VanetTimeSimulationPropertyForm::setPreselectedValues(const map< string, bo
 
 Wt::WStandardItem* VanetTimeSimulationPropertyForm::treeNode(list< Node >& nodes)
 {
+    // add the default glomosim output as seen in the xml examples just to be sure.
+    Node out("extension");
+    Attribute cls("class", "de.uni_stuttgart.informatik.canu.mobisim.extensions.GlomosimOutput");
+    out.addAttribute(cls);
+    Attribute fname("output", "trace.tr");
+    out.addAttribute(fname);
+    
+    Node stp("step");
+    stp.value("1.0");
+    out.addChild(stp);
+    
+    nodes.push_back(out);
+    
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.timesim"));
     result->setData(VanetTimeSimulation);
     

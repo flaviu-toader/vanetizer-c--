@@ -39,8 +39,7 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
 {
     isValid_ = true;
     doc_.save_file("full.xml");
-    // TODO: Remove this return after done testing!
-    return isValid_;
+
     xml_node root = doc_.child("universe");
     // check for spatial model
     xml_node n = root.find_child_by_attribute("class", "de.uni_stuttgart.informatik.canu.spatialmodel.core.SpatialModel");
@@ -58,14 +57,15 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
         isValid_ = false;
     }
     
-    // check for GloMoSim output 
-    n = root.find_child_by_attribute("extension", "class", "de.uni_stuttgart.informatik.canu.mobisim.extensions.GlomosimOutput");
-    if (!n)
-    {
-        validationMessages.push_back(Wt::WString::tr("business.validation.error.nogmsout"));
-        isValid_ = false;
-    }
-    
+    // TODO: apparently, the glomosim output is not really necessary, so keep it out.
+//     // check for GloMoSim output 
+//     n = root.find_child_by_attribute("extension", "class", "de.uni_stuttgart.informatik.canu.mobisim.extensions.GlomosimOutput");
+//     if (!n)
+//     {
+//         validationMessages.push_back(Wt::WString::tr("business.validation.error.nogmsout"));
+//         isValid_ = false;
+//     }
+//     
     // check for nodes or nodegroups
     n = root.find_child(nodesPredicate());
     if (!n)

@@ -10,6 +10,7 @@ namespace Wt
     class WDoubleSpinBox;
 }
 
+//! Class is no longer used.
 class VanetGmsOutPropertyForm : public AbstractPropertyForm
 {
 

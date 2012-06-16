@@ -57,7 +57,7 @@ PropertyDialog::PropertyDialog(WStandardItemModel *model, Node& root) :
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.node"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.nodegroup"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.glomosim"));
-    mainComboBox_->addItem(tr("vanet.property.form.extension.combo.glomosimoutput"));
+//     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.glomosimoutput"));
     mainComboBox_->addItem(tr("propertydialog.vanet.combobox.step"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.trafficlights"));
     mainComboBox_->addItem(tr("vanet.property.form.extension.combo.smdump"));
@@ -220,15 +220,12 @@ void PropertyDialog::comboChanged(int itemIndex)
         form = new VanetRoutingProtocolPropertyForm;
         break;
     case 8:
-        form = new VanetGmsOutPropertyForm;
-        break;
-    case 9:
         form = new VanetStepPropertyForm;
         break;
-    case 10:
+    case 9:
         form = new VanetTrafficLightPropertyForm;
         break;
-    case 11:
+    case 10:
         form = new VanetSpModelDump;
         break;
     default:

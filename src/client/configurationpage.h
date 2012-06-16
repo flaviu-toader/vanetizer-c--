@@ -44,12 +44,14 @@ private:
     void mapComboChanged(int index);
     void saveClicked();
     void updateClicked();
+    void runClicked();
     void saveOrUpdate(std::string configName);
     bool validate(VanetConfigurator& cfg);
     void openClicked();
     void configChanged(Wt::WDialog::DialogCode result);
     
-    std::pair< int, int > getDims(Node n);
+    std::pair< int, int > getDims(const Node& n);
+    Node getNodeCount(const Node& n);
     //! Generate a random xml Node with some default values.
     Node getRandomNode();
     //! To be used within getRandomNode to get cluster nodes.

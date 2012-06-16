@@ -91,6 +91,7 @@ ConfigurationPage::ConfigurationPage(WContainerWidget* parent):
     update_->resize(120, 30);
     
     run_ = new WPushButton(tr("button.run"), buttonTable->elementAt(0, 2));
+    run_->clicked().connect(this, &ConfigurationPage::runClicked);
     run_->resize(120, 30);
     
     open_ = new WPushButton(tr("button.open"), buttonTable->elementAt(0, 3));
@@ -127,6 +128,8 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
         Node randomGraph = getRandomNode();
         root.addChild(randomGraph);
     }
+    Node nodecount = getNodeCount(root);
+    root.addChild(nodecount);
     cfg.modelNode(root);
     std::vector< WString > messages;
     if(cfg.validate(messages)) 
@@ -141,6 +144,15 @@ bool ConfigurationPage::validate(VanetConfigurator& cfg)
        }
     }
     return false;
+}
+
+void ConfigurationPage::runClicked()
+{
+    VanetConfigurator cfg;
+    if (validate(cfg)) 
+    {
+        // TODO: implement runners.
+    }
 }
 
 
@@ -231,7 +243,7 @@ void ConfigurationPage::configChanged(WDialog::DialogCode result)
 }
 
 
-std::pair< int, int > ConfigurationPage::getDims(Node n)
+std::pair< int, int > ConfigurationPage::getDims(const Node& n)
 {
     std::pair< int, int > result = std::make_pair< int, int >(0, 0);
     // we know nodes 'dimx' and 'dimy' should be on the first level, so we won't go any deeper.
@@ -247,6 +259,38 @@ std::pair< int, int > ConfigurationPage::getDims(Node n)
             break;
     }
     return result;
+}
+
+Node ConfigurationPage::getNodeCount(const Node& n)
+{
+    int result = 0;
+    std::list< Node > children = n.children();
+    std::list< Node >::iterator it;
+    for (it = children.begin(); it != children.end(); ++it)
+    {
+        if (it->name() == std::string("node")) result++;
+        if (it->name() == std::string("nodegroup"))
+        {
+            int groupvalue = 0;
+            for(std::list< Attribute >::iterator ait = it->attributes().begin(); ait != it->attributes().end(); ++ait)
+            {
+                if (ait->name() == std::string("n"))
+                {
+                    try {
+                        groupvalue = boost::lexical_cast< int >(ait->value());
+                    } catch (boost::bad_lexical_cast const &) {
+                        Logger::entry("error") << "Number of nodes not properly parsable.";
+                    }
+                }
+            }
+            result += groupvalue;
+        }
+    }
+    Node nodecount("number_of_nodes");
+    std::stringstream ss;
+    ss << result;
+    nodecount.value(ss.str());
+    return nodecount;
 }
 
 Node ConfigurationPage::getRandomNode()
