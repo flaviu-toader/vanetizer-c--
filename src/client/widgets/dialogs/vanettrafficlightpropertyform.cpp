@@ -21,7 +21,6 @@ VanetTrafficLightPropertyForm::VanetTrafficLightPropertyForm(Wt::WContainerWidge
     step_->setMaximum(180000);
     step_->setMinimum(100);
     step_->setValue(10000);
-    step_->validator()->setMandatory(true);
     l->setBuddy(step_);
 }
 

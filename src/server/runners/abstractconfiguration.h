@@ -8,6 +8,8 @@ public:
     static const char* const GMSCONFIG_TEMPLATE_PATH;
     //! The path of the GloMoSim config.in file.
     static const char* const GMSCONFIG_PATH;
+    //! The path of the VanetMobiSim scenario.xml file.
+    static const char* const VMSCONFIG_PATH;
     
     virtual void toFile() = 0;
 };

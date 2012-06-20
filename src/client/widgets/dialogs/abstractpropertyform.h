@@ -22,14 +22,14 @@ enum VanetProperty
     VanetNode,                  // 5
     VanetNodeGroup,             // 6
     VanetGlomoSimProperties,    // 7
-    VanetGlomosimOutput,        // 8
-    VanetStep,                  // 9
-    VanetTrafficLights,         // 10
-    VanetSpatialModelDump,      // 11
-    VanetMobilityTrace,         // 12
-    VanetGDFWriter,             // 13
-    VanetGDFReader,             // 14
-    VanetTIGERReader            // 15
+    VanetStep,                  // 8
+    VanetTrafficLights,         // 9
+    VanetSpatialModelDump,      // 10
+    VanetMobilityTrace,         // 11
+    VanetGDFWriter,             // 12
+    VanetGDFReader,             // 13
+    VanetTIGERReader,           // 14
+    VanetGlomosimOutput        // 15
     // end extension properties
 };
 

@@ -121,14 +121,16 @@ void PropertyDialog::submit(DialogCode result)
             // in case we are editing an existing item, replace it in the model
             if (preselectedItem_ != 0)
             {
-                list< Node >::iterator it;
+                list< Node >::iterator it = root_->children().end();
                 for (int i = 0; i < preselectedItem_->rowCount(); i++)
                 {
                     WStandardItem* currentItem = preselectedItem_->child(i, 2);
                     if (currentItem != 0) 
                     {
                         string currentName = currentItem->text().toUTF8();
-                        if(currentName.find("=") == string::npos) 
+                        if(currentName.find("=") == string::npos ||
+                            preselectedItem_->rowCount() == 1
+                        ) 
                         {
                             it = root_->removeChild(currentName);
                         }

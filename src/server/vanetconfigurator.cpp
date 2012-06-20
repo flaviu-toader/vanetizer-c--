@@ -57,15 +57,6 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
         isValid_ = false;
     }
     
-    // TODO: apparently, the glomosim output is not really necessary, so keep it out.
-//     // check for GloMoSim output 
-//     n = root.find_child_by_attribute("extension", "class", "de.uni_stuttgart.informatik.canu.mobisim.extensions.GlomosimOutput");
-//     if (!n)
-//     {
-//         validationMessages.push_back(Wt::WString::tr("business.validation.error.nogmsout"));
-//         isValid_ = false;
-//     }
-//     
     // check for nodes or nodegroups
     n = root.find_child(nodesPredicate());
     if (!n)
@@ -75,7 +66,6 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
     }
     
     // check for time simulation node.
-    // TODO: document about this validation rule!
     n = root.find_child_by_attribute("extension", "class", "de.uni_stuttgart.informatik.canu.mobisim.simulations.TimeSimulation");
     if (!n)
     {
@@ -84,7 +74,6 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
     }
     
     // check for simulation area definition.
-    // TODO: document about this validation rule!
     n = root.find_child(dimxPredicate());
     if (!n)
     {
@@ -94,7 +83,6 @@ bool VanetConfigurator::validate(vector< Wt::WString >& validationMessages)
     }
     
     // check if number of nodes corresponds to selected routing protocol
-    // TODO: document me!
     n = root.find_child(nodeCountPredicate());
     if (routingNode && n)
     {
