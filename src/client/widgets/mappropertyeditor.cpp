@@ -144,4 +144,13 @@ void MapPropertyEditor::setModel(WStandardItemModel* newModel)
 {
     model_ = newModel;
     treeView_->setModel(model_);
+    // we assume when we set the model that it is completely collapsed.
+    for (int ri = 0; ri < model_->rowCount(); ri++)
+    {
+        WStandardItem* item = model_->item(ri);
+        Logger::entry("info") << "Generating model for item with text " << item->text().toUTF8();
+        pd_ = new PropertyDialog(model_, root_);
+        pd_->setPreselectedProperty(item);
+        pd_->submit(WDialog::Accepted);
+    }
 }

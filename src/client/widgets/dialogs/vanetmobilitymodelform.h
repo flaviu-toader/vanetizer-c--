@@ -23,6 +23,7 @@ public:
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
     virtual Wt::WStandardItem* treeNode(std::list< Node >& nodes);
     virtual bool validate(std::vector< std::string >& messages);
+    void appendPropertyRows(Wt::WStandardItem* item, std::list< Node >& nodes);
 private:
     void mobilityChanged(int itemIndex);
     Wt::WComboBox* mobilityCombo_;

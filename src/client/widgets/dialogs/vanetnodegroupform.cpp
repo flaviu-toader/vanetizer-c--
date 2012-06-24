@@ -89,7 +89,9 @@ Wt::WStandardItem* VanetNodeGroupForm::treeNode(std::list< Node >& nodes)
     posNode.addAttribute(rndAttr);
     nodeGroupNode.addChild(posNode);
     
-    result->appendRow(form_->treeNode(nodes));
+    //result->appendRow(form_->treeNode(nodes));
+    // Here we place the mobility model on the same level as everything else. Just a quick fix so we can properly persist the model in the PersistenceManager.
+    form_->appendPropertyRows(result, nodes);
     Node extNode = nodes.back();
     nodes.pop_back();
     nodeGroupNode.addChild(extNode);

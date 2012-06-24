@@ -36,6 +36,9 @@ public:
     
     //! Performs the business validations. If these validations fail, it will fill the validationMessages parameter with all the error messages.
     bool validate(std::vector< Wt::WString >& validationMessages);
+
+    //! Run the simulation.
+    void runSimulation();
     
     //! Converts the xml helper Node into xml string using the ModelToXmlConverter.
     std::string xmlString(const Node& node);

@@ -156,6 +156,13 @@ WStandardItem* VanetMobilityModelForm::treeNode(std::list< Node >& nodes)
 {
     WStandardItem* result = new WStandardItem(tr("mappropertyeditor.group.mobility"));
     
+    appendPropertyRows(result, nodes);
+
+    return result;
+}
+
+void VanetMobilityModelForm::appendPropertyRows(WStandardItem* item, list< Node >& nodes)
+{
     Node extensionNode = Node("extension");
     string mobilityClass;
     if (mobilityCombo_->currentIndex() == 0 || mobilityCombo_->currentIndex() == -1) 
@@ -179,65 +186,65 @@ WStandardItem* VanetMobilityModelForm::treeNode(std::list< Node >& nodes)
     extensionNode.addAttribute(posGenAttr);
     Attribute tripGenAttr = Attribute("tripgenerator", "TripGen");
     extensionNode.addAttribute(tripGenAttr);
-    result->appendRow(propertyRow(string("class="), tr("mappropertyeditor.group.mobility.combo").toUTF8(), mobilityClass));
+    item->appendRow(propertyRow(string("class="), tr("mappropertyeditor.group.mobility.combo").toUTF8(), mobilityClass));
     
     Node minSpeedNode("minspeed");
     minSpeedNode.value(boost::lexical_cast<string>(minSpeed_->value()));
     extensionNode.addChild(minSpeedNode);
-    result->appendRow(propertyRow(string("minspeed"), tr("mappropertyeditor.group.mobility.minspeed").toUTF8(), boost::lexical_cast<string>(minSpeed_->value())));
+    item->appendRow(propertyRow(string("minspeed"), tr("mappropertyeditor.group.mobility.minspeed").toUTF8(), boost::lexical_cast<string>(minSpeed_->value())));
     
     Node maxSpeedNode("maxspeed");
     maxSpeedNode.value(boost::lexical_cast<string>(maxSpeed_->value()));
     extensionNode.addChild(maxSpeedNode);
-    result->appendRow(propertyRow(string("maxspeed"), tr("mappropertyeditor.group.mobility.maxspeed").toUTF8(), boost::lexical_cast<string>(maxSpeed_->value())));
+    item->appendRow(propertyRow(string("maxspeed"), tr("mappropertyeditor.group.mobility.maxspeed").toUTF8(), boost::lexical_cast<string>(maxSpeed_->value())));
     
     if (length_->value() != length_->minimum())
     {
         Node lNode("l");
         lNode.value(boost::lexical_cast<string>(length_->value()));
         extensionNode.addChild(lNode);
-        result->appendRow(propertyRow(string("l"), tr("mappropertyeditor.group.mobility.length").toUTF8(), boost::lexical_cast<string>(length_->value())));
+        item->appendRow(propertyRow(string("l"), tr("mappropertyeditor.group.mobility.length").toUTF8(), boost::lexical_cast<string>(length_->value())));
     }
     if (maxAccel_->value() != maxAccel_->minimum())
     {
         Node aNode("a");
         aNode.value(boost::lexical_cast<string>(maxAccel_->value()));
         extensionNode.addChild(aNode);
-        result->appendRow(propertyRow(string("a"), tr("mappropertyeditor.group.mobility.maxaccel").toUTF8(), boost::lexical_cast<string>(maxAccel_->value())));
+        item->appendRow(propertyRow(string("a"), tr("mappropertyeditor.group.mobility.maxaccel").toUTF8(), boost::lexical_cast<string>(maxAccel_->value())));
     }
     if (comfyDecel_->value() != comfyDecel_->minimum())
     {
         Node bNode("b");
         bNode.value(boost::lexical_cast<string>(comfyDecel_->value()));
         extensionNode.addChild(bNode);
-        result->appendRow(propertyRow(string("b"), tr("mappropertyeditor.group.mobility.comfydecel").toUTF8(), boost::lexical_cast<string>(comfyDecel_->value())));
+        item->appendRow(propertyRow(string("b"), tr("mappropertyeditor.group.mobility.comfydecel").toUTF8(), boost::lexical_cast<string>(comfyDecel_->value())));
     }
     if (jamDistance_->value() != jamDistance_->minimum())
     {
         Node jamNode("s0");
         jamNode.value(boost::lexical_cast<string>(jamDistance_->value()));
         extensionNode.addChild(jamNode);
-        result->appendRow(propertyRow(string("s0"), tr("mappropertyeditor.group.mobility.jamdist").toUTF8(), boost::lexical_cast<string>(jamDistance_->value())));
+        item->appendRow(propertyRow(string("s0"), tr("mappropertyeditor.group.mobility.jamdist").toUTF8(), boost::lexical_cast<string>(jamDistance_->value())));
     }
     if (safeTimeHeadway_->value() != safeTimeHeadway_->minimum())
     {
         Node tNode("t");
         tNode.value(boost::lexical_cast<string>(safeTimeHeadway_->value()));
         extensionNode.addChild(tNode);
-        result->appendRow(propertyRow(string("t"), tr("mappropertyeditor.group.mobility.t").toUTF8(), boost::lexical_cast<string>(safeTimeHeadway_->value())));
+        item->appendRow(propertyRow(string("t"), tr("mappropertyeditor.group.mobility.t").toUTF8(), boost::lexical_cast<string>(safeTimeHeadway_->value())));
     }
     
     Node stepNode("step");
     stepNode.value(boost::lexical_cast<string>(step_->value()));
     extensionNode.addChild(stepNode);
-    result->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.mobility.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
+    item->appendRow(propertyRow(string("step"), tr("mappropertyeditor.group.mobility.step").toUTF8(), boost::lexical_cast<string>(step_->value())));
     
     string checkvalue = tr("constant.yes").toUTF8();
     if (stay_->value() != stay_->minimum())
     {
         Node stayNode("stay");
         stayNode.value(boost::lexical_cast<string>(stay_->value()));
-        result->appendRow(propertyRow(string("stay"), tr("mappropertyeditor.group.mobility.stay").toUTF8(), boost::lexical_cast<string>(stay_->value())));
+        item->appendRow(propertyRow(string("stay"), tr("mappropertyeditor.group.mobility.stay").toUTF8(), boost::lexical_cast<string>(stay_->value())));
         
         Attribute rndAttr("random", "true");
         if (random_->checkState() == Unchecked)
@@ -246,7 +253,7 @@ WStandardItem* VanetMobilityModelForm::treeNode(std::list< Node >& nodes)
             rndAttr.value(string("false"));
         }
         stayNode.addAttribute(rndAttr);
-        result->appendRow(propertyRow(string("random="), tr("mappropertyeditor.group.mobility.random").toUTF8(), checkvalue));
+        item->appendRow(propertyRow(string("random="), tr("mappropertyeditor.group.mobility.random").toUTF8(), checkvalue));
         extensionNode.addChild(stayNode);
     }
     
@@ -259,31 +266,30 @@ WStandardItem* VanetMobilityModelForm::treeNode(std::list< Node >& nodes)
         checkvalue = tr("constant.no").toUTF8();
     }
     extensionNode.addChild(ignoreNode);
-    result->appendRow(propertyRow(string("ignoreBorders"), tr("mappropertyeditor.group.mobility.ignoreborders").toUTF8(), checkvalue));
+    item->appendRow(propertyRow(string("ignoreBorders"), tr("mappropertyeditor.group.mobility.ignoreborders").toUTF8(), checkvalue));
     
     if (bsave_->isEnabled() && bsave_->value() != bsave_->minimum())
     {
         Node bsaveNode("bsave");
         bsaveNode.value(boost::lexical_cast<string>(bsave_->value()));
         extensionNode.addChild(bsaveNode);
-        result->appendRow(propertyRow(string("bsave"), tr("mappropertyeditor.group.mobility.bsave").toUTF8(), boost::lexical_cast<string>(bsave_->value())));
+        item->appendRow(propertyRow(string("bsave"), tr("mappropertyeditor.group.mobility.bsave").toUTF8(), boost::lexical_cast<string>(bsave_->value())));
     }
     if (politeness_->isEnabled() && politeness_->value() != politeness_->minimum())
     {
         Node pNode("p");
         pNode.value(boost::lexical_cast<string>(politeness_->value()));
         extensionNode.addChild(pNode);
-        result->appendRow(propertyRow(string("p"), tr("mappropertyeditor.group.mobility.p").toUTF8(), boost::lexical_cast<string>(politeness_->value())));
+        item->appendRow(propertyRow(string("p"), tr("mappropertyeditor.group.mobility.p").toUTF8(), boost::lexical_cast<string>(politeness_->value())));
     }
     if (accelThresh_->isEnabled() && accelThresh_->value() != accelThresh_->minimum())
     {
         Node athrNode("athr");
         athrNode.value(boost::lexical_cast<string>(accelThresh_->value()));
         extensionNode.addChild(athrNode);
-        result->appendRow(propertyRow(string("athr"), tr("mappropertyeditor.group.mobility.athr").toUTF8(), boost::lexical_cast<string>(accelThresh_->value())));
+        item->appendRow(propertyRow(string("athr"), tr("mappropertyeditor.group.mobility.athr").toUTF8(), boost::lexical_cast<string>(accelThresh_->value())));
     }
     nodes.push_back(extensionNode);
-    return result;
 }
 
 bool VanetMobilityModelForm::validate(std::vector< std::string >& messages)

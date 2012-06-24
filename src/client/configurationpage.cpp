@@ -151,7 +151,7 @@ void ConfigurationPage::runClicked()
     VanetConfigurator cfg;
     if (validate(cfg)) 
     {
-        // TODO: implement runners.
+        cfg.runSimulation();
     }
 }
 
@@ -274,18 +274,22 @@ Node ConfigurationPage::getNodeCount(const Node& n)
             int groupvalue = 0;
             for(std::list< Attribute >::iterator ait = it->attributes().begin(); ait != it->attributes().end(); ++ait)
             {
-                if (ait->name() == std::string("n"))
+                Attribute currentAttr = *ait;
+                Logger::entry("info") << "Attribute name: " << currentAttr.name();
+                if (currentAttr.name() == "n")
                 {
                     try {
-                        groupvalue = boost::lexical_cast< int >(ait->value());
+                        groupvalue = boost::lexical_cast< int >(currentAttr.value());
                     } catch (boost::bad_lexical_cast const &) {
                         Logger::entry("error") << "Number of nodes not properly parsable.";
                     }
+                    break;
                 }
             }
             result += groupvalue;
         }
     }
+    Logger::entry("info") << "Found " << result << " nodes";
     Node nodecount("number_of_nodes");
     std::stringstream ss;
     ss << result;

@@ -66,7 +66,7 @@
     <message id='mappropertyeditor.group.spmodeldump'>Spatial model dump</message>
     <message id='mappropertyeditor.group.spmodeldump.output'>Output file </message>
     <message id='mappropertyeditor.group.mobility'>Mobility model</message>
-    <message id='mappropertyeditor.group.mobility.combo'>Model used</message>
+    <message id='mappropertyeditor.group.mobility.combo'>Mobility model used</message>
     <message id='mappropertyeditor.group.mobility.minspeed'>Minimal speed of movement (in m/s)</message>
     <message id='mappropertyeditor.group.mobility.maxspeed'>Maximum speed of movement (in m/s)</message>
     <message id='mappropertyeditor.group.mobility.length'>Vehicle length (in m)</message>

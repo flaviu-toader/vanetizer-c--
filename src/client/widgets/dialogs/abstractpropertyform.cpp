@@ -44,8 +44,14 @@ void AbstractPropertyForm::setPreselectedDoubleValue(const char* key, const map 
     map< string, boost::any >::const_iterator it;
     it = values.find(string(key));
     if (it != values.end())
+    {
         spinBox->setValue(boost::lexical_cast< double >(boost::any_cast< string >(it->second)));
-    Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+        Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+    }
+    else
+    {
+        Logger::entry("info") << "No value was found in the map for key " << key;
+    }
 }
 
 void AbstractPropertyForm::setPreselectedCheckboxValue(const char* key, const map< string, boost::any >& values, WCheckBox* checkBox)
@@ -63,8 +69,12 @@ void AbstractPropertyForm::setPreselectedCheckboxValue(const char* key, const ma
         {
             checkBox->setCheckState(Unchecked);
         }
+        Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
     }
-    Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+    else
+    {
+        Logger::entry("info") << "No value was found in the map for key " << key;
+    }
 }
 
 void AbstractPropertyForm::setPreselectedIntegerValue(const char* key, const std::map< std::string, boost::any >& values, WSpinBox* spinBox)
@@ -72,8 +82,14 @@ void AbstractPropertyForm::setPreselectedIntegerValue(const char* key, const std
     map< string, boost::any >::const_iterator it;
     it = values.find(string(key));
     if (it != values.end())
+    {
         spinBox->setValue(boost::lexical_cast< int >(boost::any_cast< string >(it->second)));
-    Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+        Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+    }
+    else
+    {
+        Logger::entry("info") << "No value was found in the map for key " << key;
+    }
 }
 
 void AbstractPropertyForm::setPreselectedLineValue(const char* key, const std::map< std::string, boost::any >& values, WLineEdit* lineEdit)
@@ -81,7 +97,13 @@ void AbstractPropertyForm::setPreselectedLineValue(const char* key, const std::m
     map< string, boost::any >::const_iterator it;
     it = values.find(string(key));
     if (it != values.end())
+    {
         lineEdit->setValueText(WString::fromUTF8(boost::any_cast< string >(it->second)));
-    Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+        Logger::entry("info") << "Adding preselected value " << boost::any_cast< string >(it->second) << " for key " << key;
+    }
+    else
+    {
+        Logger::entry("info") << "No value was found in the map for key " << key;
+    }
 }
 

@@ -111,9 +111,6 @@ long long VanetConfigurator::save(Wt::WStandardItemModel* model, const string& c
     }
     
     return persistModel(model, createConfiguration(configurationName, imageData));
-//     fillConfiguration();
-//     gloMoSimCfg_.toFile();
-//     doc_.save_file("scenario.xml");
 }
 
 void VanetConfigurator::update(Wt::WStandardItemModel* model, long long int configId, const string& imageData)
@@ -128,6 +125,16 @@ void VanetConfigurator::update(Wt::WStandardItemModel* model, long long int conf
     persistModel(model, configId);
 }
 
+void VanetConfigurator::runSimulation()
+{
+    if (!isValid_)
+    {
+        Logger::entry("error") << "The configuration is invalid. Cannot run!";
+        return;
+    }
+    fillConfiguration();
+    gloMoSimCfg_.toFile();
+}
 
 void VanetConfigurator::fillConfiguration()
 {

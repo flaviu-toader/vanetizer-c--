@@ -18,10 +18,10 @@ class PropertyDialog : public Wt::WDialog
 public:
     PropertyDialog(Wt::WStandardItemModel* model, Node& root);
     void setPreselectedProperty(Wt::WStandardItem *rootItem);
+    void submit(Wt::WDialog::DialogCode result);
 
 private:
     std::map< std::string, boost::any > getValuesMap();
-    void submit(Wt::WDialog::DialogCode result);
     void comboChanged(int itemIndex);
     bool itemIsNew(Wt::WStandardItem* item);
     
