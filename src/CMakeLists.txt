@@ -25,6 +25,7 @@ set(wt_project_source
     client/widgets/dialogs/vanetnodeform.cpp
     client/widgets/dialogs/propertydialog.cpp
     client/widgets/dialogs/configurationdialog.cpp 
+    client/widgets/dialogs/runresultsdialog.cpp
     client/widgets/paintbrush.cpp 
     client/widgets/paintbrushform.cpp  
     client/widgets/mappropertyeditor.cpp
@@ -45,6 +46,8 @@ set(vanetserver_source
     server/runners/abstractconfiguration.cpp 
     server/runners/gmsconfiguration.cpp 
     server/runners/vmsconfiguration.cpp 
+    server/runners/simulationoutput.cpp
+    server/runners/simulationrunner.cpp
     server/vanetconfigurator.cpp
     server/database/configurationentity.cpp 
     server/database/configentryentity.cpp 
@@ -81,7 +84,7 @@ add_library(vanetXml ${vanetxml_source})
 target_link_libraries(vanetXml vanetUtil pugixml wt)
 
 add_library(vanetServer ${vanetserver_source})
-target_link_libraries(vanetServer vanetUtil pugixml wt wtdbo wtdbosqlite3 vanetXml)
+target_link_libraries(vanetServer vanetUtil pugixml wt wtdbo boost_regex wtdbosqlite3 vanetXml)
 
 add_executable(${wt_project_target} ${wt_project_source})
 target_link_libraries(${wt_project_target} wthttp wt boost_signals vanetUtil vanetServer)

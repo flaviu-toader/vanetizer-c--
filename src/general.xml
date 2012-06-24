@@ -195,4 +195,12 @@
     <message id='business.validation.error.nodimy'><p>There was no map height defined.</p></message>
     <message id='business.validation.error.badcount'><p>For WRP the GloMoSim node count must be under 100.</p></message>
     <!-- /Business validation messages -->
+
+    <!-- Run results dialogs -->
+    <message id='runresult.label.vmsclout'>VanetMobiSim command line output:</message>
+    <message id='runresult.label.gmsclout'>GloMoSim command line output:</message>
+    <message id='runresult.button.nodesinput'>nodes.input</message>
+    <message id='runresult.button.mobilityin'>mobility.in</message>
+    <message id='runresult.button.glomostat'>glomo.stat</message>
+    <!-- /Run results dialogs -->
 </messages>

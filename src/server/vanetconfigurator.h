@@ -8,6 +8,7 @@
 #include "server/runners/gmsconfiguration.h"
 #include "server/runners/vmsconfiguration.h"
 
+class SimulationOutput;
 namespace Wt
 {
     class WString;
@@ -38,7 +39,7 @@ public:
     bool validate(std::vector< Wt::WString >& validationMessages);
 
     //! Run the simulation.
-    void runSimulation();
+    SimulationOutput runSimulation();
     
     //! Converts the xml helper Node into xml string using the ModelToXmlConverter.
     std::string xmlString(const Node& node);

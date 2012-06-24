@@ -42,9 +42,10 @@
 #include "client/widgets/paintbrushform.h"
 #include "client/widgets/mappropertyeditor.h"
 #include "widgets/dialogs/configurationdialog.h"
-#include <logger.h>
+#include "logger.h"
 #include "server/database/persistencemanager.h"
-#include <xml/xmltomodelconverter.h>
+#include "xml/xmltomodelconverter.h"
+#include "server/runners/simulationoutput.h"
 
 using namespace Wt;
 
@@ -151,7 +152,7 @@ void ConfigurationPage::runClicked()
     VanetConfigurator cfg;
     if (validate(cfg)) 
     {
-        cfg.runSimulation();
+        SimulationOutput so = cfg.runSimulation();
     }
 }
 

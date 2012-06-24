@@ -10,6 +10,8 @@
 #include "server/database/configentryentity.h"
 #include "server/database/configurationentity.h"
 #include "xml/modeltoxmlconverter.h"
+#include "server/runners/simulationrunner.h"
+#include "server/runners/simulationoutput.h"
 #include "logger.h"
 
 using namespace std;
@@ -125,15 +127,16 @@ void VanetConfigurator::update(Wt::WStandardItemModel* model, long long int conf
     persistModel(model, configId);
 }
 
-void VanetConfigurator::runSimulation()
+SimulationOutput VanetConfigurator::runSimulation()
 {
     if (!isValid_)
     {
         Logger::entry("error") << "The configuration is invalid. Cannot run!";
-        return;
+        throw std::exception();
     }
     fillConfiguration();
-    gloMoSimCfg_.toFile();
+    SimulationRunner sr(vanetMobiSimCfg_, gloMoSimCfg_);
+    return sr.runSimulation();
 }
 
 void VanetConfigurator::fillConfiguration()
@@ -161,7 +164,9 @@ void VanetConfigurator::fillConfiguration()
         gloMoSimCfg_.nodeCount(string(n.text().as_string()));
         root.remove_child(n);
     }
-    doc_.save_file("scenario.xml");
+    stringstream ss;
+    doc_.save(ss);
+    vanetMobiSimCfg_.xml(ss.str());
 }
 
 long long int VanetConfigurator::createConfiguration(const string& configurationName, const string& imageData)
