@@ -24,7 +24,6 @@ public:
     virtual void setPreselectedValues(const std::map< std::string, boost::any >& values);
 private:
     Wt::WSpinBox* dimx_, * dimy_;
-    Wt::WStandardItemModel* model_;
 };
 
 #endif // VANETAREAPROPERTYFORM_H_

@@ -202,5 +202,6 @@
     <message id='runresult.button.nodesinput'>nodes.input</message>
     <message id='runresult.button.mobilityin'>mobility.in</message>
     <message id='runresult.button.glomostat'>glomo.stat</message>
+    <message id='runresult.title'>Simulation run results</message>
     <!-- /Run results dialogs -->
 </messages>

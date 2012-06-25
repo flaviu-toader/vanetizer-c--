@@ -46,6 +46,7 @@
 #include "server/database/persistencemanager.h"
 #include "xml/xmltomodelconverter.h"
 #include "server/runners/simulationoutput.h"
+#include "client/widgets/dialogs/runresultsdialog.h"
 
 using namespace Wt;
 
@@ -153,6 +154,8 @@ void ConfigurationPage::runClicked()
     if (validate(cfg)) 
     {
         SimulationOutput so = cfg.runSimulation();
+        RunResultDialog* rrd = new RunResultDialog(so);
+        rrd->show();
     }
 }
 
