@@ -218,6 +218,21 @@ Wt::WStandardItem* VanetSpatialModelPropertyForm::treeNode(std::list< Node >& no
     tgMaxStay.value("30.0");
     tripGenNode.addChild(tgMaxStay);
     nodes.push_back(tripGenNode);
+
+    Node guiNode = Node("extension");
+    Attribute guiClassAttr = Attribute("class", "de.uni_stuttgart.informatik.canu.mobisimadd.extensions.GUI");
+    guiNode.addAttribute(guiClassAttr);
+    Node widthNode = Node("width");
+    widthNode.value("640");
+    Node heightNode = Node("height");
+    heightNode.value("480");
+    Node stepNode = Node("step");
+    stepNode.value("1");
+    guiNode.addChild(widthNode);
+    guiNode.addChild(heightNode);
+    guiNode.addChild(stepNode);
+    nodes.push_back(guiNode);
+
     return result;
 }
 
