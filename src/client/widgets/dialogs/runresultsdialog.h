@@ -13,6 +13,8 @@ private:
     void nodesInputClicked();
     void mobilityInClicked();
     void glomoStatClicked();
+    void closeDialog();
+    void removeFile(const std::string& filename);
     void downloadFile(const std::string& newFileName);
 
     SimulationOutput so_;

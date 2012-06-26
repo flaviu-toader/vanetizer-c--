@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <Wt/WTable>
 #include <Wt/WPushButton>
 #include <Wt/WText>
@@ -8,6 +10,7 @@
 
 #include "server/runners/simulationoutput.h"
 #include "runresultsdialog.h"
+#include "logger.h"
 
 using namespace Wt;
 using namespace std;
@@ -56,10 +59,31 @@ RunResultDialog::RunResultDialog(const SimulationOutput& so):
     p->resize(120, 30);
     p->clicked().connect(this, &RunResultDialog::glomoStatClicked);
 
+    finished().connect(this, &RunResultDialog::closeDialog);
     resize(WLength(640), WLength(690));
     setTitleBarEnabled(true);
     setClosable(true);
     setWindowTitle(tr("runresult.title"));
+}
+
+void RunResultDialog::closeDialog()
+{
+    removeFile("scenario.xml");
+    removeFile("glomo.stat");
+    removeFile("nodes.input");
+    removeFile("mobility.in");
+}
+
+void RunResultDialog::removeFile(const string& filename)
+{
+    if(remove(filename.c_str()) != 0)
+    {
+        Logger::entry("error") << "Cannot remove file " << filename;
+    }
+    else
+    {
+        Logger::entry("info") << "File " << filename << " removed successfully.";
+    }
 }
 
 void RunResultDialog::nodesInputClicked()
