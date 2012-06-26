@@ -19,7 +19,7 @@ string VmsConfiguration::xml() const
 
 void VmsConfiguration::xml(const string& xml)
 {
-    boost::regex e("(nodegroup|node) (id=\".*?\")");
+    boost::regex e("(nodegroup) (id=\".*?\")");
     xml_ = regex_replace(xml, e, "\\1", boost::match_default | boost::format_sed);
 }
 
